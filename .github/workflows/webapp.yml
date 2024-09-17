@@ -3,7 +3,7 @@ name: Build Flutter Web
 on:
   push:
     branches:
-      - main  # یا هر برنچ دیگری که می‌خواهید
+      - main
 
 jobs:
   build:
@@ -11,18 +11,18 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3  # ارتقا به نسخه جدیدتر
 
     - name: Set up JDK
-      uses: actions/setup-java@v2
+      uses: actions/setup-java@v3  # ارتقا به نسخه جدیدتر
       with:
-        java-version: '11'  # نسخه جاوا مورد نیاز
-        distribution: 'adopt'  # توزیع جاوا
+        java-version: '11'
+        distribution: 'adopt'
 
     - name: Install Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.13.0'  # نسخه فلاتر به‌روزرسانی شده
+        flutter-version: '3.13.0'
 
     - name: Get dependencies
       run: flutter pub get
@@ -36,10 +36,13 @@ jobs:
     - name: Move build files
       run: mv ./build/web/* ./my-output-folder/
 
+    - name: List files in output directory  # لیست کردن فایل‌ها برای دیباگ
+      run: ls -R ./my-output-folder
+
     - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
+      uses: peaceiris/actions-gh-pages@v4  # ارتقا به نسخه جدیدتر
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./my-output-folder
-        user_name: 'Milad-heydarloo'  # نام کاربری شما در GitHub
-        user_email: 'phone.sync.heydarloo@gmail.com'  # ایمیل شما در GitHub
+        user_name: 'Milad-heydarloo'
+        user_email: 'phone.sync.heydarloo@gmail.com'
