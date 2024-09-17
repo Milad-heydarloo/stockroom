@@ -22,7 +22,7 @@ jobs:
     - name: Install Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.10.0'  # نسخه فلاتر به‌روزرسانی شده
+        flutter-version: '3.13.0'  # نسخه فلاتر به‌روزرسانی شده
 
     - name: Get dependencies
       run: flutter pub get
