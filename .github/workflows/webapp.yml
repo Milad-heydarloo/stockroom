@@ -35,3 +35,5 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./build/web
+        user_name: 'Milad-heydarloo'  # نام کاربری شما در GitHub
+        user_email: 'phone.sync.heydarloo@gmail.com'  # ایمیل شما در GitHub
