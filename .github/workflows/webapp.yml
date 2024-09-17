@@ -11,10 +11,10 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3  # ارتقا به نسخه جدیدتر
+      uses: actions/checkout@v3
 
     - name: Set up JDK
-      uses: actions/setup-java@v3  # ارتقا به نسخه جدیدتر
+      uses: actions/setup-java@v3
       with:
         java-version: '11'
         distribution: 'adopt'
@@ -30,17 +30,20 @@ jobs:
     - name: Build web
       run: flutter build web --release --no-tree-shake-icons
 
+    - name: List build files  # برای بررسی فایل‌های بیلد شده
+      run: ls -la ./build/web
+
     - name: Create output directory
       run: mkdir -p ./my-output-folder
 
     - name: Move build files
       run: mv ./build/web/* ./my-output-folder/
 
-    - name: List files in output directory  # لیست کردن فایل‌ها برای دیباگ
+    - name: List files in output directory  # لیست فایل‌های دایرکتوری خروجی
       run: ls -R ./my-output-folder
 
     - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v4  # ارتقا به نسخه جدیدتر
+      uses: peaceiris/actions-gh-pages@v4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./my-output-folder
