@@ -30,10 +30,16 @@ jobs:
     - name: Build web
       run: flutter build web --release --no-tree-shake-icons
 
+    - name: Create output directory
+      run: mkdir -p ./my-output-folder
+
+    - name: Move build files
+      run: mv ./build/web/* ./my-output-folder/
+
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./build/web
+        publish_dir: ./my-output-folder
         user_name: 'Milad-heydarloo'  # نام کاربری شما در GitHub
         user_email: 'phone.sync.heydarloo@gmail.com'  # ایمیل شما در GitHub
