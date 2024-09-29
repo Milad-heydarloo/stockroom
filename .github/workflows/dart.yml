@@ -1,0 +1,51 @@
+name: Build Flutter Web
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up JDK
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'adopt'
+
+    - name: Install Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.13.0'
+
+    - name: Get dependencies
+      run: flutter pub get
+
+    - name: Build web
+      run: flutter build web --release --no-tree-shake-icons
+
+    - name: List build files  # لیست کردن فایل‌های ساخته‌شده
+      run: ls -R ./build/web
+
+    - name: Create output directory
+      run: mkdir -p ./my-output-folder
+
+    - name: Move build files
+      run: mv ./build/web/* ./my-output-folder/
+
+    - name: List output folder  # بررسی محتوای دایرکتوری خروجی
+      run: ls -R ./my-output-folder
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./my-output-folder
+        user_name: 'Milad-heydarloo'
+        user_email: 'phone.sync.heydarloo@gmail.com'
