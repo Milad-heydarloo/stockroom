@@ -204,20 +204,20 @@ class SerchSupplier extends StatelessWidget {
                         suggestionState: Suggestion.expand,
                         textInputAction: TextInputAction.next,
                         hint: 'جستجوی فروشنده',
-                        searchStyle: TextStyle(
+                        suggestionStyle: TextStyle(
                           fontSize: 18,
                           color: Colors.black.withOpacity(0.8),
                         ),
-                        searchInputDecoration: InputDecoration(
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.black.withOpacity(0.8),
-                            ),
-                          ),
-                          border: const OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red),
-                          ),
-                        ),
+                        // searchInputDecoration: InputDecoration(
+                        //   focusedBorder: OutlineInputBorder(
+                        //     borderSide: BorderSide(
+                        //       color: Colors.black.withOpacity(0.8),
+                        //     ),
+                        //   ),
+                        //   border: const OutlineInputBorder(
+                        //     borderSide: BorderSide(color: Colors.red),
+                        //   ),
+                        // ),
                         maxSuggestionsInViewPort: 6,
                         itemHeight: 50,
                         onSuggestionTap: (x) {

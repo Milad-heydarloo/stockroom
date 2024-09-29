@@ -355,6 +355,7 @@ class DetailsPage extends StatelessWidget {
                                             //   ],
                                             // ),
                                             ExpansionTileItem(
+
                                               title: Text(
                                                   'SN ورود و خروج به انبار',
                                                   style: TextStyle(
