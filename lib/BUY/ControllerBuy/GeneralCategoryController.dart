@@ -174,6 +174,7 @@ class GeneralCategoryController extends GetxController {
       final record = await pb.collection('buy_product').create(
         body: {
           "title": title,
+          "name_product_category": idproduct,
           "supplier": supplierId,
           "days": days,
           "datecreated": dateCreated,
@@ -214,33 +215,35 @@ class GeneralCategoryController extends GetxController {
 
       // به‌روزرسانی رکورد name_product_category با لیست به‌روز شده
       // استخراج مقدار فعلی number از رکورد name_product_category
-      String currentNumberStr =
-          productRecord.data['number'].toString() ?? "0"; // تبدیل به رشته
-      int currentNumber = int.tryParse(currentNumberStr) ?? 0;
-      print('Current number in name_product_category: $currentNumber');
+
+// cancel 2
+//       String currentNumberStr =
+//           productRecord.data['number'].toString() ?? "0"; // تبدیل به رشته
+//       int currentNumber = int.tryParse(currentNumberStr) ?? 0;
+//       print('Current number in name_product_category: $currentNumber');
 
       // تبدیل number ورودی به عدد و جمع با مقدار فعلی
-      int newNumber = int.tryParse(number) ?? 0;
-      int updatedNumber = currentNumber + newNumber;
+      // int newNumber = int.tryParse(number) ?? 0;
+      // int updatedNumber = currentNumber + newNumber;
       final bodyproduct = <String, dynamic>{
-        "number": updatedNumber.toString(), // تبدیل عدد به رشته
+      //  "number": updatedNumber.toString(), // تبدیل عدد به رشته
         "buy_product": existingBuyProductCategory,
       };
       await pb
           .collection('name_product_category')
           .update(idproduct, body: bodyproduct);
 
-
-      final bodyproductbuy = <String, dynamic>{
-        "inventory": currentNumberStr, // تبدیل عدد به رشته
-        "Number_of_inventory": newNumber, // تبدیل عدد به رشته
-        "number_now": updatedNumber.toString(), // تبدیل عدد به رشته
-        // "number": updatedNumber.toString(), // تبدیل عدد به رشته
-        // "buy_product": existingBuyProductCategory,
-      };
-      await pb
-          .collection('buy_product')
-          .update(record.id, body: bodyproductbuy);
+// cancel 1
+      // final bodyproductbuy = <String, dynamic>{
+      //   "inventory": currentNumberStr, // تبدیل عدد به رشته
+      //   "Number_of_inventory": newNumber, // تبدیل عدد به رشته
+      //   "number_now": updatedNumber.toString(), // تبدیل عدد به رشته
+      //   // "number": updatedNumber.toString(), // تبدیل عدد به رشته
+      //   // "buy_product": existingBuyProductCategory,
+      // };
+      // await pb
+      //     .collection('buy_product')
+      //     .update(record.id, body: bodyproductbuy);
       print('bachebala');
       print(orderID);
       print(idproduct);
@@ -281,6 +284,7 @@ class GeneralCategoryController extends GetxController {
       final record = await pb.collection('buy_product').create(
         body: {
           "title": title,
+          "name_product_category": idproduct,
           "supplier": supplierId,
           "days": days,
           "datecreated": dateCreated,
@@ -322,31 +326,33 @@ class GeneralCategoryController extends GetxController {
 
       // به‌روزرسانی رکورد name_product_category با لیست به‌روز شده
       // استخراج مقدار فعلی number از رکورد name_product_category
-      String currentNumberStr =
-          productRecord.data['number'].toString() ?? "0"; // تبدیل به رشته
-      int currentNumber = int.tryParse(currentNumberStr) ?? 0;
-      print('Current number in name_product_category: $currentNumber');
-
-      // تبدیل number ورودی به عدد و جمع با مقدار فعلی
-      int newNumber = int.tryParse(number) ?? 0;
-      int updatedNumber = currentNumber + newNumber;
+      // String currentNumberStr =
+      //     productRecord.data['number'].toString() ?? "0"; // تبدیل به رشته
+      // int currentNumber = int.tryParse(currentNumberStr) ?? 0;
+      // print('Current number in name_product_category: $currentNumber');
+      //
+      // // تبدیل number ورودی به عدد و جمع با مقدار فعلی
+      // int newNumber = int.tryParse(number) ?? 0;
+      // int updatedNumber = currentNumber + newNumber;
       final bodyproduct = <String, dynamic>{
-        "number": updatedNumber.toString(), // تبدیل عدد به رشته
+       // "number": updatedNumber.toString(), // تبدیل عدد به رشته
         "buy_product": existingBuyProductCategory,
       };
       await pb
           .collection('name_product_category')
           .update(idproduct, body: bodyproduct);
-      final bodyproductbuy = <String, dynamic>{
-        "inventory": currentNumberStr, // تبدیل عدد به رشته
-        "Number_of_inventory": newNumber, // تبدیل عدد به رشته
-        "number_now": updatedNumber.toString(), // تبدیل عدد به رشته
-        // "number": updatedNumber.toString(), // تبدیل عدد به رشته
-        // "buy_product": existingBuyProductCategory,
-      };
-      await pb
-          .collection('buy_product')
-          .update(record.id, body: bodyproductbuy);
+
+      // cancel 1
+      // final bodyproductbuy = <String, dynamic>{
+      //   "inventory": currentNumberStr, // تبدیل عدد به رشته
+      //   "Number_of_inventory": newNumber, // تبدیل عدد به رشته
+      //   "number_now": updatedNumber.toString(), // تبدیل عدد به رشته
+      //   // "number": updatedNumber.toString(), // تبدیل عدد به رشته
+      //   // "buy_product": existingBuyProductCategory,
+      // };
+      // await pb
+      //     .collection('buy_product')
+      //     .update(record.id, body: bodyproductbuy);
       print('bachebala');
       print(orderID);
       print(idproduct);
@@ -740,28 +746,29 @@ class GeneralCategoryController extends GetxController {
       // print('Current number in name_product_category: $currentNumber');
       // // تبدیل number ورودی به عدد و جمع با مقدار فعلی
       // int newNumber = int.tryParse(number) ?? 0;
-      if (recordnumber! < int.parse(number)) {
-        Get.snackbar('ناموفق',
-            'تعداد کالا موجود انبار با تعداد کالای حدف شده مطابقت ندارد',
-            backgroundColor: Colors.orange);
-      } else {
-        int updatedNumber = recordnumber - int.parse(productNumber.toString());
-        //
-        final body = <String, dynamic>{
-          "number": updatedNumber,
-        };
-        await pb
-            .collection('name_product_category')
-            .update(recordId!, body: body);
+      //cancel 1
+      // if (recordnumber! < int.parse(number)) {
+      //   Get.snackbar('ناموفق',
+      //       'تعداد کالا موجود انبار با تعداد کالای حدف شده مطابقت ندارد',
+      //       backgroundColor: Colors.orange);
+      // } else {
+      //   int updatedNumber = recordnumber - int.parse(productNumber.toString());
+      //   //
+      //   final body = <String, dynamic>{
+      //     "number": updatedNumber,
+      //   };
+      //   await pb
+      //       .collection('name_product_category')
+      //       .update(recordId!, body: body);
 
         await pb.collection('buy_product').delete(id);
-        Get.snackbar(' موفق', 'محصول شما با موفقیت حذف شد.',
+        Get.snackbar(' موفق', 'سفارش شما با موفقیت حذف شد.',
             backgroundColor: Colors.green);
         await fetchGeneralCategories(); // Refresh the list after update
         await fetch_order_buy_product();
-        await fetchNameProductCategory(recordId);
-        await fetchBuyProductsById(recordId);
-      }
+        await fetchNameProductCategory(recordId!);
+        await fetchBuyProductsById(recordId!);
+    //  }
     } catch (e) {
       print('Error updating category: $e');
     }

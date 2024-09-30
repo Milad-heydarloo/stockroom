@@ -1,6 +1,3 @@
-
-
-
 import 'package:another_flutter_splash_screen/another_flutter_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,6 +40,9 @@ void main() {
   runApp(MyAppRun());
 }
 
+
+
+
 class MyAppRun extends StatelessWidget {
   final PocketBase pb = PocketBase(
     const String.fromEnvironment('order',
@@ -59,7 +59,7 @@ class MyAppRun extends StatelessWidget {
         initialBinding: MyBinding(),
         title: 'کارشناسان خرید و فروش',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
+        theme:  ThemeData(
           useMaterial3: true,
           primarySwatch: Colors.blue,
           primaryColor: Colors.blue,
@@ -142,6 +142,7 @@ class MyAppRun extends StatelessWidget {
   }
 }
 
+
 class SplashPages extends StatefulWidget {
   @override
   _SplashPagesState createState() => _SplashPagesState();
@@ -150,9 +151,13 @@ class SplashPages extends StatefulWidget {
 class _SplashPagesState extends State<SplashPages> {
   final AuthController authController = Get.find<AuthController>();
 
+
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
+
       body: Center(
         child: SizedBox(
           height: 800,
@@ -166,16 +171,27 @@ class _SplashPagesState extends State<SplashPages> {
             childWidget: Image.asset("assets/satter.png"),
             duration: Duration(milliseconds: 2000),
             animationDuration: Duration(milliseconds: 1000),
+
             onEnd: () async {
               await Future.delayed(Duration(seconds: 2));
-              await authController.checkAndLogin();
+              await   authController.checkAndLogin();
+
+
+
             },
+
           ),
         ),
       ),
     );
+
   }
 }
+
+
+
+
+
 
 class OrderListPage extends StatefulWidget {
   @override
@@ -235,7 +251,12 @@ class _OrderListPageState extends State<OrderListPage>
           child: _buildAppBar(orderController),
         ),
       ),
-      body: GetBuilder<OrderControllerPage>(
+
+      body:
+
+
+
+      GetBuilder<OrderControllerPage>(
         id: 'orderssupdate',
         builder: (controller) {
           if (orderController.orderstwo.isEmpty) {
@@ -252,12 +273,15 @@ class _OrderListPageState extends State<OrderListPage>
                 alignment: Alignment.center,
                 child: CircularProgressIndicator(
                   valueColor:
-                  AlwaysStoppedAnimation<Color>(Colors.blue), // رنگ آبی
+                      AlwaysStoppedAnimation<Color>(Colors.blue), // رنگ آبی
                 ),
               ),
             );
           }
-          return Directionality(
+          return
+
+
+            Directionality(
               textDirection: TextDirection.rtl,
               child: Stack(
                 children: [
@@ -269,12 +293,12 @@ class _OrderListPageState extends State<OrderListPage>
                       _progressValue = double.parse(order.winner!);
                       DateTime endDate = DateTime.parse(order.dateAd!);
                       Duration timeRemaining =
-                      endDate.difference(DateTime.now());
+                          endDate.difference(DateTime.now());
                       String gregorianDateString = order.created!;
 
                       // تبدیل رشته به DateTime
                       DateTime gregorianDate =
-                      DateTime.parse(gregorianDateString);
+                          DateTime.parse(gregorianDateString);
 
                       // تبدیل تاریخ میلادی به تاریخ شمسی
                       Jalali jalaliDate = Jalali.fromDateTime(gregorianDate);
@@ -325,22 +349,22 @@ class _OrderListPageState extends State<OrderListPage>
                                     textDirection: TextDirection.ltr,
                                     child: isExpired
                                         ? Text(
-                                      'اعتبار سفارش به اتمام رسید',
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.red),
-                                    )
+                                            'اعتبار سفارش به اتمام رسید',
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.red),
+                                          )
                                         : SlideCountdownSeparated(
-                                      duration: timeRemaining,
-                                      slideDirection: SlideDirection.down,
-                                      durationTitle:
-                                      DurationTitle.arShort(),
-                                      separator: "<>",
-                                      textStyle: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold),
-                                    ),
+                                            duration: timeRemaining,
+                                            slideDirection: SlideDirection.down,
+                                            durationTitle:
+                                                DurationTitle.arShort(),
+                                            separator: "<>",
+                                            textStyle: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold),
+                                          ),
                                   ),
                                   Row(
                                     children: [
@@ -460,7 +484,7 @@ class _OrderListPageState extends State<OrderListPage>
                                       const SizedBox(height: 3),
                                       Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.center,
+                                            MainAxisAlignment.center,
                                         children: [
                                           buildStepIndicator(
                                               0.25,
@@ -493,13 +517,13 @@ class _OrderListPageState extends State<OrderListPage>
                                         minHeight: 20,
                                         backgroundColor: Colors.grey[300],
                                         valueColor:
-                                        AlwaysStoppedAnimation<Color>(
-                                            Colors.blue),
+                                            AlwaysStoppedAnimation<Color>(
+                                                Colors.blue),
                                       ),
                                       SizedBox(height: 10),
                                       Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
+                                            MainAxisAlignment.spaceEvenly,
                                         children: [
                                           buildStepLabel(0.25, 'استعلام اول'),
                                           buildStepLabel(
@@ -517,56 +541,56 @@ class _OrderListPageState extends State<OrderListPage>
                                 children: [
                                   Card(
                                       child: Column(children: [
-                                        Text('   افزودن محصول رزرو  '),
-                                        IconButton(
-                                          icon: const Icon(Icons.add),
-                                          onPressed: () {
-                                            _showAddProductDialogA(context,
-                                                orderController, order, 'استعلام');
+                                    Text('   افزودن محصول رزرو  '),
+                                    IconButton(
+                                      icon: const Icon(Icons.add),
+                                      onPressed: () {
+                                        _showAddProductDialogA(context,
+                                            orderController, order, 'استعلام');
 
-                                            // Get.defaultDialog(
-                                            //     content: Column(
-                                            //   children: [
-                                            //
-                                            //     GetBuilder<OrderController>(
-                                            // id:'product',
-                                            //       builder: (controller) {
-                                            //         return Text(orderController.selectedProductItems
-                                            //             .toString());
-                                            //       },
-                                            //     ),
-                                            //   ],
-                                            // ));
-                                          },
-                                        ),
-                                      ])),
+                                        // Get.defaultDialog(
+                                        //     content: Column(
+                                        //   children: [
+                                        //
+                                        //     GetBuilder<OrderController>(
+                                        // id:'product',
+                                        //       builder: (controller) {
+                                        //         return Text(orderController.selectedProductItems
+                                        //             .toString());
+                                        //       },
+                                        //     ),
+                                        //   ],
+                                        // ));
+                                      },
+                                    ),
+                                  ])),
                                   Spacer(),
                                   Card(
                                       child: Column(children: [
-                                        Text('   پرینت فاکتور و درصد  '),
-                                        IconButton(
-                                          icon: const Icon(Icons.print),
-                                          onPressed: () {
-                                            if (order.listProductA!.isEmpty) {
-                                              Get.snackbar('ناموفق',
-                                                  'برای صدور فاکتور باید به سفارش محصول بی افزاید',
-                                                  backgroundColor: Colors.orange);
-                                            } else {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      MyStatefulPage(
-                                                        listProductA:
-                                                        order.listProductA!,
-                                                        order: order,
-                                                      ),
-                                                ),
-                                              );
-                                            }
-                                          },
-                                        ),
-                                      ])),
+                                    Text('   پرینت فاکتور و درصد  '),
+                                    IconButton(
+                                      icon: const Icon(Icons.print),
+                                      onPressed: () {
+                                        if (order.listProductA!.isEmpty) {
+                                          Get.snackbar('ناموفق',
+                                              'برای صدور فاکتور باید به سفارش محصول بی افزاید',
+                                              backgroundColor: Colors.orange);
+                                        } else {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  MyStatefulPage(
+                                                listProductA:
+                                                    order.listProductA!,
+                                                order: order,
+                                              ),
+                                            ),
+                                          );
+                                        }
+                                      },
+                                    ),
+                                  ])),
                                 ],
                               ),
                               ExpansionTileItem(
@@ -592,536 +616,536 @@ class _OrderListPageState extends State<OrderListPage>
                                             ...order.listProductA!
                                                 .map(
                                                     (product) =>
-                                                    ExpansionTileItem(
-                                                      textColor:
-                                                      Colors.black,
-                                                      collapsedBackgroundColor:
-                                                      product.unavailable!
-                                                          ? Colors.green[
-                                                      200]
-                                                          : Colors.orange[
-                                                      200],
-                                                      backgroundColor: product
-                                                          .unavailable!
-                                                          ? Colors
-                                                          .green[200]
-                                                          : Colors
-                                                          .orange[200],
-                                                      title: Card(
-                                                        child: Column(
-                                                          crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                          children: [
-                                                            Row(
+                                                        ExpansionTileItem(
+                                                          textColor:
+                                                              Colors.black,
+                                                          collapsedBackgroundColor:
+                                                              product.unavailable!
+                                                                  ? Colors.green[
+                                                                      200]
+                                                                  : Colors.orange[
+                                                                      200],
+                                                          backgroundColor: product
+                                                                  .unavailable!
+                                                              ? Colors
+                                                                  .green[200]
+                                                              : Colors
+                                                                  .orange[200],
+                                                          title: Card(
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
                                                               children: [
                                                                 Row(
-                                                                  mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .max,
-                                                                  mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .start,
                                                                   children: [
-                                                                    Card(
-                                                                      child:
-                                                                      Column(children: [
-                                                                        IconButton(
-                                                                          icon: const Icon(Icons.edit),
-                                                                          onPressed: () async {
-                                                                            //   print(productA.garranty);
-                                                                            //      List<String> listGproduct = await pocketBaseProvider.getProductWarranty(product.id);
-                                                                            showDialog(
-                                                                              context: context,
-                                                                              builder: (context) => ProductDetailsDialogA(
-                                                                                productType: 'ویرایش محصول',
-                                                                                productTitle: product.title!,
-                                                                                productId: product.id!,
-                                                                                productPrice: product.salePrice!,
-                                                                                orderController: orderController,
-                                                                                listG: product.garranty!,
-                                                                                number: product.number!,
-                                                                                buyproduct: product.sellBuyProduct?.title?.isNotEmpty == true ? product.sellBuyProduct!.title! : '+',
-                                                                              ),
-                                                                            );
-                                                                            //   ProductDetailsDialogA(productId:  productA.id, productType: 'ویرایش محصول', productTitle: productA.title, productPrice: productA.saleprice, number: productA.number, listG: productA.garranty,    provider: widget.provider,);
-                                                                          },
-                                                                        ),
-                                                                        IconButton(
-                                                                          icon: const Icon(Icons.add),
-                                                                          onPressed: () {
-                                                                            showGeneralCategoryDialog(context, order, product.id!);
+                                                                    Row(
+                                                                      mainAxisSize:
+                                                                          MainAxisSize
+                                                                              .max,
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .start,
+                                                                      children: [
+                                                                        Card(
+                                                                          child:
+                                                                              Column(children: [
+                                                                            IconButton(
+                                                                              icon: const Icon(Icons.edit),
+                                                                              onPressed: () async {
+                                                                                //   print(productA.garranty);
+                                                                                //      List<String> listGproduct = await pocketBaseProvider.getProductWarranty(product.id);
+                                                                                showDialog(
+                                                                                  context: context,
+                                                                                  builder: (context) => ProductDetailsDialogA(
+                                                                                    productType: 'ویرایش محصول',
+                                                                                    productTitle: product.title!,
+                                                                                    productId: product.id!,
+                                                                                    productPrice: product.salePrice!,
+                                                                                    orderController: orderController,
+                                                                                    listG: product.garranty!,
+                                                                                    number: product.number!,
+                                                                                    buyproduct: product.sellBuyProduct?.title?.isNotEmpty == true ? product.sellBuyProduct!.title! : '+',
+                                                                                  ),
+                                                                                );
+                                                                                //   ProductDetailsDialogA(productId:  productA.id, productType: 'ویرایش محصول', productTitle: productA.title, productPrice: productA.saleprice, number: productA.number, listG: productA.garranty,    provider: widget.provider,);
+                                                                              },
+                                                                            ),
+                                                                            IconButton(
+                                                                              icon: const Icon(Icons.add),
+                                                                              onPressed: () {
+                                                                                showGeneralCategoryDialog(context, order, product.id!);
 
 // print(.toString());
 // print('mnammnam');
 
-                                                                            // orderController.fetchAllSuppliers();
-                                                                            bool rezerv = false;
-                                                                          },
+                                                                                // orderController.fetchAllSuppliers();
+                                                                                bool rezerv = false;
+                                                                              },
+                                                                            ),
+                                                                          ]),
                                                                         ),
-                                                                      ]),
+                                                                      ],
+                                                                    ),
+                                                                    Text(product
+                                                                        .title!),
+                                                                  ],
+                                                                ),
+                                                                Row(
+                                                                  children: [
+                                                                    Text(
+                                                                        ' گارانتی :  '),
+                                                                    MultiSelectContainer(
+                                                                      prefix:
+                                                                          MultiSelectPrefix(
+                                                                        selectedPrefix:
+                                                                            const Padding(
+                                                                          padding:
+                                                                              EdgeInsets.only(right: 5),
+                                                                          child:
+                                                                              Icon(
+                                                                            Icons.check,
+                                                                            color:
+                                                                                Colors.blue,
+                                                                            size:
+                                                                                14,
+                                                                          ),
+                                                                        ),
+                                                                        disabledPrefix:
+                                                                            const Padding(
+                                                                          padding:
+                                                                              EdgeInsets.only(right: 5),
+                                                                          child:
+                                                                              Icon(
+                                                                            Icons.do_disturb_alt_sharp,
+                                                                            size:
+                                                                                14,
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      items: product
+                                                                          .garranty!
+                                                                          .map(
+                                                                              (item) {
+                                                                        return MultiSelectCard(
+                                                                          value:
+                                                                              item,
+                                                                          label:
+                                                                              item,
+                                                                        );
+                                                                      }).toList(),
+                                                                      onChange:
+                                                                          (allSelectedItems,
+                                                                              selectedItem) {
+// handleSelectionChange(allSelectedItems, selectedItem);
+                                                                      },
                                                                     ),
                                                                   ],
                                                                 ),
-                                                                Text(product
-                                                                    .title!),
-                                                              ],
-                                                            ),
-                                                            Row(
-                                                              children: [
-                                                                Text(
-                                                                    ' گارانتی :  '),
-                                                                MultiSelectContainer(
-                                                                  prefix:
-                                                                  MultiSelectPrefix(
-                                                                    selectedPrefix:
-                                                                    const Padding(
-                                                                      padding:
-                                                                      EdgeInsets.only(right: 5),
-                                                                      child:
-                                                                      Icon(
-                                                                        Icons.check,
-                                                                        color:
-                                                                        Colors.blue,
-                                                                        size:
-                                                                        14,
-                                                                      ),
-                                                                    ),
-                                                                    disabledPrefix:
-                                                                    const Padding(
-                                                                      padding:
-                                                                      EdgeInsets.only(right: 5),
-                                                                      child:
-                                                                      Icon(
-                                                                        Icons.do_disturb_alt_sharp,
-                                                                        size:
-                                                                        14,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  items: product
-                                                                      .garranty!
-                                                                      .map(
-                                                                          (item) {
-                                                                        return MultiSelectCard(
-                                                                          value:
-                                                                          item,
-                                                                          label:
-                                                                          item,
-                                                                        );
-                                                                      }).toList(),
-                                                                  onChange:
-                                                                      (allSelectedItems,
-                                                                      selectedItem) {
-// handleSelectionChange(allSelectedItems, selectedItem);
-                                                                  },
-                                                                ),
-                                                              ],
-                                                            ),
-                                                            Row(
-                                                              children: [
-                                                                const Text(
-                                                                    'تعداد: '),
-                                                                Text(product
-                                                                    .number!),
-                                                                Spacer(),
-                                                                Text(
-                                                                    'عدم موجودی'),
-                                                                Switch(
-                                                                  value: product
-                                                                      .unavailable!,
-                                                                  onChanged:
-                                                                      (bool
-                                                                  value) {
-                                                                    if (value ==
-                                                                        true) {
-                                                                      bool
-                                                                      un =
-                                                                          value;
-                                                                      orderController.updateProductADiscription(
-                                                                          product.id!,
-                                                                          product.description!,
-                                                                          un);
-                                                                    } else {
-                                                                      showDialog(
-                                                                        context:
-                                                                        context,
-                                                                        builder:
-                                                                            (BuildContext context) {
-                                                                          bool un = value;
-                                                                          TextEditingController noteController = TextEditingController(text: product.description);
-                                                                          return AlertDialog(
-                                                                            title: const Text('توضیح محصول'),
-                                                                            content: TextField(
-                                                                              controller: noteController,
-                                                                              maxLines: 5,
-                                                                              decoration: const InputDecoration(
-                                                                                border: OutlineInputBorder(),
-                                                                                labelText: 'توضیحات',
-                                                                              ),
-                                                                            ),
-                                                                            actions: [
-                                                                              TextButton(
-                                                                                onPressed: () {
-                                                                                  Navigator.of(context).pop();
-                                                                                },
-                                                                                child: const Text('کنسل'),
-                                                                              ),
-                                                                              TextButton(
-                                                                                onPressed: () {
-                                                                                  orderController.updateProductADiscription(product.id!, noteController.text, un);
-                                                                                  //       Navigator.of(context).pop();
-                                                                                  Navigator.of(context).pop();
-                                                                                },
-                                                                                child: const Text('تایید'),
-                                                                              ),
-                                                                            ],
-                                                                          );
-                                                                        },
-                                                                      );
-                                                                    }
-                                                                  },
-                                                                ),
-                                                              ],
-                                                            ),
-                                                            const SizedBox(
-                                                                height: 5),
-                                                            Row(
-                                                              mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                              children: [
-                                                                Expanded(
-                                                                  child:
-                                                                  TextField(
-                                                                    controller:
-                                                                    TextEditingController(text: product.purchasePrice!.convertToPrice()),
-                                                                    decoration:
-                                                                    const InputDecoration(labelText: 'قیمت خرید'),
-                                                                    keyboardType:
-                                                                    TextInputType.number,
-                                                                    inputFormatters: [
-                                                                      FilteringTextInputFormatter.allow(
-                                                                          RegExp(r'[0-9۰-۹]')),
-                                                                      TextInputFormatter
-                                                                          .withFunction(
-                                                                            (oldValue,
-                                                                            newValue) {
-                                                                          String newText = convertToEnglishNumbers(newValue.text);
-                                                                          return TextEditingValue(
-                                                                            text: newText,
-                                                                            selection: TextSelection.collapsed(offset: newText.length),
-                                                                          );
-                                                                        },
-                                                                      ),
-                                                                    ],
-                                                                    onTap:
-                                                                        () {
-                                                                      showDialog(
-                                                                        context:
-                                                                        context,
-                                                                        builder:
-                                                                            (BuildContext context) {
-                                                                          return Directionality(
-                                                                              textDirection: TextDirection.rtl,
-                                                                              child: AlertDialog(
-                                                                                title: const Text('قیمت محصول استعلام'),
-                                                                                content: Container(
-                                                                                    child: TextField(
-                                                                                      controller: TextEditingController(text: product.purchasePrice!.convertToPrice()),
-                                                                                      decoration: const InputDecoration(labelText: 'قیمت خرید'),
-                                                                                      keyboardType: TextInputType.number,
-                                                                                      inputFormatters: [
-                                                                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9۰-۹]')),
-                                                                                        TextInputFormatter.withFunction(
-                                                                                              (oldValue, newValue) {
-                                                                                            String newText = convertToEnglishNumbers(newValue.text.convertToPrice());
-                                                                                            return TextEditingValue(
-                                                                                              text: newText,
-                                                                                              selection: TextSelection.collapsed(offset: newText.length),
-                                                                                            );
-                                                                                          },
-                                                                                        ),
-                                                                                      ],
-                                                                                      onChanged: (value) {
-                                                                                        orderController.updateProductBPricepurch(product.id!, value);
-                                                                                      },
-                                                                                    ),
-                                                                                    width: 200),
-                                                                              ));
-                                                                        },
-                                                                      );
-                                                                    },
-                                                                  ),
-                                                                ),
-                                                                SizedBox(
-                                                                    width:
-                                                                    20),
-                                                              ],
-                                                            ),
-                                                            const SizedBox(
-                                                                height: 10),
-                                                            Text('قیمت به حروف : ' +
-                                                                '${product.purchasePrice!.toWord()} ' +
-                                                                ' ریال'),
-                                                            const SizedBox(
-                                                                height: 10),
-                                                            Text('توضیحات محصول: ' +
-                                                                '${product.description}'),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      children: [
-                                                        if (product
-                                                            .sellBuyProduct !=
-                                                            null)
-                                                          ExpansionTile(
-                                                            title: Card(
-                                                                elevation:
-                                                                4,
-                                                                margin: EdgeInsets
-                                                                    .all(
-                                                                    16),
-                                                                shape:
-                                                                RoundedRectangleBorder(
-                                                                  borderRadius:
-                                                                  BorderRadius.circular(
-                                                                      15),
-                                                                ),
-                                                                child:
-                                                                Center(
-                                                                  child:
-                                                                  Column(
-                                                                    crossAxisAlignment:
-                                                                    CrossAxisAlignment.start,
-                                                                    children: [
-                                                                      IconButton(
-                                                                        onPressed:
-                                                                            () {
-                                                                          // نمایش دیالوگ تاییدیه قبل از حذف
+                                                                Row(
+                                                                  children: [
+                                                                    const Text(
+                                                                        'تعداد: '),
+                                                                    Text(product
+                                                                        .number!),
+                                                                    Spacer(),
+                                                                    Text(
+                                                                        'عدم موجودی'),
+                                                                    Switch(
+                                                                      value: product
+                                                                          .unavailable!,
+                                                                      onChanged:
+                                                                          (bool
+                                                                              value) {
+                                                                        if (value ==
+                                                                            true) {
+                                                                          bool
+                                                                              un =
+                                                                              value;
+                                                                          orderController.updateProductADiscription(
+                                                                              product.id!,
+                                                                              product.description!,
+                                                                              un);
+                                                                        } else {
                                                                           showDialog(
-                                                                            context: context,
-                                                                            builder: (context) {
+                                                                            context:
+                                                                                context,
+                                                                            builder:
+                                                                                (BuildContext context) {
+                                                                              bool un = value;
+                                                                              TextEditingController noteController = TextEditingController(text: product.description);
                                                                               return AlertDialog(
-                                                                                title: Text('حذف محصول'),
-                                                                                content: Text('آیا از حذف این محصول مطمئن هستید؟'),
+                                                                                title: const Text('توضیح محصول'),
+                                                                                content: TextField(
+                                                                                  controller: noteController,
+                                                                                  maxLines: 5,
+                                                                                  decoration: const InputDecoration(
+                                                                                    border: OutlineInputBorder(),
+                                                                                    labelText: 'توضیحات',
+                                                                                  ),
+                                                                                ),
                                                                                 actions: [
                                                                                   TextButton(
                                                                                     onPressed: () {
                                                                                       Navigator.of(context).pop();
                                                                                     },
-                                                                                    child: Text('خیر'),
+                                                                                    child: const Text('کنسل'),
+                                                                                  ),
+                                                                                  TextButton(
+                                                                                    onPressed: () {
+                                                                                      orderController.updateProductADiscription(product.id!, noteController.text, un);
+                                                                                      //       Navigator.of(context).pop();
+                                                                                      Navigator.of(context).pop();
+                                                                                    },
+                                                                                    child: const Text('تایید'),
                                                                                   ),
                                                                                 ],
                                                                               );
                                                                             },
                                                                           );
+                                                                        }
+                                                                      },
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                const SizedBox(
+                                                                    height: 5),
+                                                                Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
+                                                                  children: [
+                                                                    Expanded(
+                                                                      child:
+                                                                          TextField(
+                                                                        controller:
+                                                                            TextEditingController(text: product.purchasePrice!.convertToPrice()),
+                                                                        decoration:
+                                                                            const InputDecoration(labelText: 'قیمت خرید'),
+                                                                        keyboardType:
+                                                                            TextInputType.number,
+                                                                        inputFormatters: [
+                                                                          FilteringTextInputFormatter.allow(
+                                                                              RegExp(r'[0-9۰-۹]')),
+                                                                          TextInputFormatter
+                                                                              .withFunction(
+                                                                            (oldValue,
+                                                                                newValue) {
+                                                                              String newText = convertToEnglishNumbers(newValue.text);
+                                                                              return TextEditingValue(
+                                                                                text: newText,
+                                                                                selection: TextSelection.collapsed(offset: newText.length),
+                                                                              );
+                                                                            },
+                                                                          ),
+                                                                        ],
+                                                                        onTap:
+                                                                            () {
+                                                                          showDialog(
+                                                                            context:
+                                                                                context,
+                                                                            builder:
+                                                                                (BuildContext context) {
+                                                                              return Directionality(
+                                                                                  textDirection: TextDirection.rtl,
+                                                                                  child: AlertDialog(
+                                                                                    title: const Text('قیمت محصول استعلام'),
+                                                                                    content: Container(
+                                                                                        child: TextField(
+                                                                                          controller: TextEditingController(text: product.purchasePrice!.convertToPrice()),
+                                                                                          decoration: const InputDecoration(labelText: 'قیمت خرید'),
+                                                                                          keyboardType: TextInputType.number,
+                                                                                          inputFormatters: [
+                                                                                            FilteringTextInputFormatter.allow(RegExp(r'[0-9۰-۹]')),
+                                                                                            TextInputFormatter.withFunction(
+                                                                                              (oldValue, newValue) {
+                                                                                                String newText = convertToEnglishNumbers(newValue.text.convertToPrice());
+                                                                                                return TextEditingValue(
+                                                                                                  text: newText,
+                                                                                                  selection: TextSelection.collapsed(offset: newText.length),
+                                                                                                );
+                                                                                              },
+                                                                                            ),
+                                                                                          ],
+                                                                                          onChanged: (value) {
+                                                                                            orderController.updateProductBPricepurch(product.id!, value);
+                                                                                          },
+                                                                                        ),
+                                                                                        width: 200),
+                                                                                  ));
+                                                                            },
+                                                                          );
                                                                         },
-                                                                        icon:
-                                                                        Icon(Icons.delete),
                                                                       ),
-                                                                      Text(
-                                                                        product.sellBuyProduct?.title ??
-                                                                            "عنوان محصول",
-                                                                        style:
-                                                                        TextStyle(
-                                                                          fontSize: 14,
-                                                                          fontWeight: FontWeight.bold,
-                                                                          color: Colors.blueAccent,
-                                                                        ),
-                                                                      ),
-                                                                      SizedBox(
-                                                                          height: 10),
-                                                                      SizedBox(
-                                                                          height: 8),
-                                                                      Row(
+                                                                    ),
+                                                                    SizedBox(
+                                                                        width:
+                                                                            20),
+                                                                  ],
+                                                                ),
+                                                                const SizedBox(
+                                                                    height: 10),
+                                                                Text('قیمت به حروف : ' +
+                                                                    '${product.purchasePrice!.toWord()} ' +
+                                                                    ' ریال'),
+                                                                const SizedBox(
+                                                                    height: 10),
+                                                                Text('توضیحات محصول: ' +
+                                                                    '${product.description}'),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          children: [
+                                                            if (product
+                                                                    .sellBuyProduct !=
+                                                                null)
+                                                              ExpansionTile(
+                                                                title: Card(
+                                                                    elevation:
+                                                                        4,
+                                                                    margin: EdgeInsets
+                                                                        .all(
+                                                                            16),
+                                                                    shape:
+                                                                        RoundedRectangleBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              15),
+                                                                    ),
+                                                                    child:
+                                                                        Center(
+                                                                      child:
+                                                                          Column(
                                                                         crossAxisAlignment:
-                                                                        CrossAxisAlignment.center,
+                                                                            CrossAxisAlignment.start,
                                                                         children: [
-                                                                          Expanded(
-                                                                            child: Text('تعداد موجود انبار: ${product.sellBuyProduct?.numberNow ?? "ندارد"}'),
+                                                                          IconButton(
+                                                                            onPressed:
+                                                                                () {
+                                                                              // نمایش دیالوگ تاییدیه قبل از حذف
+                                                                              showDialog(
+                                                                                context: context,
+                                                                                builder: (context) {
+                                                                                  return AlertDialog(
+                                                                                    title: Text('حذف محصول'),
+                                                                                    content: Text('آیا از حذف این محصول مطمئن هستید؟'),
+                                                                                    actions: [
+                                                                                      TextButton(
+                                                                                        onPressed: () {
+                                                                                          Navigator.of(context).pop();
+                                                                                        },
+                                                                                        child: Text('خیر'),
+                                                                                      ),
+                                                                                    ],
+                                                                                  );
+                                                                                },
+                                                                              );
+                                                                            },
+                                                                            icon:
+                                                                                Icon(Icons.delete),
                                                                           ),
-                                                                          Expanded(
-                                                                            child: Text('تعداد کسر از انبار: ${product.sellBuyProduct?.inventory ?? "ندارد"}'),
+                                                                          Text(
+                                                                            product.sellBuyProduct?.title ??
+                                                                                "عنوان محصول",
+                                                                            style:
+                                                                                TextStyle(
+                                                                              fontSize: 14,
+                                                                              fontWeight: FontWeight.bold,
+                                                                              color: Colors.blueAccent,
+                                                                            ),
                                                                           ),
-                                                                          Expanded(
-                                                                            child: Text('تعداد سفارش: ${product.sellBuyProduct?.numberOfInventory ?? "ندارد"}'),
+                                                                          SizedBox(
+                                                                              height: 10),
+                                                                          SizedBox(
+                                                                              height: 8),
+                                                                          Row(
+                                                                            crossAxisAlignment:
+                                                                                CrossAxisAlignment.center,
+                                                                            children: [
+                                                                              Expanded(
+                                                                                child: Text('تعداد موجود انبار: ${product.sellBuyProduct?.numberNow ?? "ندارد"}'),
+                                                                              ),
+                                                                              Expanded(
+                                                                                child: Text('تعداد کسر از انبار: ${product.sellBuyProduct?.inventory ?? "ندارد"}'),
+                                                                              ),
+                                                                              Expanded(
+                                                                                child: Text('تعداد سفارش: ${product.sellBuyProduct?.numberOfInventory ?? "ندارد"}'),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                          Row(
+                                                                            crossAxisAlignment:
+                                                                                CrossAxisAlignment.center,
+                                                                            children: [
+                                                                              Expanded(
+                                                                                child: Text('وضعیت دریافت جنس جمع کن: ${product.sellBuyProduct?.receive == true ? "دریافت شده" : "دریافت نشده"}'),
+                                                                              ),
+                                                                              Expanded(
+                                                                                child: Text('وضعیت دریافت انبار: ${product.sellBuyProduct?.receive == true ? "دریافت شده" : "دریافت نشده"}'),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                          Row(
+                                                                            crossAxisAlignment:
+                                                                                CrossAxisAlignment.center,
+                                                                            children: [
+                                                                              Expanded(
+                                                                                child: Text('تاریخ ایجاد: ${product.sellBuyProduct?.dateCreated ?? "ندارد"}'),
+                                                                              ),
+                                                                              Expanded(
+                                                                                child: Text('روزها: ${product.sellBuyProduct?.days ?? "ندارد"}'),
+                                                                              ),
+                                                                              Expanded(
+                                                                                child: Text('تاریخ تسویه: ${product.sellBuyProduct?.dateClearing ?? "ندارد"}'),
+                                                                              ),
+                                                                              Expanded(
+                                                                                child: Text('نوع سفارش: ${product.sellBuyProduct?.typeOrder ?? "ندارد"}'),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                          Row(
+                                                                            crossAxisAlignment:
+                                                                                CrossAxisAlignment.center,
+                                                                            children: [
+                                                                              Expanded(
+                                                                                child: Text('نام: ${product.sellBuyProduct?.name ?? "ندارد"}'),
+                                                                              ),
+                                                                              Expanded(
+                                                                                child: Text('خانواده: ${product.sellBuyProduct?.family ?? "ندارد"}'),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                          Row(
+                                                                            crossAxisAlignment:
+                                                                                CrossAxisAlignment.center,
+                                                                            children: [
+                                                                              Expanded(
+                                                                                child: Text('قیمت خرید: ${product.sellBuyProduct?.purchasePrice ?? "ندارد"}'),
+                                                                              ),
+                                                                              Expanded(
+                                                                                child: Text('قیمت فروش: ${product.sellBuyProduct?.salePrice ?? "ندارد"}'),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                          SizedBox(
+                                                                              height: 10),
+                                                                          Divider(),
+                                                                          SizedBox(
+                                                                              height: 10),
+                                                                          Text(
+                                                                              'تنظیمات:',
+                                                                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+                                                                          SwitchListTile(
+                                                                            title:
+                                                                                Text('وضعیت فوری'),
+                                                                            value:
+                                                                                product.sellBuyProduct?.hurry ?? false,
+                                                                            onChanged:
+                                                                                (bool value) {
+                                                                              // Handle the switch change
+                                                                            },
+                                                                          ),
+                                                                          SwitchListTile(
+                                                                            title:
+                                                                                Text('وضعیت رسمی'),
+                                                                            value:
+                                                                                product.sellBuyProduct?.official ?? false,
+                                                                            onChanged:
+                                                                                (bool value) {
+                                                                              // Handle the switch change
+                                                                            },
+                                                                          ),
+                                                                          SwitchListTile(
+                                                                            title:
+                                                                                Text('انتظار'),
+                                                                            value:
+                                                                                product.sellBuyProduct?.expectation ?? false,
+                                                                            onChanged:
+                                                                                (bool value) {
+                                                                              // Handle the switch change
+                                                                            },
+                                                                          ),
+                                                                          SwitchListTile(
+                                                                            title:
+                                                                                Text('گارانتی: ${product.sellBuyProduct?.garranty != null ? product.sellBuyProduct!.garranty!.join(", ") : "ندارد"}'),
+                                                                            value:
+                                                                                product.sellBuyProduct?.garranty != null,
+                                                                            onChanged:
+                                                                                (bool value) {
+                                                                              // Handle the switch change
+                                                                            },
                                                                           ),
                                                                         ],
                                                                       ),
-                                                                      Row(
-                                                                        crossAxisAlignment:
-                                                                        CrossAxisAlignment.center,
-                                                                        children: [
-                                                                          Expanded(
-                                                                            child: Text('وضعیت دریافت جنس جمع کن: ${product.sellBuyProduct?.receive == true ? "دریافت شده" : "دریافت نشده"}'),
-                                                                          ),
-                                                                          Expanded(
-                                                                            child: Text('وضعیت دریافت انبار: ${product.sellBuyProduct?.receive == true ? "دریافت شده" : "دریافت نشده"}'),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                      Row(
-                                                                        crossAxisAlignment:
-                                                                        CrossAxisAlignment.center,
-                                                                        children: [
-                                                                          Expanded(
-                                                                            child: Text('تاریخ ایجاد: ${product.sellBuyProduct?.dateCreated ?? "ندارد"}'),
-                                                                          ),
-                                                                          Expanded(
-                                                                            child: Text('روزها: ${product.sellBuyProduct?.days ?? "ندارد"}'),
-                                                                          ),
-                                                                          Expanded(
-                                                                            child: Text('تاریخ تسویه: ${product.sellBuyProduct?.dateClearing ?? "ندارد"}'),
-                                                                          ),
-                                                                          Expanded(
-                                                                            child: Text('نوع سفارش: ${product.sellBuyProduct?.typeOrder ?? "ندارد"}'),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                      Row(
-                                                                        crossAxisAlignment:
-                                                                        CrossAxisAlignment.center,
-                                                                        children: [
-                                                                          Expanded(
-                                                                            child: Text('نام: ${product.sellBuyProduct?.name ?? "ندارد"}'),
-                                                                          ),
-                                                                          Expanded(
-                                                                            child: Text('خانواده: ${product.sellBuyProduct?.family ?? "ندارد"}'),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                      Row(
-                                                                        crossAxisAlignment:
-                                                                        CrossAxisAlignment.center,
-                                                                        children: [
-                                                                          Expanded(
-                                                                            child: Text('قیمت خرید: ${product.sellBuyProduct?.purchasePrice ?? "ندارد"}'),
-                                                                          ),
-                                                                          Expanded(
-                                                                            child: Text('قیمت فروش: ${product.sellBuyProduct?.salePrice ?? "ندارد"}'),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                      SizedBox(
-                                                                          height: 10),
-                                                                      Divider(),
-                                                                      SizedBox(
-                                                                          height: 10),
-                                                                      Text(
-                                                                          'تنظیمات:',
-                                                                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
-                                                                      SwitchListTile(
-                                                                        title:
-                                                                        Text('وضعیت فوری'),
-                                                                        value:
-                                                                        product.sellBuyProduct?.hurry ?? false,
-                                                                        onChanged:
-                                                                            (bool value) {
-                                                                          // Handle the switch change
-                                                                        },
-                                                                      ),
-                                                                      SwitchListTile(
-                                                                        title:
-                                                                        Text('وضعیت رسمی'),
-                                                                        value:
-                                                                        product.sellBuyProduct?.official ?? false,
-                                                                        onChanged:
-                                                                            (bool value) {
-                                                                          // Handle the switch change
-                                                                        },
-                                                                      ),
-                                                                      SwitchListTile(
-                                                                        title:
-                                                                        Text('انتظار'),
-                                                                        value:
-                                                                        product.sellBuyProduct?.expectation ?? false,
-                                                                        onChanged:
-                                                                            (bool value) {
-                                                                          // Handle the switch change
-                                                                        },
-                                                                      ),
-                                                                      SwitchListTile(
-                                                                        title:
-                                                                        Text('گارانتی: ${product.sellBuyProduct?.garranty != null ? product.sellBuyProduct!.garranty!.join(", ") : "ندارد"}'),
-                                                                        value:
-                                                                        product.sellBuyProduct?.garranty != null,
-                                                                        onChanged:
-                                                                            (bool value) {
-                                                                          // Handle the switch change
-                                                                        },
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                )),
-                                                            children: [
-                                                              Column(
+                                                                    )),
                                                                 children: [
-                                                                  ...product
-                                                                      .sellBuyProduct!
-                                                                      .snBuyProductLogin!
-                                                                      .map(
-                                                                        (snProduct) =>
-                                                                        Card(
-                                                                          margin: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
-                                                                          child: Container(
-                                                                            decoration: BoxDecoration(
+                                                                  Column(
+                                                                    children: [
+                                                                      ...product
+                                                                          .sellBuyProduct!
+                                                                          .snBuyProductLogin!
+                                                                          .map(
+                                                                            (snProduct) =>
+                                                                                Card(
+                                                                              margin: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
+                                                                              child: Container(
+                                                                                decoration: BoxDecoration(
 // color: product.sellBuyProduct.okbuy
 // ? Colors.green[100]
 //     : Colors.yellow[200],
 // تغییر رنگ پس‌زمینه بر اساس productB.okbuy
-                                                                              border: Border.all(
+                                                                                  border: Border.all(
 // color: product.sellBuyProduct.hurry
 // ? Colors.blue
 //     : Colors.grey,
 // تغییر رنگ بوردر بر اساس productB.hurry
-                                                                                width: 4, // ضخامت بوردر
-                                                                              ),
-                                                                              borderRadius: BorderRadius.circular(8.0), // شکل گرد بوردر
-                                                                            ),
-                                                                            child: Padding(
-                                                                              padding: const EdgeInsets.all(8.0),
-                                                                              child: Column(
-                                                                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                                                                children: [
-                                                                                  Row(
+                                                                                    width: 4, // ضخامت بوردر
+                                                                                  ),
+                                                                                  borderRadius: BorderRadius.circular(8.0), // شکل گرد بوردر
+                                                                                ),
+                                                                                child: Padding(
+                                                                                  padding: const EdgeInsets.all(8.0),
+                                                                                  child: Column(
+                                                                                    crossAxisAlignment: CrossAxisAlignment.stretch,
                                                                                     children: [
-                                                                                      Card(
-                                                                                        child: Column(children: [
-                                                                                          IconButton(
-                                                                                            icon: const Icon(Icons.mode_edit),
-                                                                                            onPressed: () async {
+                                                                                      Row(
+                                                                                        children: [
+                                                                                          Card(
+                                                                                            child: Column(children: [
+                                                                                              IconButton(
+                                                                                                icon: const Icon(Icons.mode_edit),
+                                                                                                onPressed: () async {
 // نمایش پروگرس بار به مدت 1 ثانیه
 
-                                                                                              showDialog(
-                                                                                                context: context,
-                                                                                                barrierDismissible: false,
-                                                                                                builder: (context) {
-                                                                                                  return Center(
-                                                                                                    child: CircularProgressIndicator(),
+                                                                                                  showDialog(
+                                                                                                    context: context,
+                                                                                                    barrierDismissible: false,
+                                                                                                    builder: (context) {
+                                                                                                      return Center(
+                                                                                                        child: CircularProgressIndicator(),
+                                                                                                      );
+                                                                                                    },
                                                                                                   );
                                                                                                 },
-                                                                                              );
-                                                                                            },
+                                                                                              ),
+                                                                                            ]),
                                                                                           ),
-                                                                                        ]),
+                                                                                          Text('${product.sellBuyProduct!.title!} '),
+                                                                                        ],
                                                                                       ),
-                                                                                      Text('${product.sellBuyProduct!.title!} '),
                                                                                     ],
                                                                                   ),
-                                                                                ],
+                                                                                ),
                                                                               ),
                                                                             ),
-                                                                          ),
-                                                                        ),
-                                                                  )
-                                                                      .toList(),
+                                                                          )
+                                                                          .toList(),
+                                                                    ],
+                                                                  ),
                                                                 ],
                                                               ),
-                                                            ],
-                                                          ),
-                                                      ],
-                                                    ))
+                                                          ],
+                                                        ))
                                                 .toList(),
                                           ],
                                         ),
@@ -1256,12 +1280,12 @@ class _OrderListPageState extends State<OrderListPage>
               inputFormatters: [
                 FilteringTextInputFormatter.allow(RegExp(r'[0-9۰-۹]')),
                 TextInputFormatter.withFunction(
-                      (oldValue, newValue) {
+                  (oldValue, newValue) {
                     String newText = convertToEnglishNumbers(newValue.text);
                     return TextEditingValue(
                       text: newText,
                       selection:
-                      TextSelection.collapsed(offset: newText.length),
+                          TextSelection.collapsed(offset: newText.length),
                     );
                   },
                 ),
@@ -1285,12 +1309,12 @@ class _OrderListPageState extends State<OrderListPage>
               inputFormatters: [
                 FilteringTextInputFormatter.allow(RegExp(r'[0-9۰-۹]')),
                 TextInputFormatter.withFunction(
-                      (oldValue, newValue) {
+                  (oldValue, newValue) {
                     String newText = convertToEnglishNumbers(newValue.text);
                     return TextEditingValue(
                       text: newText,
                       selection:
-                      TextSelection.collapsed(offset: newText.length),
+                          TextSelection.collapsed(offset: newText.length),
                     );
                   },
                 ),
@@ -1314,12 +1338,12 @@ class _OrderListPageState extends State<OrderListPage>
               inputFormatters: [
                 FilteringTextInputFormatter.allow(RegExp(r'[0-9۰-۹]')),
                 TextInputFormatter.withFunction(
-                      (oldValue, newValue) {
+                  (oldValue, newValue) {
                     String newText = convertToEnglishNumbers(newValue.text);
                     return TextEditingValue(
                       text: newText,
                       selection:
-                      TextSelection.collapsed(offset: newText.length),
+                          TextSelection.collapsed(offset: newText.length),
                     );
                   },
                 ),
@@ -1362,10 +1386,13 @@ class _OrderListPageState extends State<OrderListPage>
             const SizedBox(height: 3),
             Row(
               children: [
+
                 SizedBox(
                   height: 50,
+
                 ),
-                IconButton(
+
+               IconButton(
                   onPressed: () async {
                     Jalali? picked = await showPersianDatePicker(
                       context: context,
@@ -1493,7 +1520,8 @@ class _OrderListPageState extends State<OrderListPage>
                         });
 
                         print("Selected Jalali Date: $selectedJalaliDate");
-                        print("Selected Gregorian Date: $gregorianDateString");
+                        print(
+                            "Selected Gregorian Date: $gregorianDateString");
                       }
                     }
                   },
@@ -1502,6 +1530,8 @@ class _OrderListPageState extends State<OrderListPage>
                     color: Colors.blue,
                   ),
                 ),
+
+
                 Text('تاریخ تسویه : '),
                 Text(
                   selectedJalaliDate,
@@ -1606,7 +1636,6 @@ class _OrderListPageState extends State<OrderListPage>
     // اگر همه محصولات قیمت خرید معتبر داشتند، رنگ سبز برگردان
     return Colors.green;
   }
-
   Widget _buildAppBar(OrderControllerPage controller) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1861,7 +1890,6 @@ class _OrderListPageState extends State<OrderListPage>
       ],
     );
   }
-
   Widget buildStepIndicator(
       double value, String text, String winner, String id) {
     return Column(
@@ -2412,6 +2440,8 @@ class _OrderListPageState extends State<OrderListPage>
     );
   }
 
+
+
   Widget _buildPhoneNumberFields(
       TextEditingController accountingController,
       TextEditingController itController,
@@ -2430,6 +2460,7 @@ class _OrderListPageState extends State<OrderListPage>
       ],
     );
   }
+
 
   Widget _buildTextField(TextEditingController controller, String labelText) {
     return TextFormField(
@@ -2454,7 +2485,6 @@ class _OrderListPageState extends State<OrderListPage>
       },
     );
   }
-
   Widget _buildRadioButtons(
       StateSetter setModalState, Set<String> selectedWindowsTypes) {
     const List<String> allWindowsTypes = [
@@ -2539,7 +2569,7 @@ class _OrderListPageState extends State<OrderListPage>
           return StatefulBuilder(
             builder: (context, setState) {
               final PageController pageController =
-              PageController(initialPage: 0);
+                  PageController(initialPage: 0);
 
               return AlertDialog(
                 title: Text('دسته‌بندی محصولات'),
@@ -2565,10 +2595,9 @@ class _OrderListPageState extends State<OrderListPage>
                                   Expanded(
                                     child: GetBuilder<OrderControllerPage>(
                                       initState: (state) async {
-                                        await controller
-                                            .fetchGeneralCategories();
+                                      await  controller.fetchGeneralCategories();
                                       },
-                                      // id: 'update',
+                                     // id: 'update',
                                       builder: (controller) {
                                         return ListView.builder(
                                           itemCount: controller
@@ -2581,10 +2610,10 @@ class _OrderListPageState extends State<OrderListPage>
                                               backgroundColor: Colors.grey[200],
                                               title: Directionality(
                                                 textDirection:
-                                                TextDirection.rtl,
+                                                    TextDirection.rtl,
                                                 child: Column(
                                                   crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     Text(generalCategory
                                                         .titleen),
@@ -2598,83 +2627,83 @@ class _OrderListPageState extends State<OrderListPage>
                                                   .map((productCategory) {
                                                 return ExpansionTile(
                                                   backgroundColor:
-                                                  Colors.grey[300],
+                                                      Colors.grey[300],
                                                   title: Directionality(
                                                     textDirection:
-                                                    TextDirection.rtl,
+                                                        TextDirection.rtl,
                                                     child: Text(
                                                         productCategory.title),
                                                   ),
                                                   children: productCategory
-                                                      .nameProductCategories
-                                                      .isNotEmpty
+                                                          .nameProductCategories
+                                                          .isNotEmpty
                                                       ? productCategory
-                                                      .nameProductCategories
-                                                      .map(
-                                                          (nameProductCategory) {
-                                                        return Container(
-                                                          color: Colors
-                                                              .grey[350],
-                                                          child: ListTile(
-                                                            title:
-                                                            Directionality(
-                                                              textDirection:
-                                                              TextDirection
-                                                                  .rtl,
-                                                              child:
-                                                              Container(
-                                                                alignment:
-                                                                Alignment
-                                                                    .bottomRight,
-                                                                child: Row(
-                                                                  children: [
-                                                                    IconButton(
-                                                                      onPressed:
-                                                                          () {
-                                                                        setState(
-                                                                                () {
-                                                                              npi =
-                                                                                  nameProductCategory.id; // تغییر به id نام محصول
-                                                                              print('General Category Index: $index');
-                                                                              print('Product Category Index: ${controller.generalCategories[index].productCategories.indexOf(productCategory)}');
-                                                                              print('Name Product Category Index: ${productCategory.nameProductCategories.indexOf(nameProductCategory)}');
-                                                                              print('Product Title: ${nameProductCategory.title}');
-                                                                              print('Available Quantity: ${nameProductCategory.number}');
-                                                                              isInDetailPage.value =
-                                                                              true;
-                                                                              controller.fetchNameProductCategory(npi);
-                                                                            });
-                                                                        pageController
-                                                                            .nextPage(
-                                                                          duration:
-                                                                          Duration(milliseconds: 300),
-                                                                          curve:
-                                                                          Curves.easeInOut,
-                                                                        );
-                                                                      },
-                                                                      icon: Icon(
-                                                                          Icons.arrow_forward),
-                                                                    ),
-                                                                    Text(nameProductCategory
-                                                                        .title),
-                                                                    Spacer(),
-                                                                    Text(
-                                                                        'تعداد موجود: '),
-                                                                    Text(nameProductCategory
-                                                                        .number),
-                                                                  ],
+                                                          .nameProductCategories
+                                                          .map(
+                                                              (nameProductCategory) {
+                                                          return Container(
+                                                            color: Colors
+                                                                .grey[350],
+                                                            child: ListTile(
+                                                              title:
+                                                                  Directionality(
+                                                                textDirection:
+                                                                    TextDirection
+                                                                        .rtl,
+                                                                child:
+                                                                    Container(
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .bottomRight,
+                                                                  child: Row(
+                                                                    children: [
+                                                                      IconButton(
+                                                                        onPressed:
+                                                                            () {
+                                                                          setState(
+                                                                              () {
+                                                                            npi =
+                                                                                nameProductCategory.id; // تغییر به id نام محصول
+                                                                            print('General Category Index: $index');
+                                                                            print('Product Category Index: ${controller.generalCategories[index].productCategories.indexOf(productCategory)}');
+                                                                            print('Name Product Category Index: ${productCategory.nameProductCategories.indexOf(nameProductCategory)}');
+                                                                            print('Product Title: ${nameProductCategory.title}');
+                                                                            print('Available Quantity: ${nameProductCategory.number}');
+                                                                            isInDetailPage.value =
+                                                                                true;
+                                                                            controller.fetchNameProductCategory(npi);
+                                                                          });
+                                                                          pageController
+                                                                              .nextPage(
+                                                                            duration:
+                                                                                Duration(milliseconds: 300),
+                                                                            curve:
+                                                                                Curves.easeInOut,
+                                                                          );
+                                                                        },
+                                                                        icon: Icon(
+                                                                            Icons.arrow_forward),
+                                                                      ),
+                                                                      Text(nameProductCategory
+                                                                          .title),
+                                                                      Spacer(),
+                                                                      Text(
+                                                                          'تعداد موجود: '),
+                                                                      Text(nameProductCategory
+                                                                          .number),
+                                                                    ],
+                                                                  ),
                                                                 ),
                                                               ),
                                                             ),
-                                                          ),
-                                                        );
-                                                      }).toList()
+                                                          );
+                                                        }).toList()
                                                       : [
-                                                    ListTile(
-                                                      title: Text(
-                                                          'No name categories available'),
-                                                    ),
-                                                  ],
+                                                          ListTile(
+                                                            title: Text(
+                                                                'No name categories available'),
+                                                          ),
+                                                        ],
                                                 );
                                               }).toList(),
                                             );
@@ -2691,7 +2720,7 @@ class _OrderListPageState extends State<OrderListPage>
                                 children: [
                                   FutureBuilder(
                                     future:
-                                    controller.fetchBuyProductsById(npi),
+                                        controller.fetchBuyProductsById(npi),
                                     builder: (context, snapshot) {
                                       if (snapshot.connectionState ==
                                           ConnectionState.waiting) {
@@ -2705,152 +2734,152 @@ class _OrderListPageState extends State<OrderListPage>
 
                                       return Center(
                                           child: SizedBox(
-                                            height: 520,
-                                            child: Column(
-                                              mainAxisAlignment:
+                                        height: 520,
+                                        child: Column(
+                                          mainAxisAlignment:
                                               MainAxisAlignment.center,
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: [
-                                                //       نمایش دسته‌بندی محصولات
-                                                Center(
-                                                  child: GetBuilder<
-                                                      OrderControllerPage>(
-                                                    //           id: 'productD',
-                                                    builder: (controllercat) {
-                                                      if (controllercat
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            //       نمایش دسته‌بندی محصولات
+                                            Center(
+                                              child: GetBuilder<
+                                                  OrderControllerPage>(
+                                     //           id: 'productD',
+                                                builder: (controllercat) {
+                                                  if (controllercat
                                                           .nameProductCategorys ==
-                                                          null) {
-                                                        return CircularProgressIndicator();
-                                                      }
+                                                      null) {
+                                                    return CircularProgressIndicator();
+                                                  }
 
-                                                      NameProductCategory
+                                                  NameProductCategory
                                                       categorysa = controllercat
                                                           .nameProductCategorys!;
-                                                      return Column(
-                                                        mainAxisAlignment:
+                                                  return Column(
+                                                    mainAxisAlignment:
                                                         MainAxisAlignment
                                                             .center,
-                                                        crossAxisAlignment:
+                                                    crossAxisAlignment:
                                                         CrossAxisAlignment
                                                             .center,
-                                                        children: [
-                                                          Text(' ${categorysa.id}',
-                                                              style: TextStyle(
-                                                                  fontSize: 10)),
-                                                          Text(
-                                                              ' ${categorysa.title}',
-                                                              style: TextStyle(
-                                                                  fontSize: 20)),
-                                                          Text(
-                                                              ' ${categorysa.number}',
-                                                              style: TextStyle(
-                                                                  fontSize: 20)),
-                                                          Container(
-                                                            alignment: Alignment
-                                                                .bottomRight,
-                                                            child: IconButton(
-                                                              onPressed: () {
-                                                                _showAddProductDialogB(
-                                                                    context,
-                                                                    categorysa
-                                                                        .title,
-                                                                    controller,
-                                                                    id!,
-                                                                    categorysa.id);
-                                                              },
-                                                              icon: Icon(Icons
-                                                                  .exposure_minus_1),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      );
-                                                    },
-                                                  ),
-                                                ),
+                                                    children: [
+                                                      Text(' ${categorysa.id}',
+                                                          style: TextStyle(
+                                                              fontSize: 10)),
+                                                      Text(
+                                                          ' ${categorysa.title}',
+                                                          style: TextStyle(
+                                                              fontSize: 20)),
+                                                      Text(
+                                                          ' ${categorysa.number}',
+                                                          style: TextStyle(
+                                                              fontSize: 20)),
+                                                      Container(
+                                                        alignment: Alignment
+                                                            .bottomRight,
+                                                        child: IconButton(
+                                                          onPressed: () {
+                                                            _showAddProductDialogB(
+                                                                context,
+                                                                categorysa
+                                                                    .title,
+                                                                controller,
+                                                                id!,
+                                                                categorysa.id);
+                                                          },
+                                                          icon: Icon(Icons
+                                                              .exposure_minus_1),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
+                                              ),
+                                            ),
 
-                                                SizedBox(height: 20),
-                                                Expanded(
-                                                  child: GetBuilder<
-                                                      OrderControllerPage>(
-                                                    //      id: 'productbuy',
-                                                    builder: (controller) {
-                                                      NameProductCategory
+                                            SizedBox(height: 20),
+                                            Expanded(
+                                              child: GetBuilder<
+                                                  OrderControllerPage>(
+                                          //      id: 'productbuy',
+                                                builder: (controller) {
+                                                  NameProductCategory
                                                       categorysa = controller
                                                           .nameProductCategorys!;
-                                                      return ListView.builder(
-                                                        itemCount: controller
-                                                            .buyProducts.length,
-                                                        itemBuilder:
-                                                            (context, index) {
-                                                          final buyProduct =
+                                                  return ListView.builder(
+                                                    itemCount: controller
+                                                        .buyProducts.length,
+                                                    itemBuilder:
+                                                        (context, index) {
+                                                      final buyProduct =
                                                           controller
-                                                              .buyProducts[
-                                                          index];
-                                                          return Column(
-                                                            children: [
-                                                              // نمایش اطلاعات محصول خریداری شده
-                                                              Card(
-                                                                margin:
+                                                                  .buyProducts[
+                                                              index];
+                                                      return Column(
+                                                        children: [
+                                                          // نمایش اطلاعات محصول خریداری شده
+                                                          Card(
+                                                            margin:
                                                                 const EdgeInsets
                                                                     .symmetric(
                                                                     vertical:
-                                                                    4.0,
+                                                                        4.0,
                                                                     horizontal:
-                                                                    16.0),
-                                                                child: Container(
-                                                                  decoration:
+                                                                        16.0),
+                                                            child: Container(
+                                                              decoration:
                                                                   BoxDecoration(
-                                                                    border:
+                                                                border:
                                                                     Border.all(
                                                                         width:
-                                                                        4),
-                                                                    borderRadius:
+                                                                            4),
+                                                                borderRadius:
                                                                     BorderRadius
                                                                         .circular(
-                                                                        8.0),
-                                                                  ),
-                                                                  child: Padding(
-                                                                    padding:
+                                                                            8.0),
+                                                              ),
+                                                              child: Padding(
+                                                                padding:
                                                                     const EdgeInsets
                                                                         .all(
                                                                         8.0),
-                                                                    child: Column(
-                                                                      crossAxisAlignment:
+                                                                child: Column(
+                                                                  crossAxisAlignment:
                                                                       CrossAxisAlignment
                                                                           .stretch,
-                                                                      children: [
-                                                                        IconButton(
-                                                                          icon: Icon(
-                                                                              Icons
-                                                                                  .delete),
-                                                                          onPressed:
-                                                                              () {
-                                                                            if (orderController
-                                                                                .buyProducts[index]
-                                                                                .snBuyProductLogin!
-                                                                                .isEmpty) {
-                                                                              orderController
-                                                                                  .deleteBuyId_BuyProdut(
-                                                                                '${buyProduct.id}',
-                                                                                '${buyProduct.number}',
-                                                                                categorysa.id,
-                                                                              );
-                                                                            } else {
-                                                                              Get.snackbar(
-                                                                                'خطا',
-                                                                                'شما مجاز به حذف سفارش محصول نیستید این کالا ورود به انبار دارد',
-                                                                                backgroundColor:
+                                                                  children: [
+                                                                    IconButton(
+                                                                      icon: Icon(
+                                                                          Icons
+                                                                              .delete),
+                                                                      onPressed:
+                                                                          () {
+                                                                        if (orderController
+                                                                            .buyProducts[index]
+                                                                            .snBuyProductLogin!
+                                                                            .isEmpty) {
+                                                                          orderController
+                                                                              .deleteBuyId_BuyProdut(
+                                                                            '${buyProduct.id}',
+                                                                            '${buyProduct.number}',
+                                                                            categorysa.id,
+                                                                          );
+                                                                        } else {
+                                                                          Get.snackbar(
+                                                                            'خطا',
+                                                                            'شما مجاز به حذف سفارش محصول نیستید این کالا ورود به انبار دارد',
+                                                                            backgroundColor:
                                                                                 Colors.red,
-                                                                              );
-                                                                            }
-                                                                            Navigator.of(context)
-                                                                                .pop();
-                                                                          },
-                                                                        ),
-                                                                        Row(
-                                                                          children: [
-                                                                            Card(
-                                                                              child:
+                                                                          );
+                                                                        }
+                                                                        Navigator.of(context)
+                                                                            .pop();
+                                                                      },
+                                                                    ),
+                                                                    Row(
+                                                                      children: [
+                                                                        Card(
+                                                                          child:
                                                                               //     IconButton(
                                                                               //   icon:
                                                                               //       const Icon(Icons.mode_edit),
@@ -2874,77 +2903,77 @@ class _OrderListPageState extends State<OrderListPage>
                                                                               // ),
 
                                                                               Text('${buyProduct.title} '),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    Row(
+                                                                      children: [
+                                                                        const Text(
+                                                                            'تعداد: '),
+                                                                        Text(buyProduct
+                                                                            .number!),
+                                                                        Spacer(),
+                                                                      ],
+                                                                    ),
+                                                                    Column(
+                                                                      children: [
+                                                                        Row(
+                                                                          children: [
+                                                                            const SizedBox(width: 20),
+                                                                            Expanded(
+                                                                              child: Text('قیمت خرید: ${buyProduct.purchasePrice!.convertToPrice()}'),
                                                                             ),
                                                                           ],
                                                                         ),
                                                                         Row(
                                                                           children: [
-                                                                            const Text(
-                                                                                'تعداد: '),
-                                                                            Text(buyProduct
-                                                                                .number!),
-                                                                            Spacer(),
+                                                                            Expanded(
+                                                                              child: Text('\n' + ' جمع مبلغ کل به حروف: ' + buyProduct.purchasePrice!.toWord() + ' ریال'),
+                                                                            ),
                                                                           ],
                                                                         ),
-                                                                        Column(
+                                                                        Row(
                                                                           children: [
+                                                                            Spacer(),
                                                                             Row(
                                                                               children: [
-                                                                                const SizedBox(width: 20),
-                                                                                Expanded(
-                                                                                  child: Text('قیمت خرید: ${buyProduct.purchasePrice!.convertToPrice()}'),
-                                                                                ),
+                                                                                Text('نوع سفارش: '),
                                                                               ],
-                                                                            ),
-                                                                            Row(
-                                                                              children: [
-                                                                                Expanded(
-                                                                                  child: Text('\n' + ' جمع مبلغ کل به حروف: ' + buyProduct.purchasePrice!.toWord() + ' ریال'),
-                                                                                ),
-                                                                              ],
-                                                                            ),
-                                                                            Row(
-                                                                              children: [
-                                                                                Spacer(),
-                                                                                Row(
-                                                                                  children: [
-                                                                                    Text('نوع سفارش: '),
-                                                                                  ],
-                                                                                )
-                                                                              ],
-                                                                            ),
-                                                                            Row(
-                                                                              children: [
-                                                                                Text(' گارانتی:  '),
-                                                                              ],
-                                                                            ),
-                                                                            ExpansionTile(
-                                                                              title:
+                                                                            )
+                                                                          ],
+                                                                        ),
+                                                                        Row(
+                                                                          children: [
+                                                                            Text(' گارانتی:  '),
+                                                                          ],
+                                                                        ),
+                                                                        ExpansionTile(
+                                                                          title:
                                                                               Text('SN ورود و خروج به انبار'),
-                                                                              children: [
-                                                                                ...buyProduct.snBuyProductLogin!.map((sn) =>
-                                                                                    ListTile(
-                                                                                      title: Text('${sn.title} (${sn.sn})'),
-                                                                                    )),
-                                                                              ],
-                                                                            ),
+                                                                          children: [
+                                                                            ...buyProduct.snBuyProductLogin!.map((sn) =>
+                                                                                ListTile(
+                                                                                  title: Text('${sn.title} (${sn.sn})'),
+                                                                                )),
                                                                           ],
                                                                         ),
                                                                       ],
                                                                     ),
-                                                                  ),
+                                                                  ],
                                                                 ),
                                                               ),
-                                                            ],
-                                                          );
-                                                        },
+                                                            ),
+                                                          ),
+                                                        ],
                                                       );
                                                     },
-                                                  ),
-                                                ),
-                                              ],
+                                                  );
+                                                },
+                                              ),
                                             ),
-                                          ));
+                                          ],
+                                        ),
+                                      ));
                                     },
                                   )
                                 ],
@@ -2988,13 +3017,21 @@ class _OrderListPageState extends State<OrderListPage>
     }
   }
 
+
+
+
+
+
+
+
+
   void _showAddProductDialogB(
-      BuildContext context,
-      String title,
-      OrderControllerPage controllersa,
-      String orderId,
-      String idproduct,
-      ) {
+    BuildContext context,
+    String title,
+    OrderControllerPage controllersa,
+    String orderId,
+    String idproduct,
+  ) {
     late String futureDateGregorianString;
 
     bool official = false;
@@ -3007,13 +3044,13 @@ class _OrderListPageState extends State<OrderListPage>
     Jalali futureDate = currentDate.addDays(storedDays);
 
     final TextEditingController productTitleController =
-    TextEditingController(text: title);
+        TextEditingController(text: title);
     final TextEditingController productPriceController =
-    TextEditingController();
+        TextEditingController();
     final TextEditingController productNumberController =
-    TextEditingController();
+        TextEditingController();
     final TextEditingController controller =
-    TextEditingController(text: storedDays.toString());
+        TextEditingController(text: storedDays.toString());
 
     // متغیرهای جدید برای درصد و قیمت تمام شده
     final TextEditingController percentageController = TextEditingController();
@@ -3103,7 +3140,7 @@ class _OrderListPageState extends State<OrderListPage>
 
                           // تبدیل تاریخ شمسی به میلادی
                           Gregorian futureDateGregorian =
-                          futureDatee.toGregorian();
+                              futureDatee.toGregorian();
 
                           // ساخت DateTime میلادی با ساعت 23:59:59
                           DateTime futureDateTime = DateTime(
@@ -3202,7 +3239,7 @@ class _OrderListPageState extends State<OrderListPage>
                     controller: finalPriceController,
                     readOnly: true,
                     decoration:
-                    const InputDecoration(labelText: 'قیمت تمام شده'),
+                        const InputDecoration(labelText: 'قیمت تمام شده'),
                   ),
                   const SizedBox(height: 10),
                   Row(
@@ -3274,9 +3311,9 @@ class _OrderListPageState extends State<OrderListPage>
                         supplierId: '${controllersa.selectedSupplierID}',
                         days: '${daysa}',
                         dateCreated:
-                        '${currentDate.year}-${currentDate.month.toString().padLeft(2, '0')}-${currentDate.day.toString().padLeft(2, '0')}',
+                            '${currentDate.year}-${currentDate.month.toString().padLeft(2, '0')}-${currentDate.day.toString().padLeft(2, '0')}',
                         dataClearing:
-                        '${futureDate.year}-${futureDate.month.toString().padLeft(2, '0')}-${futureDate.day.toString().padLeft(2, '0')}',
+                            '${futureDate.year}-${futureDate.month.toString().padLeft(2, '0')}-${futureDate.day.toString().padLeft(2, '0')}',
                         number: "${productNumber}",
                         dateAd: futureDateGregorianString,
                         hurry: hurry,
@@ -3307,14 +3344,11 @@ class _OrderListPageState extends State<OrderListPage>
                   print('${uniqueList.length}');
 
                   String productTitle = productTitleController.text;
-                  String productPrice = productPriceController.text
-                      .convertToPrice()
+                  String productPrice = productPriceController.text.convertToPrice()
                       .replaceAll(',', '');
-                  String percentage = percentageController.text
-                      .convertToPrice()
+                  String percentage = percentageController.text.convertToPrice()
                       .replaceAll(',', '');
-                  String finalPrice = finalPriceController.text
-                      .convertToPrice()
+                  String finalPrice = finalPriceController.text.convertToPrice()
                       .replaceAll(',', '');
                   String productNumber = productNumberController.text;
                   if (productTitle.isNotEmpty &&
@@ -3334,9 +3368,9 @@ class _OrderListPageState extends State<OrderListPage>
                         supplierId: '${controllersa.selectedSupplierID}',
                         days: '${daysa}',
                         dateCreated:
-                        '${currentDate.year}-${currentDate.month.toString().padLeft(2, '0')}-${currentDate.day.toString().padLeft(2, '0')}',
+                            '${currentDate.year}-${currentDate.month.toString().padLeft(2, '0')}-${currentDate.day.toString().padLeft(2, '0')}',
                         dataClearing:
-                        '${futureDate.year}-${futureDate.month.toString().padLeft(2, '0')}-${futureDate.day.toString().padLeft(2, '0')}',
+                            '${futureDate.year}-${futureDate.month.toString().padLeft(2, '0')}-${futureDate.day.toString().padLeft(2, '0')}',
                         number: "${productNumber}",
                         dateAd: futureDateGregorianString,
                         hurry: hurry,
@@ -3381,13 +3415,15 @@ class _OrderListPageState extends State<OrderListPage>
     );
   }
 
+
+
   void _showAddProductDialogA(BuildContext context,
       OrderControllerPage orderController, OrderTwo order, String productType) {
     final ControllerProduct controllerProduct = Get.find<ControllerProduct>();
     final TextEditingController productTitleController =
-    TextEditingController();
+        TextEditingController();
     final TextEditingController productNumberController =
-    TextEditingController();
+        TextEditingController();
     List<String> g = [];
     List<String> uniqueList = [];
 
@@ -3405,7 +3441,7 @@ class _OrderListPageState extends State<OrderListPage>
     void handleAddButton() {
       String productTitle = productTitleController.text;
       String productNumber =
-      convertToEnglishNumbers(productNumberController.text);
+          convertToEnglishNumbers(productNumberController.text);
       if (productTitle.isNotEmpty && productNumber.isNotEmpty) {
         if (g.isEmpty) {
           orderController.addProductToA(
@@ -3430,8 +3466,8 @@ class _OrderListPageState extends State<OrderListPage>
     Future<List<Product>> _fetchSuggestions(String searchValue) async {
       return controllerProduct.selectedProductItems
           .where((product) => product.nameproduct
-          .toLowerCase()
-          .contains(searchValue.toLowerCase()))
+              .toLowerCase()
+              .contains(searchValue.toLowerCase()))
           .toList();
     }
 
@@ -3465,16 +3501,16 @@ class _OrderListPageState extends State<OrderListPage>
                           return SearchField(
                             suggestions: snapshot.data!
                                 .map((e) =>
-                                SearchFieldListItem(e.nameproduct, item: e))
+                                    SearchFieldListItem(e.nameproduct, item: e))
                                 .toList(),
                             suggestionState: Suggestion.expand,
                             textInputAction: TextInputAction.next,
                             hint: 'جستجوی محصول',
-                            suggestionStyle: TextStyle(
+                            searchStyle: TextStyle(
                               fontSize: 18,
                               color: Colors.black.withOpacity(0.8),
                             ),
-                            searchInputDecoration: SearchInputDecoration(
+                            searchInputDecoration: InputDecoration(
                               hintText: 'جستجوی محصول',
                               hintStyle: TextStyle(),
                               focusedBorder: OutlineInputBorder(
@@ -3560,6 +3596,13 @@ class _OrderListPageState extends State<OrderListPage>
       ),
     );
   }
+
+
+
+
+
+
+
 }
 
 class ProductDetailsDialogA extends StatelessWidget {
@@ -3573,15 +3616,15 @@ class ProductDetailsDialogA extends StatelessWidget {
   final String buyproduct;
 
   ProductDetailsDialogA({
-  super.key,
-  required this.productId,
-  required this.productType,
-  required this.productTitle,
-  required this.productPrice,
-  required this.orderController,
-  required this.listG,
-  required this.number,
-  required this.buyproduct,
+    super.key,
+    required this.productId,
+    required this.productType,
+    required this.productTitle,
+    required this.productPrice,
+    required this.orderController,
+    required this.listG,
+    required this.number,
+    required this.buyproduct,
   });
 
   //////
@@ -3608,19 +3651,19 @@ class ProductDetailsDialogA extends StatelessWidget {
   Future<List<Product>> _fetchSuggestions(String searchValue) async {
     return controllerProduct.selectedProductItems
         .where((product) => product.nameproduct
-        .toLowerCase()
-        .contains(searchValue.toLowerCase()))
+            .toLowerCase()
+            .contains(searchValue.toLowerCase()))
         .toList();
   }
 
   @override
   Widget build(BuildContext context) {
     final TextEditingController titleController =
-    TextEditingController(text: productTitle);
+        TextEditingController(text: productTitle);
     // final TextEditingController priceController =
     // TextEditingController(text: productPrice.convertToPrice());
     final TextEditingController numberController =
-    TextEditingController(text: number);
+        TextEditingController(text: number);
     List<String> selectedItems = List.from(listG);
 
     return AlertDialog(
@@ -3647,21 +3690,21 @@ class ProductDetailsDialogA extends StatelessWidget {
                     return SearchField(
                       suggestions: snapshot.data!
                           .map((e) =>
-                          SearchFieldListItem(e.nameproduct, item: e))
+                              SearchFieldListItem(e.nameproduct, item: e))
                           .toList(),
                       suggestionState: Suggestion.expand,
                       textInputAction: TextInputAction.next,
                       hint: 'جستجوی محصول',
-                      suggestionStyle: TextStyle(
+                      searchStyle: TextStyle(
                         fontSize: 18,
                         color: Colors.black.withOpacity(0.8),
                       ),
-                      searchInputDecoration: SearchInputDecoration(
+                      searchInputDecoration: InputDecoration(
                         hintText: 'جستجوی محصول',
                         hintStyle: TextStyle(),
                         focusedBorder: OutlineInputBorder(
                           borderSide:
-                          BorderSide(color: Colors.black.withOpacity(0.8)),
+                              BorderSide(color: Colors.black.withOpacity(0.8)),
                         ),
                         border: const OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.red),

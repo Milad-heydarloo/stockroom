@@ -142,13 +142,13 @@ class general_category_page extends StatelessWidget {
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            // controller.createOrderBuyProduct(
-            //     controller.selectedSupplierID.toString());
-            createCategoryDialog(context, controller);
-          },
-          child: Icon(Icons.add)),
+      // floatingActionButton: FloatingActionButton(
+      //     onPressed: () {
+      //       // controller.createOrderBuyProduct(
+      //       //     controller.selectedSupplierID.toString());
+      //       createCategoryDialog(context, controller);
+      //     },
+      //     child: Icon(Icons.add)),
     );
   }
 

@@ -355,7 +355,6 @@ class DetailsPage extends StatelessWidget {
                                             //   ],
                                             // ),
                                             ExpansionTileItem(
-
                                               title: Text(
                                                   'SN ورود و خروج به انبار',
                                                   style: TextStyle(
@@ -514,7 +513,7 @@ class DetailsPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text('امروز: '),
-                        // Text(currentDate.formatCompactDateCustom()),
+                      //   Text(currentDate.formatCompactDateCustom()),
                       ],
                     ),
                     TextField(

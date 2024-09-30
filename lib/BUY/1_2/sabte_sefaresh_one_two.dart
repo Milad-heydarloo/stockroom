@@ -72,7 +72,7 @@ class OrderBuyProductPage extends StatelessWidget {
                             controller.delet_buy_order(order.id);
                           } else {
                             Get.snackbar(
-                              'اول تکلیف محصولات ورود به انبار را مشخص کنید',
+                              'اول محصولات خرید را حذف کنید',
                               'شما مجاز به حذف سفارش نیستید.',
                               backgroundColor: Colors.red,
                             );
@@ -204,20 +204,20 @@ class SerchSupplier extends StatelessWidget {
                         suggestionState: Suggestion.expand,
                         textInputAction: TextInputAction.next,
                         hint: 'جستجوی فروشنده',
-                        suggestionStyle: TextStyle(
+                        searchStyle: TextStyle(
                           fontSize: 18,
                           color: Colors.black.withOpacity(0.8),
                         ),
-                        // searchInputDecoration: InputDecoration(
-                        //   focusedBorder: OutlineInputBorder(
-                        //     borderSide: BorderSide(
-                        //       color: Colors.black.withOpacity(0.8),
-                        //     ),
-                        //   ),
-                        //   border: const OutlineInputBorder(
-                        //     borderSide: BorderSide(color: Colors.red),
-                        //   ),
-                        // ),
+                        searchInputDecoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.black.withOpacity(0.8),
+                            ),
+                          ),
+                          border: const OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red),
+                          ),
+                        ),
                         maxSuggestionsInViewPort: 6,
                         itemHeight: 50,
                         onSuggestionTap: (x) {
