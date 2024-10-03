@@ -86,8 +86,8 @@ class OrderControllerPage extends GetxController {
       String currentNumberStrche =
           productRecordcheck.data['number'].toString() ?? "0"; // تبدیل به رشته
       int currentNumberchek = int.tryParse(currentNumberStrche) ?? 0;
-      if (currentNumberchek > int.parse(number) ||
-          currentNumberchek == int.parse(number)) {
+      // if (currentNumberchek > int.parse(number) ||
+      //     currentNumberchek == int.parse(number)) {
         // ساخت یک رکورد جدید در جدول buy_product
         final record = await _pb.collection('buy_product').create(
           body: {
@@ -140,22 +140,22 @@ class OrderControllerPage extends GetxController {
         int newNumber = int.tryParse(number) ?? 0;
         int updatedNumber = currentNumber - newNumber;
         final bodyproduct = <String, dynamic>{
-          "number": updatedNumber.toString(), // تبدیل عدد به رشته
+        //  "number": updatedNumber.toString(), // تبدیل عدد به رشته
           "buy_product": existingBuyProductCategory,
         };
         await _pb
             .collection('name_product_category')
             .update(idproduct, body: bodyproduct);
-        final bodyproductbuy = <String, dynamic>{
-          "inventory": currentNumberStr, // تبدیل عدد به رشته
-          "Number_of_inventory": newNumber, // تبدیل عدد به رشته
-          "number_now": updatedNumber.toString(), // تبدیل عدد به رشته
-          // "number": updatedNumber.toString(), // تبدیل عدد به رشته
-          // "buy_product": existingBuyProductCategory,
-        };
-        await _pb
-            .collection('buy_product')
-            .update(record.id, body: bodyproductbuy);
+        // final bodyproductbuy = <String, dynamic>{
+        //   "inventory": currentNumberStr, // تبدیل عدد به رشته
+        //   "Number_of_inventory": newNumber, // تبدیل عدد به رشته
+        //   "number_now": updatedNumber.toString(), // تبدیل عدد به رشته
+        //   // "number": updatedNumber.toString(), // تبدیل عدد به رشته
+        //   // "buy_product": existingBuyProductCategory,
+        // };
+        // await _pb
+        //     .collection('buy_product')
+        //     .update(record.id, body: bodyproductbuy);
 
         print(record.id);
         print(idupdate);
@@ -164,16 +164,16 @@ class OrderControllerPage extends GetxController {
         fetchGeneralCategories();
         fetchNameProductCategory(idproduct);
         fetchBuyProductsById(idproduct);
-      } else {
-        String statusText = 'عدم هماهنگی موجودی';
-        Color statusColor;
-
-        //statusText = 'تذکر';
-
-        statusColor = Colors.orange;
-        Get.snackbar('توضیحات ${statusText}  ', ' و محصول $statusText',
-            backgroundColor: statusColor);
-      }
+      // } else {
+      //   String statusText = 'عدم هماهنگی موجودی';
+      //   Color statusColor;
+      //
+      //   //statusText = 'تذکر';
+      //
+      //   statusColor = Colors.orange;
+      //   Get.snackbar('توضیحات ${statusText}  ', ' و محصول $statusText',
+      //       backgroundColor: statusColor);
+      // }
     } catch (error) {
       print('Error adding product: $error');
     }
@@ -205,8 +205,8 @@ class OrderControllerPage extends GetxController {
       String currentNumberStrche =
           productRecordcheck.data['number'].toString() ?? "0"; // تبدیل به رشته
       int currentNumberchek = int.tryParse(currentNumberStrche) ?? 0;
-      if (currentNumberchek > int.parse(number) ||
-          currentNumberchek == int.parse(number)) {
+      // if (currentNumberchek > int.parse(number) ||
+      //     currentNumberchek == int.parse(number)) {
         // ساخت یک رکورد جدید در جدول buy_product
         final record = await _pb.collection('buy_product').create(
           body: {
@@ -261,22 +261,22 @@ class OrderControllerPage extends GetxController {
         int newNumber = int.tryParse(number) ?? 0;
         int updatedNumber = currentNumber - newNumber;
         final bodyproduct = <String, dynamic>{
-          "number": updatedNumber.toString(), // تبدیل عدد به رشته
+       //   "number": updatedNumber.toString(), // تبدیل عدد به رشته
           "buy_product": existingBuyProductCategory,
         };
         await _pb
             .collection('name_product_category')
             .update(idproduct, body: bodyproduct);
-        final bodyproductbuy = <String, dynamic>{
-          "inventory": currentNumberStr, // تبدیل عدد به رشته
-          "Number_of_inventory": newNumber, // تبدیل عدد به رشته
-          "number_now": updatedNumber.toString(), // تبدیل عدد به رشته
-          // "number": updatedNumber.toString(), // تبدیل عدد به رشته
-          // "buy_product": existingBuyProductCategory,
-        };
-        await _pb
-            .collection('buy_product')
-            .update(record.id, body: bodyproductbuy);
+        // final bodyproductbuy = <String, dynamic>{
+        //   "inventory": currentNumberStr, // تبدیل عدد به رشته
+        //   "Number_of_inventory": newNumber, // تبدیل عدد به رشته
+        //   "number_now": updatedNumber.toString(), // تبدیل عدد به رشته
+        //   // "number": updatedNumber.toString(), // تبدیل عدد به رشته
+        //   // "buy_product": existingBuyProductCategory,
+        // };
+        // await _pb
+        //     .collection('buy_product')
+        //     .update(record.id, body: bodyproductbuy);
 
         print(record.id);
         print(idupdate);
@@ -285,16 +285,16 @@ class OrderControllerPage extends GetxController {
         fetchGeneralCategories();
         fetchNameProductCategory(idproduct);
         fetchBuyProductsById(idproduct);
-      } else {
-        String statusText = 'عدم هماهنگی موجودی';
-        Color statusColor;
-
-        //statusText = 'تذکر';
-
-        statusColor = Colors.orange;
-        Get.snackbar('توضیحات ${statusText}  ', ' و محصول $statusText',
-            backgroundColor: statusColor);
-      }
+      // } else {
+      //   String statusText = 'عدم هماهنگی موجودی';
+      //   Color statusColor;
+      //
+      //   //statusText = 'تذکر';
+      //
+      //   statusColor = Colors.orange;
+      //   Get.snackbar('توضیحات ${statusText}  ', ' و محصول $statusText',
+      //       backgroundColor: statusColor);
+      // }
 
       //  print('Product added successfully: ${record.id}');
     } catch (error) {
