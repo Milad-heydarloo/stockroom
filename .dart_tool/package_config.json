@@ -20,6 +20,12 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "args",
+      "rootUri": "file:///C:/Users/milademoon/AppData/Local/Pub/Cache/hosted/pub.dev/args-2.5.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "async",
       "rootUri": "file:///C:/Users/milademoon/AppData/Local/Pub/Cache/hosted/pub.dev/async-2.11.0",
       "packageUri": "lib/",
@@ -54,6 +60,18 @@
       "rootUri": "file:///C:/Users/milademoon/AppData/Local/Pub/Cache/hosted/pub.dev/characters-1.3.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
+    },
+    {
+      "name": "checked_yaml",
+      "rootUri": "file:///C:/Users/milademoon/AppData/Local/Pub/Cache/hosted/pub.dev/checked_yaml-2.0.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
+      "name": "cli_util",
+      "rootUri": "file:///C:/Users/milademoon/AppData/Local/Pub/Cache/hosted/pub.dev/cli_util-0.4.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
     },
     {
       "name": "clock",
@@ -140,10 +158,10 @@
       "languageVersion": "2.18"
     },
     {
-      "name": "flutter_lints",
-      "rootUri": "file:///C:/Users/milademoon/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_lints-3.0.2",
+      "name": "flutter_launcher_icons",
+      "rootUri": "file:///C:/Users/milademoon/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_launcher_icons-0.13.1",
       "packageUri": "lib/",
-      "languageVersion": "3.1"
+      "languageVersion": "2.18"
     },
     {
       "name": "flutter_map",
@@ -276,12 +294,6 @@
       "rootUri": "file:///C:/Users/milademoon/AppData/Local/Pub/Cache/hosted/pub.dev/linked_scroll_controller-0.2.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
-    },
-    {
-      "name": "lints",
-      "rootUri": "file:///C:/Users/milademoon/AppData/Local/Pub/Cache/hosted/pub.dev/lints-3.0.0",
-      "packageUri": "lib/",
-      "languageVersion": "3.0"
     },
     {
       "name": "lists",
@@ -632,13 +644,19 @@
       "languageVersion": "2.19"
     },
     {
+      "name": "yaml",
+      "rootUri": "file:///C:/Users/milademoon/AppData/Local/Pub/Cache/hosted/pub.dev/yaml-3.1.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
       "name": "project",
       "rootUri": "../",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2024-09-30T08:46:20.423617Z",
+  "generated": "2024-10-03T08:05:49.137019Z",
   "generator": "pub",
   "generatorVersion": "3.1.0"
 }

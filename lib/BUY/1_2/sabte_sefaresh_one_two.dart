@@ -118,12 +118,6 @@ class OrderBuyProductPage extends StatelessWidget {
                                         .deleteBuyId_BuyProdut_NameProduct_category(
                                       product.id,
                                       product.number,
-
-
-
-
-
-
                                       product.id,
                                     );
                                   } else {
