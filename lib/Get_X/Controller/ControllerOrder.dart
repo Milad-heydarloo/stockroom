@@ -59,6 +59,80 @@ class OrderControllerPage extends GetxController {
     update(); // به‌روزرسانی ویو
   }
 
+  Future<void> updateOrderrating(String id, int rating) async {
+    final body = <String, dynamic>{
+      "rating": rating,
+    };
+
+    print('id: $id, winner: $rating');
+
+    try {
+      final RecordModel record =
+          await _pb.collection('order').update(id, body: body);
+      print('API Response: $record');
+      fetchAllOrders();
+      // if (record != null) {
+      //   // دریافت مقدار winner از پاسخ با استفاده از toJson()
+      //   Map<String, dynamic> recordMap = record.toJson();
+      //   String updatedWinner = recordMap['winner'] ?? '';
+      //
+      //   if (updatedWinner == winner) {
+      //     print('Winner updated successfully and matches the input value.');
+      //     emit(OrderSuccessIndetator('سفارش به روز شد در صورتی که با خطا مواجه نشود'));
+      //   } else {
+      //     print('Winner updated successfully but does not match the input value.');
+      //     emit(OrderSuccessIndetator('سفارش به روز شد در صورتی که با خطا مواجه نشود'));
+      //   }
+      //
+      //   print('OrderSuccessIndetator emitted');
+      //   add(FetchOrders());
+      // } else {
+      //   emit(OrderFailureIndetator('با خطا مواجه شد'));
+      //   print('OrderFailureIndetator error emitted');
+      // }
+    } catch (error) {
+      // emit(OrderFailureIndetator('اینترنت را بررسی کنید => عدم دسترسی سرور: $error'));
+      print('OrderFailureIndetator catch error emitted: $error');
+    }
+  }
+
+  Future<void> updateOrderIndecator(String id, String winner) async {
+    final body = <String, dynamic>{
+      "winner": winner,
+    };
+
+    print('id: $id, winner: $winner');
+
+    try {
+      final RecordModel record =
+          await _pb.collection('order').update(id, body: body);
+      print('API Response: $record');
+      fetchAllOrders();
+      // if (record != null) {
+      //   // دریافت مقدار winner از پاسخ با استفاده از toJson()
+      //   Map<String, dynamic> recordMap = record.toJson();
+      //   String updatedWinner = recordMap['winner'] ?? '';
+      //
+      //   if (updatedWinner == winner) {
+      //     print('Winner updated successfully and matches the input value.');
+      //     emit(OrderSuccessIndetator('سفارش به روز شد در صورتی که با خطا مواجه نشود'));
+      //   } else {
+      //     print('Winner updated successfully but does not match the input value.');
+      //     emit(OrderSuccessIndetator('سفارش به روز شد در صورتی که با خطا مواجه نشود'));
+      //   }
+      //
+      //   print('OrderSuccessIndetator emitted');
+      //   add(FetchOrders());
+      // } else {
+      //   emit(OrderFailureIndetator('با خطا مواجه شد'));
+      //   print('OrderFailureIndetator error emitted');
+      // }
+    } catch (error) {
+      // emit(OrderFailureIndetator('اینترنت را بررسی کنید => عدم دسترسی سرور: $error'));
+      print('OrderFailureIndetator catch error emitted: $error');
+    }
+  }
+
   Future<void> addProductToBuyProductByGaranty({
     required String title,
     required String supplierId,
@@ -76,6 +150,7 @@ class OrderControllerPage extends GetxController {
     required String percent,
     required String saleprice,
     required bool valuable,
+    required String titlecategory,
     required List<String> garanty,
   }) async {
     try {
@@ -88,82 +163,83 @@ class OrderControllerPage extends GetxController {
       int currentNumberchek = int.tryParse(currentNumberStrche) ?? 0;
       // if (currentNumberchek > int.parse(number) ||
       //     currentNumberchek == int.parse(number)) {
-        // ساخت یک رکورد جدید در جدول buy_product
-        final record = await _pb.collection('buy_product').create(
-          body: {
-            "title": title,
-            // "supplier": supplierId,
-            "days": days,
-            "datecreated": dateCreated,
-            "dataclearing": dataClearing,
-            "type_order": 'فروش',
-            "number": number,
-            "datead": dateAd,
-            "hurry": hurry,
-            "official": official,
-            "purchaseprice": purchasePrice,
-            "percent": percent,
-            "saleprice": saleprice,
-            "valuable": valuable,
-            "name": '${user!.name}',
-            "family": '${user!.family}',
-            'garranty': garanty,
-          },
-        );
-        print('inmanm');
-        //   print(orderID);
-        //   print(idproduct);
-        //   print(idupdate);
-        // دریافت رکوردهای فعلی order_buy_product
-        final body = <String, dynamic>{
-          "sell_buy_product": record.id,
-        };
-        await _pb.collection('listproducta').update(orderID, body: body);
+      // ساخت یک رکورد جدید در جدول buy_product
+      final record = await _pb.collection('buy_product').create(
+        body: {
+          "title": title,
+          "name_product_category": titlecategory,
+          // "supplier": supplierId,
+          "days": days,
+          "datecreated": dateCreated,
+          "dataclearing": dataClearing,
+          "type_order": 'فروش',
+          "number": number,
+          "datead": dateAd,
+          "hurry": hurry,
+          "official": official,
+          "purchaseprice": purchasePrice,
+          "percent": percent,
+          "saleprice": saleprice,
+          "valuable": valuable,
+          "name": '${user!.name}',
+          "family": '${user!.family}',
+          'garranty': garanty,
+        },
+      );
+      print('inmanm');
+      //   print(orderID);
+      //   print(idproduct);
+      //   print(idupdate);
+      // دریافت رکوردهای فعلی order_buy_product
+      final body = <String, dynamic>{
+        "sell_buy_product": record.id,
+      };
+      await _pb.collection('listproducta').update(orderID, body: body);
 
-        // دریافت رکوردهای فعلی name_product_category
-        final productRecord =
-            await _pb.collection('name_product_category').getOne(idproduct);
-        List<dynamic> existingBuyProductCategory =
-            productRecord.data['buy_product'] ?? [];
-        existingBuyProductCategory.add(record.id);
+      // دریافت رکوردهای فعلی name_product_category
+      final productRecord =
+          await _pb.collection('name_product_category').getOne(idproduct);
+      List<dynamic> existingBuyProductCategory =
+          productRecord.data['buy_product'] ?? [];
+      existingBuyProductCategory.add(record.id);
 
-        // به‌روزرسانی رکورد order_buy_product با لیست به‌روز شده
+      // به‌روزرسانی رکورد order_buy_product با لیست به‌روز شده
 
-        // به‌روزرسانی رکورد name_product_category با لیست به‌روز شده
-        // استخراج مقدار فعلی number از رکورد name_product_category
-        String currentNumberStr =
-            productRecord.data['number'].toString() ?? "0"; // تبدیل به رشته
-        int currentNumber = int.tryParse(currentNumberStr) ?? 0;
-        //   print('Current number in name_product_category: $currentNumber');
+      // به‌روزرسانی رکورد name_product_category با لیست به‌روز شده
+      // استخراج مقدار فعلی number از رکورد name_product_category
+      String currentNumberStr =
+          productRecord.data['number'].toString() ?? "0"; // تبدیل به رشته
+      int currentNumber = int.tryParse(currentNumberStr) ?? 0;
+      //   print('Current number in name_product_category: $currentNumber');
 
-        // تبدیل number ورودی به عدد و جمع با مقدار فعلی
-        int newNumber = int.tryParse(number) ?? 0;
-        int updatedNumber = currentNumber - newNumber;
-        final bodyproduct = <String, dynamic>{
+      // تبدیل number ورودی به عدد و جمع با مقدار فعلی
+      int newNumber = int.tryParse(number) ?? 0;
+      int updatedNumber = currentNumber - newNumber;
+      final bodyproduct = <String, dynamic>{
         //  "number": updatedNumber.toString(), // تبدیل عدد به رشته
-          "buy_product": existingBuyProductCategory,
-        };
-        await _pb
-            .collection('name_product_category')
-            .update(idproduct, body: bodyproduct);
-        // final bodyproductbuy = <String, dynamic>{
-        //   "inventory": currentNumberStr, // تبدیل عدد به رشته
-        //   "Number_of_inventory": newNumber, // تبدیل عدد به رشته
-        //   "number_now": updatedNumber.toString(), // تبدیل عدد به رشته
-        //   // "number": updatedNumber.toString(), // تبدیل عدد به رشته
-        //   // "buy_product": existingBuyProductCategory,
-        // };
-        // await _pb
-        //     .collection('buy_product')
-        //     .update(record.id, body: bodyproductbuy);
+        "buy_product": existingBuyProductCategory,
+      };
+      await _pb
+          .collection('name_product_category')
+          .update(idproduct, body: bodyproduct);
+      // final bodyproductbuy = <String, dynamic>{
+      //   "inventory": currentNumberStr, // تبدیل عدد به رشته
+      //   "Number_of_inventory": newNumber, // تبدیل عدد به رشته
+      //   "number_now": updatedNumber.toString(), // تبدیل عدد به رشته
+      //   // "number": updatedNumber.toString(), // تبدیل عدد به رشته
+      //   // "buy_product": existingBuyProductCategory,
+      // };
+      // await _pb
+      //     .collection('buy_product')
+      //     .update(record.id, body: bodyproductbuy);
 
-        print(record.id);
-        print(idupdate);
-        print(idproduct);
-        print(orderID);
-        fetchGeneralCategories();
-        fetchNameProductCategory(idproduct);
-        fetchBuyProductsById(idproduct);
+      print(record.id);
+      print(idupdate);
+      print(idproduct);
+      print(orderID);
+      fetchGeneralCategories();
+      fetchNameProductCategory(idproduct);
+      fetchBuyProductsById(idproduct);
       // } else {
       //   String statusText = 'عدم هماهنگی موجودی';
       //   Color statusColor;
@@ -196,6 +272,7 @@ class OrderControllerPage extends GetxController {
     required String percent,
     required String saleprice,
     required bool valuable,
+    required String titlecategory,
   }) async {
     try {
       //check koneh bebeneh
@@ -207,84 +284,85 @@ class OrderControllerPage extends GetxController {
       int currentNumberchek = int.tryParse(currentNumberStrche) ?? 0;
       // if (currentNumberchek > int.parse(number) ||
       //     currentNumberchek == int.parse(number)) {
-        // ساخت یک رکورد جدید در جدول buy_product
-        final record = await _pb.collection('buy_product').create(
-          body: {
-            "title": title,
-            //  "supplier": supplierId,
-            "days": days,
-            "datecreated": dateCreated,
-            "type_order": 'فروش',
-            "dataclearing": dataClearing,
-            "number": number,
-            "datead": dateAd,
-            "hurry": hurry,
-            "official": official,
-            "purchaseprice": purchasePrice,
-            "percent": percent,
-            "saleprice": saleprice,
-            "valuable": valuable,
-            "name": '${user!.name}',
-            "family": '${user!.family}',
-          },
-        );
-        print('inmanm');
-        //  print(orderID);
-        // دریافت رکوردهای فعلی order_buy_product
-        // final orderRecord =
-        //     await _pb.collection('listproducta').getOne(orderID);
-        // List<dynamic> existingBuyProductOrder =
-        //     orderRecord.data['sell_buy_product'] ?? [];
-        // existingBuyProductOrder.add(record.id);
-        final body = <String, dynamic>{
-          "sell_buy_product": record.id,
-        };
-        await _pb.collection('listproducta').update(orderID, body: body);
+      // ساخت یک رکورد جدید در جدول buy_product
+      final record = await _pb.collection('buy_product').create(
+        body: {
+          "title": title,
+          "name_product_category": titlecategory,
+          //  "supplier": supplierId,
+          "days": days,
+          "datecreated": dateCreated,
+          "type_order": 'فروش',
+          "dataclearing": dataClearing,
+          "number": number,
+          "datead": dateAd,
+          "hurry": hurry,
+          "official": official,
+          "purchaseprice": purchasePrice,
+          "percent": percent,
+          "saleprice": saleprice,
+          "valuable": valuable,
+          "name": '${user!.name}',
+          "family": '${user!.family}',
+        },
+      );
+      print('inmanm');
+      //  print(orderID);
+      // دریافت رکوردهای فعلی order_buy_product
+      // final orderRecord =
+      //     await _pb.collection('listproducta').getOne(orderID);
+      // List<dynamic> existingBuyProductOrder =
+      //     orderRecord.data['sell_buy_product'] ?? [];
+      // existingBuyProductOrder.add(record.id);
+      final body = <String, dynamic>{
+        "sell_buy_product": record.id,
+      };
+      await _pb.collection('listproducta').update(orderID, body: body);
 
-        // دریافت رکوردهای فعلی name_product_category
-        final productRecord =
-            await _pb.collection('name_product_category').getOne(idproduct);
-        List<dynamic> existingBuyProductCategory =
-            productRecord.data['buy_product'] ?? [];
-        existingBuyProductCategory.add(record.id);
+      // دریافت رکوردهای فعلی name_product_category
+      final productRecord =
+          await _pb.collection('name_product_category').getOne(idproduct);
+      List<dynamic> existingBuyProductCategory =
+          productRecord.data['buy_product'] ?? [];
+      existingBuyProductCategory.add(record.id);
 
-        // به‌روزرسانی رکورد order_buy_product با لیست به‌روز شده
+      // به‌روزرسانی رکورد order_buy_product با لیست به‌روز شده
 
-        // به‌روزرسانی رکورد name_product_category با لیست به‌روز شده
-        // استخراج مقدار فعلی number از رکورد name_product_category
-        String currentNumberStr =
-            productRecord.data['number'].toString() ?? "0"; // تبدیل به رشته
-        int currentNumber = int.tryParse(currentNumberStr) ?? 0;
-        //  print('Current number in name_product_category: $currentNumber');
+      // به‌روزرسانی رکورد name_product_category با لیست به‌روز شده
+      // استخراج مقدار فعلی number از رکورد name_product_category
+      String currentNumberStr =
+          productRecord.data['number'].toString() ?? "0"; // تبدیل به رشته
+      int currentNumber = int.tryParse(currentNumberStr) ?? 0;
+      //  print('Current number in name_product_category: $currentNumber');
 
-        // تبدیل number ورودی به عدد و جمع با مقدار فعلی
-        int newNumber = int.tryParse(number) ?? 0;
-        int updatedNumber = currentNumber - newNumber;
-        final bodyproduct = <String, dynamic>{
-       //   "number": updatedNumber.toString(), // تبدیل عدد به رشته
-          "buy_product": existingBuyProductCategory,
-        };
-        await _pb
-            .collection('name_product_category')
-            .update(idproduct, body: bodyproduct);
-        // final bodyproductbuy = <String, dynamic>{
-        //   "inventory": currentNumberStr, // تبدیل عدد به رشته
-        //   "Number_of_inventory": newNumber, // تبدیل عدد به رشته
-        //   "number_now": updatedNumber.toString(), // تبدیل عدد به رشته
-        //   // "number": updatedNumber.toString(), // تبدیل عدد به رشته
-        //   // "buy_product": existingBuyProductCategory,
-        // };
-        // await _pb
-        //     .collection('buy_product')
-        //     .update(record.id, body: bodyproductbuy);
+      // تبدیل number ورودی به عدد و جمع با مقدار فعلی
+      int newNumber = int.tryParse(number) ?? 0;
+      int updatedNumber = currentNumber - newNumber;
+      final bodyproduct = <String, dynamic>{
+        //   "number": updatedNumber.toString(), // تبدیل عدد به رشته
+        "buy_product": existingBuyProductCategory,
+      };
+      await _pb
+          .collection('name_product_category')
+          .update(idproduct, body: bodyproduct);
+      // final bodyproductbuy = <String, dynamic>{
+      //   "inventory": currentNumberStr, // تبدیل عدد به رشته
+      //   "Number_of_inventory": newNumber, // تبدیل عدد به رشته
+      //   "number_now": updatedNumber.toString(), // تبدیل عدد به رشته
+      //   // "number": updatedNumber.toString(), // تبدیل عدد به رشته
+      //   // "buy_product": existingBuyProductCategory,
+      // };
+      // await _pb
+      //     .collection('buy_product')
+      //     .update(record.id, body: bodyproductbuy);
 
-        print(record.id);
-        print(idupdate);
-        print(idproduct);
-        print(orderID);
-        fetchGeneralCategories();
-        fetchNameProductCategory(idproduct);
-        fetchBuyProductsById(idproduct);
+      print(record.id);
+      print(idupdate);
+      print(idproduct);
+      print(orderID);
+      fetchGeneralCategories();
+      fetchNameProductCategory(idproduct);
+      fetchBuyProductsById(idproduct);
       // } else {
       //   String statusText = 'عدم هماهنگی موجودی';
       //   Color statusColor;
@@ -434,13 +512,17 @@ class OrderControllerPage extends GetxController {
             phoneNumberIT: orderDatae['phonenumberit'],
             buy: orderDatae['buy'],
             winner: orderDatae['winner'],
+            name: orderDatae['name'],
+            family: orderDatae['family'],
             created: orderDatae['created'],
+            type_order: orderDatae['type_order'],
             registrationNumber: orderDatae['registration_number'],
             nationalCode: orderDatae['national_code'],
             postalCode: orderDatae['postal_code'],
             economicCode: orderDatae['economic_code'],
             accountingNumber: orderDatae['accounting_number'],
             purchaseNumber: orderDatae['purchase_number'],
+            rating: orderDatae['rating'],
             type: orderDatae['type'],
             windowsType: orderDatae['windows_type'] != null
                 ? List<String>.from(orderDatae['windows_type'])
@@ -835,7 +917,8 @@ class OrderControllerPage extends GetxController {
       print('Current number in name_product_category: $currentNumber');
       // تبدیل number ورودی به عدد و جمع با مقدار فعلی
       int newNumber = int.tryParse(number) ?? 0;
-      if (currentNumber > int.parse(number) || currentNumber == int.parse(number)) {
+      if (currentNumber > int.parse(number) ||
+          currentNumber == int.parse(number)) {
         int updatedNumber = currentNumber + newNumber;
 
         final body = <String, dynamic>{
@@ -857,7 +940,6 @@ class OrderControllerPage extends GetxController {
             'تعداد کالا موجود انبار با تعداد کالای مورد حدف شده مطابقت ندارد',
             backgroundColor: Colors.orange);
       }
-
     } catch (e) {
       print('Error updating category: $e');
     }
@@ -1072,6 +1154,8 @@ class OrderControllerPage extends GetxController {
   }
 
   Future<String> createorders(OrderTwo order, String? selectedValue) async {
+    final user = await authController.getUser();
+
     try {
       final body = <String, dynamic>{
         "title": order.title,
@@ -1085,6 +1169,8 @@ class OrderControllerPage extends GetxController {
         "buy": bool.parse(order.buy!) ? 'فروش و اسمبل' : 'فروش',
         "address": order.address,
         "type": 'srpipkxuv7v1qrw',
+        "name": '${user!.name}',
+        "family": '${user!.family}',
       };
 
       final record = await _pb.collection('order').create(body: body);
@@ -1103,6 +1189,46 @@ class OrderControllerPage extends GetxController {
       }
     }
   }
+
+  Future<void> ArchiveOrder(OrderTwo order) async {
+    print('hooooo');
+
+    final body = <String, dynamic>{
+      "id": order.id,
+      "title": order.title,
+      "callnumber": order.callNumber,
+      "datenow": order.dateNow,
+      "datead": order.dateAd,
+      "address": order.address,
+      "niyaz": order.niyaz,
+      "phonenumberit": order.phoneNumberIT,
+      "buy": order.buy,
+      "winner": order.winner,
+      "type_order": order.type,
+      //  "created": order.created,
+      "registration_number": order.registrationNumber,
+      "national_code": order.nationalCode,
+      "postal_code": order.postalCode,
+      "economic_code": order.economicCode,
+      "accounting_number": order.accountingNumber,
+      "purchase_number": order.purchaseNumber,
+      "rating": order.rating,
+      //   "type": order.type,
+      "type_order": order.type_order,
+      "windows_type": order.windowsType,
+      // استخراج آی‌دی‌ها از listProductA
+      "listproducta": order.listProductA?.map((product) => product.id).toList(),
+      "name": order.name,
+      "family": order.family,
+      //   "type": 'srpipkxuv7v1qrw',
+    };
+
+    final record = await _pb.collection('order_artchive').create(body: body);
+    print('${record.id}');
+    await _pb.collection('order').delete(order.id!);
+    fetchAndUpdate();
+  }
+
 
   // Future<void> createorders(OrderTwo order) async {
   //   try {

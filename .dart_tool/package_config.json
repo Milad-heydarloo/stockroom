@@ -176,6 +176,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "flutter_rating_bar",
+      "rootUri": "file:///C:/Users/milademoon/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_rating_bar-4.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
       "name": "flutter_scroll_shadow",
       "rootUri": "file:///C:/Users/milademoon/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_scroll_shadow-1.2.4",
       "packageUri": "lib/",
@@ -656,7 +662,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2024-10-03T08:05:49.137019Z",
+  "generated": "2024-10-09T10:18:25.394470Z",
   "generator": "pub",
   "generatorVersion": "3.1.0"
 }

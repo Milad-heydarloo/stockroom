@@ -335,6 +335,12 @@ class _OrderListPageState extends State<OrderListPage>
                                   ),
                                   Spacer(),
                                   IconButton(
+                                    icon: Icon(Icons.send_and_archive, color: Colors.black),
+                                    onPressed: () {
+                                     controller.ArchiveOrder(order);
+                                    },
+                                  ),
+                                  IconButton(
                                       onPressed: () {
                                         _showEditConfigOrder(
                                             context, order, orderController);
@@ -365,6 +371,27 @@ class _OrderListPageState extends State<OrderListPage>
                                                 fontSize: 20,
                                                 fontWeight: FontWeight.bold),
                                           ),
+                                  ),
+
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      IconButton(
+                                        icon: Icon(Icons.star, color: Colors.yellow),
+                                        onPressed: () {
+                                          _showIntegerRatingDialog( 1,100,controller,order.id!,order.rating!); // باز کردن دیالوگ برای ثبت امتیاز
+                                        },
+                                      ),
+                                      SizedBox(width: 8),
+                                      Text(
+                                        'امتیاز سفارش: ',
+                                        style: TextStyle(fontSize: 18),
+                                      ),
+                                      Text(
+                                        order.rating!,
+                                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
                                   ),
                                   Row(
                                     children: [
@@ -477,63 +504,90 @@ class _OrderListPageState extends State<OrderListPage>
                                       ),
                                     ],
                                   ),
+
                                   SizedBox(height: 20),
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       const SizedBox(height: 3),
                                       Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          buildStepIndicator(
-                                              0.25,
-                                              'استعلام اول',
-                                              order.winner!,
-                                              order.id!),
-                                          SizedBox(
-                                            width: 15,
+                                          Expanded(
+                                            child: Column(
+                                              children: [
+                                                buildStepIndicator(0.25, 'ثبت سفارش', order.winner!, order.id!, controller),
+                                                buildStepLabel(0.25, 'ثبت سفارش'),
+                                              ],
+                                            ),
                                           ),
-                                          buildStepIndicator(
-                                              0.50,
-                                              'ارسال پیش فاکتور',
-                                              order.winner!,
-                                              order.id!),
-                                          SizedBox(
-                                            width: 15,
+                                          SizedBox(width: 15),
+                                          Expanded(
+                                            child: Column(
+                                              children: [
+                                                buildStepIndicator(0.50, 'ثبت محصول سفارش', order.winner!, order.id!, controller),
+                                                buildStepLabel(0.50, 'ثبت محصول سفارش'),
+                                              ],
+                                            ),
                                           ),
-                                          buildStepIndicator(0.75, 'برنده شد',
-                                              order.winner!, order.id!),
-                                          SizedBox(
-                                            width: 15,
+                                          SizedBox(width: 15),
+                                          Expanded(
+                                            child: Column(
+                                              children: [
+                                                buildStepIndicator(0.75, 'ثبت قیمت محصول', order.winner!, order.id!, controller),
+                                                buildStepLabel(0.75, 'ثبت قیمت محصول'),
+                                              ],
+                                            ),
                                           ),
-                                          buildStepIndicator(1.0, 'استعلام دوم',
-                                              order.winner!, order.id!),
+                                          SizedBox(width: 15),
+                                          Expanded(
+                                            child: Column(
+                                              children: [
+                                                buildStepIndicator(1.0, 'ارسال پیش فاکتور', order.winner!, order.id!, controller),
+                                                buildStepLabel(1.0, 'ارسال پیش فاکتور'),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(width: 15),
+                                          Expanded(
+                                            child: Column(
+                                              children: [
+                                                buildStepIndicator(1.25, 'خروج از انبار', order.winner!, order.id!, controller),
+                                                buildStepLabel(1.25, 'خروج از انبار'),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(width: 15),
+                                          Expanded(
+                                            child: Column(
+                                              children: [
+                                                buildStepIndicator(1.50, 'پرداخت', order.winner!, order.id!, controller),
+                                                buildStepLabel(1.50, 'پرداخت'),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(width: 15),
+                                          Expanded(
+                                            child: Column(
+                                              children: [
+                                                buildStepIndicator(1.75, 'بسته شد', order.winner!, order.id!, controller),
+                                                buildStepLabel(1.75, 'بسته شد'),
+                                              ],
+                                            ),
+                                          ),
                                         ],
                                       ),
                                       SizedBox(height: 20),
                                       LinearProgressIndicator(
-                                        value: _progressValue,
+                                        value: (_progressValue - 0.13) / (1.75 - 0.25), // نرمال‌سازی مقادیر
                                         minHeight: 20,
                                         backgroundColor: Colors.grey[300],
-                                        valueColor:
-                                            AlwaysStoppedAnimation<Color>(
-                                                Colors.blue),
+                                        valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
                                       ),
-                                      SizedBox(height: 10),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          buildStepLabel(0.25, 'استعلام اول'),
-                                          buildStepLabel(
-                                              0.50, 'ارسال پیش فاکتور'),
-                                          buildStepLabel(0.75, 'برنده شد'),
-                                          buildStepLabel(1.0, 'استعلام دوم'),
-                                        ],
-                                      ),
+                                      const SizedBox(height: 16),
                                     ],
                                   ),
+
                                   const SizedBox(height: 16),
                                 ],
                               ),
@@ -593,6 +647,7 @@ class _OrderListPageState extends State<OrderListPage>
                                   ])),
                                 ],
                               ),
+
                               ExpansionTileItem(
                                 textColor: Colors.black,
                                 border: Border.all(
@@ -1196,6 +1251,66 @@ class _OrderListPageState extends State<OrderListPage>
         },
         child: const Icon(Icons.add, color: Colors.white),
       ),
+    );
+  }
+  int _rating = 0;
+
+  void _showIntegerRatingDialog(int min,int max, OrderControllerPage controller, String id, String sdsdsd) {
+    int _currentRating =int.parse(sdsdsd); // مقدار پیش‌فرض اسلایدر در میانه محدوده
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: Text('ثبت امتیاز عددی'),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('امتیاز خود را از $min تا $max وارد کنید:'),
+                  SizedBox(height: 20),
+                  Slider(
+                    value: _currentRating.toDouble(),
+                    min: min.toDouble(),
+                    max: max.toDouble(),
+                    divisions: max - min,
+                    label: _currentRating.toString(),
+                    onChanged: (value) {
+                      setState(() {
+                        _currentRating = value.round();
+                      });
+                    },
+                  ),
+                  Text(
+                    'امتیاز: $_currentRating',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  child: Text('لغو'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                TextButton(
+                  child: Text('ثبت'),
+                  onPressed: () {
+                    // setState(() {
+                    //   _rating = _currentRating;
+                    // });
+                    controller.updateOrderrating(id, _currentRating);
+                    print('امتیاز عددی ثبت شده: $_rating');
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      },
     );
   }
 
@@ -1807,10 +1922,10 @@ class _OrderListPageState extends State<OrderListPage>
                   value: 'موضوع آزاد',
                   child: Text('سفارشات موضوع آزاد'),
                 ),
-                // PopupMenuItem(
-                //   value: 'srpipkxuv7v1qrw',
-                //   child: Text('سفارشات همکار'),
-                // ),
+                PopupMenuItem(
+                  value: '',
+                  child: Text('تمام سفارشات'),
+                ),
                 // PopupMenuItem(
                 //   value: 'kpdz5k8fkpp0c2q',
                 //   child: Text('سفارشات سایت'),
@@ -1826,25 +1941,38 @@ class _OrderListPageState extends State<OrderListPage>
               itemBuilder: (context) => [
                 PopupMenuItem(
                   value: 'winner="0.25"',
-                  child: Text('استعلام اول'),
+                  child: Text('ثبت سفارش'),
                 ),
                 PopupMenuItem(
                   value: 'winner="0.5"',
-                  child: Text('ارسال پیش فاکتور'),
+                  child: Text('ثبت محصول سفارش'),
                 ),
                 PopupMenuItem(
                   value: 'winner="0.75"',
-                  child: Text('سفارشات برنده'),
+                  child: Text('ثبت قیمت محصول'),
                 ),
                 PopupMenuItem(
-                  value: 'winner="1.2"',
-                  child: Text('استعلام دوم'),
+                  value: 'winner="1"',
+                  child: Text('ارسال پیش فاکتور'),
+                ),
+                PopupMenuItem(
+                  value: 'winner="1.25"',
+                  child: Text('خروج از انبار'),
+                ),
+                PopupMenuItem(
+                  value: 'winner="1.5"',
+                  child: Text('پرداخت'),
+                ),
+                PopupMenuItem(
+                  value: 'winner="1.75"',
+                  child: Text('بسته شد'),
                 ),
                 PopupMenuItem(
                   value: '',
                   child: Text('تمام سفارشات'),
                 ),
               ],
+
               icon: Icon(Icons.alt_route_sharp, color: Colors.white),
             ),
             PopupMenuButton<String>(
@@ -1890,12 +2018,7 @@ class _OrderListPageState extends State<OrderListPage>
       ],
     );
   }
-  Widget buildStepIndicator(
-      double value, String text, String winner, String id) {
-    return Column(
-      children: [],
-    );
-  }
+
 
   Widget buildStepLabel(double value, String text) {
     return Column(
@@ -1912,6 +2035,47 @@ class _OrderListPageState extends State<OrderListPage>
       ],
     );
   }
+  Widget buildStepIndicator(
+      double value, String text, String winner, String id, OrderControllerPage controller) {
+    return Column(
+      children: [
+        Switch(
+          activeColor: Colors.blue,
+          value: _progressValue >= value,
+          onChanged: (newValue) {
+            if (newValue) {
+              _progressValue = value;
+            } else {
+              _progressValue = value - 0.25;
+            }
+
+            print('Value changed to: $_progressValue');
+
+            controller.updateOrderIndecator(id, _progressValue.toString());
+          },
+        ),
+       // Text(text),
+      ],
+    );
+  }
+
+  bool _isHandled = false;
+
+  // void _handleOrderState(OrderState state) {
+  //   if (!_isHandled) {
+  //     if (state is OrderSuccessIndetator) {
+  //       print('Success: ${state.message}');
+  //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
+  //     } else if (state is OrderFailureIndetator) {
+  //       print('Failure: ${state.message}');
+  //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
+  //     }
+  //
+  //     _isHandled = true; // Set flag to true after handling the state
+  //   }
+  // }
+
+
 
   void _showEditOrderDialog(BuildContext context, OrderTwo order,
       OrderControllerPage orderController) {
@@ -2785,7 +2949,8 @@ class _OrderListPageState extends State<OrderListPage>
                                                                     .title,
                                                                 controller,
                                                                 id!,
-                                                                categorysa.id);
+                                                                categorysa.id,
+                                                                categorysa.title);
                                                           },
                                                           icon: Icon(Icons
                                                               .exposure_minus_1),
@@ -3030,7 +3195,7 @@ class _OrderListPageState extends State<OrderListPage>
     String title,
     OrderControllerPage controllersa,
     String orderId,
-    String idproduct,
+    String idproduct, String titlecategory,
   ) {
     late String futureDateGregorianString;
 
@@ -3324,6 +3489,7 @@ class _OrderListPageState extends State<OrderListPage>
                         idupdate: 'id',
                         //     isValuable: isValuable,
                         percent: percentage,
+                        titlecategory: idproduct,
                         saleprice: finalPrice,
                         valuable: isValuable);
 
@@ -3381,6 +3547,7 @@ class _OrderListPageState extends State<OrderListPage>
                         idupdate: 'id',
                         //     isValuable: isValuable,
                         percent: percentage,
+                        titlecategory: idproduct,
                         saleprice: finalPrice,
                         valuable: isValuable,
                         garanty: uniqueList);
@@ -3829,3 +3996,4 @@ class ProductDetailsDialogA extends StatelessWidget {
     );
   }
 }
+

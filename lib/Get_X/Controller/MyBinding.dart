@@ -6,6 +6,7 @@ import 'package:project/Drawer/auth_controller.dart';
 import 'package:project/Get_X/Controller/ControllerGuaranty.dart';
 import 'package:project/Get_X/Controller/ControllerOrder.dart';
 import 'package:project/Get_X/Controller/ControllerProduct.dart';
+import 'package:project/archivecontroler.dart';
 
 class MyBinding extends Bindings {
   @override
@@ -20,5 +21,6 @@ class MyBinding extends Bindings {
     Get.put(GeneralCategoryController()); // ثبت کنترلر
     Get.put(MyDrawerController());
     Get.put(SupplierDetailsController()); // ثبت کنترلر
+    Get.put(OrderArchiveControllerPage()); // ثبت کنترلر
   }
 }

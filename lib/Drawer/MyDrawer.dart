@@ -68,7 +68,7 @@ class MyDrawer extends StatelessWidget {
                     textDirection: TextDirection.rtl,
                     child: ListTile(
                       leading: Icon(Icons.home),
-                      title: Text("صفحه اصلی"),
+                      title: Text("صفحه اصلی سفارشات در جریان"),
                       selected: drawerController.selectedIndex.value == 0,
                       selectedTileColor: Colors.blue.withOpacity(0.3),
                       onTap: () {
@@ -125,16 +125,27 @@ class MyDrawer extends StatelessWidget {
                         drawerController.setSelectedIndex(4);
                         Get.toNamed('/op');
                       },
+                    ))),      Obx(() => Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: ListTile(
+                      leading: Icon(Icons.send_and_archive),
+                      title: Text("آرشیو سفارشات"),
+                      selected: drawerController.selectedIndex.value == 5,
+                      selectedTileColor: Colors.blue.withOpacity(0.3),
+                      onTap: () {
+                        drawerController.setSelectedIndex(5);
+                        Get.toNamed('/Ap');
+                      },
                     ))),
                 Obx(() => Directionality(
                     textDirection: TextDirection.rtl,
                     child: ListTile(
                       leading: Icon(Icons.logout),
                       title: Text("خروج از حساب کاربری"),
-                      selected: drawerController.selectedIndex.value == 5,
+                      selected: drawerController.selectedIndex.value == 6,
                       selectedTileColor: Colors.blue.withOpacity(0.3),
                       onTap: () {
-                        drawerController.setSelectedIndex(5);
+                        drawerController.setSelectedIndex(6);
                         authController.logout();
                       },
                     ))),

@@ -5,6 +5,7 @@ import 'package:project/BuySell_GetX/Supiller/Location_GetX/supplier_list_screen
 import 'package:project/Drawer/loginpage.dart';
 import 'package:project/PagesOrderProduct/PagesOP.dart';
 import 'package:project/main.dart';
+import 'package:project/orderArchive.dart';
 
 class Routes {
   static const String home = '/home';
@@ -13,6 +14,7 @@ class Routes {
   static const String splash = '/splash';
   static const String create_order = '/create_order';
   static const String op = '/op';
+  static const String Ap = '/Ap';
 
   static List<GetPage> getPages = [
 
@@ -22,6 +24,7 @@ class Routes {
     GetPage(name: splash, page: () => SplashPages()),
     GetPage(name: create_order, page: () => OrderBuyProductPage()),
     GetPage(name: op, page: () => OrderPage()),
+    GetPage(name: Ap, page: () => OrderListPageArchive()),
 
   ];
 }
