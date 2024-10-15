@@ -27,25 +27,29 @@ jobs:
     - name: Get dependencies
       run: flutter pub get
 
+    - name: Clean CMake cache
+      run: |
+        if exist .\build\windows\CMakeCache.txt del .\build\windows\CMakeCache.txt
+
     - name: Build Windows
-      run: flutter build windows --release  # تغییر به ساخت ویندوز
+      run: flutter build windows --release
 
     - name: List build files  # برای بررسی فایل‌های بیلد شده
-      run: dir .\build\windows\runner\Release  # تغییر به مسیر مناسب ویندوز
+      run: dir .\build\windows\runner\Release
 
     - name: Create output directory
       run: mkdir .\my-output-folder
 
     - name: Move build files
-      run: move .\build\windows\runner\Release\* .\my-output-folder\  # تغییر به مسیر مناسب ویندوز
+      run: move .\build\windows\runner\Release\* .\my-output-folder\
 
     - name: List files in output directory  # لیست فایل‌های دایرکتوری خروجی
-      run: dir .\my-output-folder  # تغییر به مسیر مناسب ویندوز
+      run: dir .\my-output-folder
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: .\my-output-folder  # تغییر به مسیر مناسب ویندوز
+        publish_dir: .\my-output-folder
         user_name: 'Milad-heydarloo'
         user_email: 'phone.sync.heydarloo@gmail.com'
