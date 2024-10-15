@@ -13,12 +13,6 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Set up JDK
-      uses: actions/setup-java@v3
-      with:
-        java-version: '11'
-        distribution: 'adopt'
-
     - name: Install Flutter
       uses: subosito/flutter-action@v2
       with:
@@ -30,29 +24,34 @@ jobs:
     - name: Clean build
       run: flutter clean
 
-    - name: Clean CMake cache
-      run: |
-        if (Test-Path ".\build\windows\CMakeCache.txt") { Remove-Item ".\build\windows\CMakeCache.txt" }
-
     - name: Build Windows
-      run: flutter build windows --release --no-codesign
-
-    - name: List build files
-      run: dir .\build\windows\runner\Release
+      run: flutter build windows --release
 
     - name: Create output directory
       run: mkdir .\my-output-folder
 
     - name: Move build files
-      run: move .\build\windows\runner\Release\* .\my-output-folder\
+      run: |
+        move .\build\windows\runner\Release\* .\my-output-folder\
 
     - name: List files in output directory
       run: dir .\my-output-folder
 
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v4
+    - name: Create GitHub Release
+      id: create_release
+      uses: softprops/action-gh-release@v1
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: .\my-output-folder
-        user_name: 'Milad-heydarloo'
-        user_email: 'phone.sync.heydarloo@gmail.com'
+        tag_name: v${{ github.run_number }}
+        release_name: Release ${{ github.run_number }}
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Upload Release Assets
+      uses: softprops/action-gh-release@v1
+      with:
+        upload_artifacts: true
+        files: my-output-folder/*
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
