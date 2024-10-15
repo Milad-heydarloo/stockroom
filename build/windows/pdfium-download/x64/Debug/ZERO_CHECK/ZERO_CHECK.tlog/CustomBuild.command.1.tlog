@@ -1,0 +1,10 @@
+^C:\USERS\MILADEMOON\STUDIOPROJECTS\STOCKROOM\STOCKROOM\BUILD\WINDOWS\PDFIUM-DOWNLOAD\CMAKEFILES\AC7E70EA3D176E646036D6B034A7D7EC\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Users/milademoon/StudioProjects/stockroom/stockroom/build/windows/pdfium-download -BC:/Users/milademoon/StudioProjects/stockroom/stockroom/build/windows/pdfium-download --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/milademoon/StudioProjects/stockroom/stockroom/build/windows/pdfium-download/pdfium-download.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

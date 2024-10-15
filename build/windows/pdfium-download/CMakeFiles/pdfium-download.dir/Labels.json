@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "C:/Users/milademoon/StudioProjects/stockroom/stockroom/build/windows/pdfium-download/CMakeFiles/pdfium-download"
+		},
+		{
+			"file" : "C:/Users/milademoon/StudioProjects/stockroom/stockroom/build/windows/pdfium-download/CMakeFiles/ac7e70ea3d176e646036d6b034a7d7ec/pdfium-download.rule"
+		},
+		{
+			"file" : "C:/Users/milademoon/StudioProjects/stockroom/stockroom/build/windows/pdfium-download/CMakeFiles/efb15ed822c138c33cb9576ce42994a7/pdfium-download-complete.rule"
+		},
+		{
+			"file" : "C:/Users/milademoon/StudioProjects/stockroom/stockroom/build/windows/pdfium-download/CMakeFiles/8271df790760000683fe2cc3ed8ac5aa/pdfium-download-build.rule"
+		},
+		{
+			"file" : "C:/Users/milademoon/StudioProjects/stockroom/stockroom/build/windows/pdfium-download/CMakeFiles/8271df790760000683fe2cc3ed8ac5aa/pdfium-download-configure.rule"
+		},
+		{
+			"file" : "C:/Users/milademoon/StudioProjects/stockroom/stockroom/build/windows/pdfium-download/CMakeFiles/8271df790760000683fe2cc3ed8ac5aa/pdfium-download-download.rule"
+		},
+		{
+			"file" : "C:/Users/milademoon/StudioProjects/stockroom/stockroom/build/windows/pdfium-download/CMakeFiles/8271df790760000683fe2cc3ed8ac5aa/pdfium-download-install.rule"
+		},
+		{
+			"file" : "C:/Users/milademoon/StudioProjects/stockroom/stockroom/build/windows/pdfium-download/CMakeFiles/8271df790760000683fe2cc3ed8ac5aa/pdfium-download-mkdir.rule"
+		},
+		{
+			"file" : "C:/Users/milademoon/StudioProjects/stockroom/stockroom/build/windows/pdfium-download/CMakeFiles/8271df790760000683fe2cc3ed8ac5aa/pdfium-download-patch.rule"
+		},
+		{
+			"file" : "C:/Users/milademoon/StudioProjects/stockroom/stockroom/build/windows/pdfium-download/CMakeFiles/8271df790760000683fe2cc3ed8ac5aa/pdfium-download-test.rule"
+		},
+		{
+			"file" : "C:/Users/milademoon/StudioProjects/stockroom/stockroom/build/windows/pdfium-download/CMakeFiles/8271df790760000683fe2cc3ed8ac5aa/pdfium-download-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"pdfium-download"
+		],
+		"name" : "pdfium-download"
+	}
+}

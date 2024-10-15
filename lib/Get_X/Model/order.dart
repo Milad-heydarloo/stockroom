@@ -55,6 +55,34 @@ class OrderTwo {
     this.listProductA,
     this.listProductB,
   });
+  factory OrderTwo.fromJsons(Map<String, dynamic> json, {List<ProductAtwo>? productsA, List<ProductBtwo>? productsB}) {
+    return OrderTwo(
+      id: json['id']?.toString(),
+      title: json['title']?.toString(),
+      callNumber: json['callnumber']?.toString(),
+      listProductA: productsA ?? [], // لیست خالی اگر null باشد
+      listProductB: productsB ?? [], // لیست خالی اگر null باشد
+      phoneNumberIT: json['phonenumberit']?.toString(),
+      dateNow: json['datenow']?.toString(),
+      dateAd: json['datead']?.toString(),
+      address: json['address']?.toString(),
+      niyaz: json['niyaz']?.toString(),
+      buy: json['buy']?.toString(),
+      family: json['family']?.toString(),
+      rating: json['rating']?.toString(),
+      type_order: json['type_order']?.toString(),
+      winner: json['winner']?.toString(),
+      name: json['name']?.toString(),
+      created: json['created']?.toString(),
+      registrationNumber: json['registration_number']?.toString(),
+      nationalCode: json['national_code']?.toString(),
+      postalCode: json['postal_code']?.toString(),
+      economicCode: json['economic_code']?.toString(),
+      accountingNumber: json['accounting_number']?.toString(),
+      purchaseNumber: json['purchase_number']?.toString(),
+      windowsType: List<String>.from(json['windows_type'] ?? []), // اگر نیاز به پردازش لیست دارید
+    );
+  }
 
   factory OrderTwo.fromJson(Map<String, dynamic> json, List<ProductAtwo> productsA, List<ProductBtwo> productsB) {
     return OrderTwo(

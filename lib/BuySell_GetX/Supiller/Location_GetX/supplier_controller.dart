@@ -9,7 +9,7 @@ class SupplierController extends GetxController {
   final PocketBaseManager _pocketBaseManager;
 
   SupplierController()
-      : _pocketBaseManager = PocketBaseManager(url: 'https://saater.liara.run', lang: 'en-US');
+      : _pocketBaseManager =   PocketBaseManager(url: 'http://192.168.10.126:9000', lang: 'en-US');
 
   PocketBase get pb => _pocketBaseManager.client;
 

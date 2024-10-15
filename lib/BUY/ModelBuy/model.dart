@@ -56,9 +56,12 @@ class BuyProduct {
   final String number;
   final String purchaseprice;
   final String saleprice;
+  final List<String> garranty;
   final List<login_buy_product_SN> snBuyProductLogin; // لیست ساب‌آیتم‌ها
   BuyProduct(
-      {required this.id, required this.title, required this.snBuyProductLogin ,required this.number,required this.purchaseprice,required this.saleprice});
+      {
+        required this.garranty,
+        required this.id, required this.title, required this.snBuyProductLogin ,required this.number,required this.purchaseprice,required this.saleprice});
 
   // فرض کنید یک متد برای ایجاد یک شیء از JSON دارید
   factory BuyProduct.fromJson(Map<String, dynamic> json,
@@ -70,7 +73,8 @@ class BuyProduct {
       purchaseprice: json['purchaseprice'],
       saleprice: json['saleprice'],
       snBuyProductLogin: login_buy_product_SN,
-
+      garranty:
+      (json['garranty'] as List<dynamic>).map((e) => e as String).toList(),
     );
   }
 }
@@ -84,6 +88,7 @@ class OrderBuyProduct {
   final String pricefactor;
   final List<BuyProduct> buy_product;
 
+
   OrderBuyProduct({
     required this.companyname,
     required this.id,
@@ -93,6 +98,7 @@ class OrderBuyProduct {
     required this.location,
     required this.buy_product,
     required this.pricefactor,
+
   });
 
   factory OrderBuyProduct.fromJson(
@@ -110,6 +116,7 @@ class OrderBuyProduct {
       location: json['location'].toString(),
       // تغییر نام کلید به titlefa
       buy_product: buy_product,
+
     );
   }
 

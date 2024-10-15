@@ -57,7 +57,7 @@ class DetailsPage extends StatelessWidget {
 
     controller.fetchNameProductCategory(id);
 
-    return Scaffold(
+    return Directionality(textDirection: TextDirection.rtl, child: Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading: IconButton(
@@ -97,7 +97,7 @@ class DetailsPage extends StatelessWidget {
 
                       // دریافت آبجکت nameProductCategory از کنترلر
                       NameProductCategory category =
-                          controller.nameProductCategorys!;
+                      controller.nameProductCategorys!;
 
                       return Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -182,7 +182,7 @@ class DetailsPage extends StatelessWidget {
                                     padding: const EdgeInsets.all(8.0),
                                     child: Column(
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.stretch,
+                                      CrossAxisAlignment.stretch,
                                       children: [
                                         Row(
                                           children: [
@@ -283,14 +283,14 @@ class DetailsPage extends StatelessWidget {
                                                 Expanded(
                                                   child: TextField(
                                                     controller:
-                                                        TextEditingController(
-                                                            text: buyProduct
-                                                                .purchaseprice
-                                                                .convertToPrice()),
+                                                    TextEditingController(
+                                                        text: buyProduct
+                                                            .purchaseprice
+                                                            .convertToPrice()),
                                                     decoration:
-                                                        const InputDecoration(
+                                                    const InputDecoration(
                                                       border:
-                                                          OutlineInputBorder(),
+                                                      OutlineInputBorder(),
                                                       labelText: 'قیمت خرید',
                                                     ),
                                                   ),
@@ -314,7 +314,7 @@ class DetailsPage extends StatelessWidget {
                                                 Row(
                                                   children: [
                                                     Text('نوع سفارش : '),
-                                                    // Text(product.listbuyProduct.official
+                                                    // Text(buyProduct.listbuyProduct.official
                                                     // ? 'رسمی'
                                                     //     : 'غیر رسمی'),
                                                   ],
@@ -360,24 +360,24 @@ class DetailsPage extends StatelessWidget {
                                                   style: TextStyle(
                                                       fontSize: 16,
                                                       fontWeight:
-                                                          FontWeight.bold)),
+                                                      FontWeight.bold)),
                                               children: [
                                                 ...buyProduct.snBuyProductLogin
                                                     .map((sn) => SizedBox(
-                                                          child: Center(
-                                                            widthFactor:
-                                                                double.infinity,
-                                                            child: Card(
-                                                              child: Text(
-                                                                  '- ${sn.title} (${sn.sn})',
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          16)),
-                                                            ),
-                                                          ),
-                                                          width:
-                                                              double.infinity,
-                                                        )),
+                                                  child: Center(
+                                                    widthFactor:
+                                                    double.infinity,
+                                                    child: Card(
+                                                      child: Text(
+                                                          '- ${sn.title} (${sn.sn})',
+                                                          style: TextStyle(
+                                                              fontSize:
+                                                              16)),
+                                                    ),
+                                                  ),
+                                                  width:
+                                                  double.infinity,
+                                                )),
                                               ],
                                             ),
                                           ],
@@ -412,8 +412,14 @@ class DetailsPage extends StatelessWidget {
           );
         },
       ),
-    );
+    ));
   }
+  bool isLoading = false; // وضعیت لودینگ
+
+
+
+
+
 
   void _showAddProductDialogB(
     BuildContext context,
@@ -422,6 +428,7 @@ class DetailsPage extends StatelessWidget {
     String orderId,
     String idproduct,
   ) {
+
     late String futureDateGregorianString;
 
     bool official = false;
@@ -470,8 +477,9 @@ class DetailsPage extends StatelessWidget {
     }
 
     showDialog(
+      barrierDismissible: false,
       context: context,
-      builder: (context) => StatefulBuilder(
+      builder: (context) => Directionality(textDirection: TextDirection.rtl, child: StatefulBuilder(
         builder: (context, setState) => AlertDialog(
           title: Row(children: [
             Text('$title'),
@@ -513,7 +521,7 @@ class DetailsPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text('امروز: '),
-                      //   Text(currentDate.formatCompactDateCustom()),
+                      //    Text(currentDate.JalaliExtensionCustomi()),
                       ],
                     ),
                     TextField(
@@ -530,7 +538,7 @@ class DetailsPage extends StatelessWidget {
 
                           // تبدیل تاریخ شمسی به میلادی
                           Gregorian futureDateGregorian =
-                              futureDatee.toGregorian();
+                          futureDatee.toGregorian();
 
                           // ساخت DateTime میلادی با ساعت 23:59:59
                           DateTime futureDateTime = DateTime(
@@ -629,7 +637,7 @@ class DetailsPage extends StatelessWidget {
                     controller: finalPriceController,
                     readOnly: true,
                     decoration:
-                        const InputDecoration(labelText: 'قیمت تمام شده'),
+                    const InputDecoration(labelText: 'قیمت تمام شده'),
                   ),
                   const SizedBox(height: 10),
                   Row(
@@ -670,8 +678,11 @@ class DetailsPage extends StatelessWidget {
               onPressed: () => Navigator.of(context).pop(),
               child: const Text('کنسل'),
             ),
-            ElevatedButton(
-              onPressed: () async {
+          Obx((){
+            return ElevatedButton(
+              onPressed: controllersa.isLoadingAddProductToBuy.value
+                  ? null
+                  : () async {
                 if (g.isEmpty) {
                   String productTitle = productTitleController.text;
                   String productPrice = productPriceController.text
@@ -688,22 +699,34 @@ class DetailsPage extends StatelessWidget {
                       productPrice.isNotEmpty &&
                       productNumber.isNotEmpty) {
                     // نمایش Progress Indicator
-                    showDialog(
-                      context: context,
-                      barrierColor: Colors.transparent,
-                      builder: (BuildContext context) {
-                        return Center(child: CircularProgressIndicator());
-                      },
-                    );
 
-                    await controllersa.addProductToBuyProduct(
+
+                    // await controllersa.addProductToBuyProduct(
+                    //     title: "${productTitle}",
+                    //     supplierId: '${controllersa.selectedSupplierID}',
+                    //     days: '${daysa}',
+                    //     dateCreated:
+                    //     '${currentDate.year}-${currentDate.month.toString().padLeft(2, '0')}-${currentDate.day.toString().padLeft(2, '0')}',
+                    //     dataClearing:
+                    //     '${futureDate.year}-${futureDate.month.toString().padLeft(2, '0')}-${futureDate.day.toString().padLeft(2, '0')}',
+                    //     number: "${productNumber}",
+                    //     dateAd: futureDateGregorianString,
+                    //     hurry: hurry,
+                    //     official: official,
+                    //     purchasePrice: productPrice.split('.').first,
+                    //     orderID: orderId,
+                    //     idproduct: idproduct,
+                    //     idupdate: id,
+                    //     //     isValuable: isValuable,
+                    //     percent: percentage,
+                    //     saleprice: finalPrice,
+                    //     valuable: isValuable);
+                    int statusCode = await controllersa.addProductToBuyProduct(
                         title: "${productTitle}",
                         supplierId: '${controllersa.selectedSupplierID}',
                         days: '${daysa}',
-                        dateCreated:
-                            '${currentDate.year}-${currentDate.month.toString().padLeft(2, '0')}-${currentDate.day.toString().padLeft(2, '0')}',
-                        dataClearing:
-                            '${futureDate.year}-${futureDate.month.toString().padLeft(2, '0')}-${futureDate.day.toString().padLeft(2, '0')}',
+                        dateCreated: '${currentDate.year}-${currentDate.month.toString().padLeft(2, '0')}-${currentDate.day.toString().padLeft(2, '0')}',
+                        dataClearing: '${futureDate.year}-${futureDate.month.toString().padLeft(2, '0')}-${futureDate.day.toString().padLeft(2, '0')}',
                         number: "${productNumber}",
                         dateAd: futureDateGregorianString,
                         hurry: hurry,
@@ -712,18 +735,23 @@ class DetailsPage extends StatelessWidget {
                         orderID: orderId,
                         idproduct: idproduct,
                         idupdate: id,
-                        //     isValuable: isValuable,
                         percent: percentage,
                         saleprice: finalPrice,
-                        valuable: isValuable);
+                        valuable: isValuable
+                    );
+
 
                     // بستن Progress Indicator
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
 
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text('محصول با موفقیت اضافه شد'),
-                    ));
+
+                    if (statusCode == 200) {
+                      showCustomSnackbar(true); // موفقیت
+                      Navigator.of(context).pop();
+                    } else {
+                      showCustomSnackbar(false); // خطا
+                    }
+
+
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text('لطفا اطلاعات رو کامل کنید'),
@@ -748,22 +776,16 @@ class DetailsPage extends StatelessWidget {
                       productPrice.isNotEmpty &&
                       productNumber.isNotEmpty) {
                     // نمایش Progress Indicator
-                    showDialog(
-                      context: context,
-                      barrierColor: Colors.transparent,
-                      builder: (BuildContext context) {
-                        return Center(child: CircularProgressIndicator());
-                      },
-                    );
 
-                    await controllersa.addProductToBuyProductByGaranty(
+
+                    int statusCode =   await controllersa.addProductToBuyProductByGaranty(
                         title: "${productTitle}",
                         supplierId: '${controllersa.selectedSupplierID}',
                         days: '${daysa}',
                         dateCreated:
-                            '${currentDate.year}-${currentDate.month.toString().padLeft(2, '0')}-${currentDate.day.toString().padLeft(2, '0')}',
+                        '${currentDate.year}-${currentDate.month.toString().padLeft(2, '0')}-${currentDate.day.toString().padLeft(2, '0')}',
                         dataClearing:
-                            '${futureDate.year}-${futureDate.month.toString().padLeft(2, '0')}-${futureDate.day.toString().padLeft(2, '0')}',
+                        '${futureDate.year}-${futureDate.month.toString().padLeft(2, '0')}-${futureDate.day.toString().padLeft(2, '0')}',
                         number: "${productNumber}",
                         dateAd: futureDateGregorianString,
                         hurry: hurry,
@@ -779,12 +801,19 @@ class DetailsPage extends StatelessWidget {
                         garanty: uniqueList);
 
                     // بستن Progress Indicator
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
 
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text('محصول با موفقیت اضافه شد'),
-                    ));
+                    if (statusCode == 200) {
+                      showCustomSnackbar(true); // موفقیت
+                      Navigator.of(context).pop();
+                    } else {
+                      showCustomSnackbar(false); // خطا
+                    }
+
+                    // بستن Progress Indicator
+
+
+
+
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text('لطفا اطلاعات رو کامل کنید'),
@@ -800,14 +829,61 @@ class DetailsPage extends StatelessWidget {
               ///////////////
 
               ,
-              child: const Text('ثبت سفارش محصول'),
-            ),
+              child: controllersa.isLoadingAddProductToBuy.value
+                  ? CircularProgressIndicator() // نمایش پروگرس حین لودینگ
+                  : const Text('ثبت سفارش'), // نمایش متن دکمه در حالت عادی
+            );
+          }),
           ],
         ),
-      ),
+      )),
     );
+
   }
+
+
+
 }
+
+
+
+
+void showCustomSnackbar(bool isSuccess) {
+  Get.snackbar(
+    '', // عنوان خالی
+    '', // محتوای خالی
+    snackPosition: SnackPosition.BOTTOM,
+    backgroundColor: isSuccess ? Colors.green : Colors.red,
+    colorText: Colors.white,
+    duration: Duration(seconds: 3),
+    borderRadius: 10,
+    margin: EdgeInsets.all(10),
+    icon: Icon(
+      isSuccess ? Icons.check_circle : Icons.error,
+      color: Colors.white,
+    ),
+    messageText: Text(
+      isSuccess ? 'محصول با موفقیت اضافه شد' : 'خطا در ثبت',
+      textDirection: TextDirection.rtl, // تنظیم جهت متن
+      style: TextStyle(color: Colors.white),
+    ),
+    titleText: Text(
+      isSuccess ? 'موفقیت' : 'خطا',
+      textDirection: TextDirection.rtl, // تنظیم جهت متن
+      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+    ),
+    forwardAnimationCurve: Curves.easeOutBack, // انیمیشن ورود
+    reverseAnimationCurve: Curves.easeInBack, // انیمیشن خروج
+    boxShadows: [
+      BoxShadow(
+        color: Colors.black.withOpacity(0.2),
+        spreadRadius: 2,
+        blurRadius: 10,
+      ),
+    ],
+  );
+}
+
 
 extension JalaliExtensionCustom on Jalali {
   String formatCompactDateCustom() {
@@ -815,6 +891,7 @@ extension JalaliExtensionCustom on Jalali {
     return '${this.year}/$month/${this.day.toString().padLeft(2, '0')}';
   }
 }
+
 
 // void main() {
 //   // راه‌اندازی GetX Controller

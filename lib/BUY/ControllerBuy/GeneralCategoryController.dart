@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:pocketbase/pocketbase.dart';
 import 'package:get/get.dart';
@@ -17,12 +19,114 @@ class GeneralCategoryController extends GetxController {
   final PocketBaseManager _pocketBaseManager;
 
   GeneralCategoryController()
-      : _pocketBaseManager = PocketBaseManager(url: 'https://saater.liara.run', lang: 'en-US');
+      : _pocketBaseManager =     PocketBaseManager(url: 'http://192.168.10.126:9000', lang: 'en-US');
 
   PocketBase get pb => _pocketBaseManager.client;
 
+  @override
+  void onClose() {
+    _timer.cancel();
+    super.onClose();
+  }
 
 
+  @override
+  Future<void> onInit() async {
+    startAutoRefresh();
+
+
+    user = await authController.getUser();
+    super.onInit();
+  }
+  late Timer _timer;
+
+  void startAutoRefresh() {
+    _timer = Timer.periodic(Duration(seconds: 10), (timer) async {
+      await fetch_order_buy_product();
+      await  fetchGeneralCategories();
+
+      await   fetchSelectedGarrantyItems();
+    });
+  }
+
+  List<OrderBuyProduct> orderBuyProducts = [];
+
+  Future<List<OrderBuyProduct>> fetch_order_buy_product() async {
+    // چک کردن اینکه داده‌ها قبلاً بارگذاری شده‌اند یا نه
+    // if (orderBuyProducts.isNotEmpty) {
+    //   return orderBuyProducts;
+    // }
+    orderBuyProducts.clear();
+
+    print('///////////////////');
+    int page = 1;
+    try {
+      while (true) {
+        final resultList = await pb.collection('order_buy_product').getList(
+          page: page,
+          perPage: 50,
+          expand: 'supplier,buy_product,buy_product.sn_buy_product_login',
+        );
+
+        if (resultList.items.isEmpty) {
+          break;
+        }
+
+        List<OrderBuyProduct> fetchedOrderBuyProducts = [];
+
+        for (var record in resultList.items) {
+          var recordData = record.toJson() as Map<String, dynamic>;
+
+          // چاپ داده‌های خام
+          print('Record Data: $recordData');
+
+          List<BuyProduct> buyProductstoclass = [];
+          var buyProductsData = recordData['expand']?['buy_product'];
+          if (buyProductsData is List) {
+            buyProductstoclass = buyProductsData.map((productJson) {
+              List<login_buy_product_SN> snBuyProductLogin = [];
+              var snData = productJson['expand']?['sn_buy_product_login'];
+
+              if (snData is List) {
+                snBuyProductLogin = snData
+                    .map((snJson) => login_buy_product_SN.fromJson(snJson))
+                    .toList();
+              }
+
+              return BuyProduct.fromJson(
+                Map<String, dynamic>.from(productJson),
+                snBuyProductLogin,
+              );
+            }).toList();
+          }
+
+          var supplierData = recordData['expand']?['supplier'] ?? {};
+
+          OrderBuyProduct orderBuyProduct = OrderBuyProduct(
+            companyname: supplierData['companyname']?.toString() ?? '',
+            phonenumber: supplierData['phonenumber']?.toString() ?? '',
+            mobilenumber: supplierData['mobilenumber']?.toString() ?? '',
+            address: supplierData['address']?.toString() ?? '',
+            location: supplierData['location']?.toString() ?? '',
+            buy_product: buyProductstoclass,
+            id: recordData['id']?.toString() ?? '',
+            pricefactor: recordData['pricefactor']?.toString() ?? '',
+
+          );
+
+          fetchedOrderBuyProducts.add(orderBuyProduct);
+        }
+
+        orderBuyProducts.addAll(fetchedOrderBuyProducts);
+        page++;
+      }
+      update(['updatebuyproduct']);
+    } catch (error) {
+      print('Error fetching order buy products: $error');
+    }
+
+    return orderBuyProducts;
+  }
 
 
   List<Map<String, String>> suppliers = [];
@@ -54,6 +158,8 @@ class GeneralCategoryController extends GetxController {
       print('Error fetching suppliers: $error');
     }
   }
+
+
 
 
   void selectSupplier(String? companyName) {
@@ -151,7 +257,11 @@ class GeneralCategoryController extends GetxController {
       print('Error updating category: $e');
     }
   }
-  Future<void> addProductToBuyProduct({
+
+
+
+  var isLoadingAddProductToBuy = false.obs;
+  Future<int> addProductToBuyProduct({
     required String title,
     required String supplierId,
     required String days,
@@ -170,6 +280,8 @@ class GeneralCategoryController extends GetxController {
     required bool valuable,
   }) async {
     try {
+      isLoadingAddProductToBuy.value = true; // شروع لودینگ
+
       // ساخت یک رکورد جدید در جدول buy_product
       final record = await pb.collection('buy_product').create(
         body: {
@@ -214,53 +326,140 @@ class GeneralCategoryController extends GetxController {
       await pb.collection('order_buy_product').update(orderID, body: body);
 
       // به‌روزرسانی رکورد name_product_category با لیست به‌روز شده
-      // استخراج مقدار فعلی number از رکورد name_product_category
-
-// cancel 2
-//       String currentNumberStr =
-//           productRecord.data['number'].toString() ?? "0"; // تبدیل به رشته
-//       int currentNumber = int.tryParse(currentNumberStr) ?? 0;
-//       print('Current number in name_product_category: $currentNumber');
-
-      // تبدیل number ورودی به عدد و جمع با مقدار فعلی
-      // int newNumber = int.tryParse(number) ?? 0;
-      // int updatedNumber = currentNumber + newNumber;
       final bodyproduct = <String, dynamic>{
-      //  "number": updatedNumber.toString(), // تبدیل عدد به رشته
         "buy_product": existingBuyProductCategory,
       };
       await pb
           .collection('name_product_category')
           .update(idproduct, body: bodyproduct);
 
-// cancel 1
-      // final bodyproductbuy = <String, dynamic>{
-      //   "inventory": currentNumberStr, // تبدیل عدد به رشته
-      //   "Number_of_inventory": newNumber, // تبدیل عدد به رشته
-      //   "number_now": updatedNumber.toString(), // تبدیل عدد به رشته
-      //   // "number": updatedNumber.toString(), // تبدیل عدد به رشته
-      //   // "buy_product": existingBuyProductCategory,
-      // };
-      // await pb
-      //     .collection('buy_product')
-      //     .update(record.id, body: bodyproductbuy);
-      print('bachebala');
-      print(orderID);
-      print(idproduct);
-      print(idupdate);
-      print(record.id);
-
       fetchGeneralCategories();
-
       fetchNameProductCategory(idupdate);
       fetchBuyProductsById(idupdate);
+
       print('Product added successfully: ${record.id}');
+      isLoadingAddProductToBuy.value = false; // پایان لودینگ
+      return 200; // بازگشت کد 200 به معنای موفقیت
     } catch (error) {
       print('Error adding product: $error');
+      isLoadingAddProductToBuy.value = false; // پایان لودینگ
+      return 500; // بازگشت کد 500 به معنای خطای سرور
     }
   }
 
-  Future<void> addProductToBuyProductByGaranty({
+//   Future<void> addProductToBuyProduct({
+//     required String title,
+//     required String supplierId,
+//     required String days,
+//     required String dateCreated,
+//     required String dataClearing,
+//     required String number,
+//     required String dateAd,
+//     required bool hurry,
+//     required bool official,
+//     required String purchasePrice,
+//     required String orderID,
+//     required String idproduct,
+//     required String idupdate,
+//     required String percent,
+//     required String saleprice,
+//     required bool valuable,
+//   }) async {
+//     try {
+//       // ساخت یک رکورد جدید در جدول buy_product
+//       final record = await pb.collection('buy_product').create(
+//         body: {
+//           "title": title,
+//           "name_product_category": idproduct,
+//           "supplier": supplierId,
+//           "days": days,
+//           "datecreated": dateCreated,
+//           "dataclearing": dataClearing,
+//           "number": number,
+//           "datead": dateAd,
+//           "type_order": 'خرید',
+//           "hurry": hurry,
+//           "official": official,
+//           "purchaseprice": purchasePrice,
+//           "percent": percent,
+//           "saleprice": saleprice,
+//           "valuable": valuable,
+//           "name": '${user!.name}',
+//           "family": '${user!.family}',
+//         },
+//       );
+//
+//       // دریافت رکوردهای فعلی order_buy_product
+//       final orderRecord =
+//       await pb.collection('order_buy_product').getOne(orderID);
+//       List<dynamic> existingBuyProductOrder =
+//           orderRecord.data['buy_product'] ?? [];
+//       existingBuyProductOrder.add(record.id);
+//
+//       // دریافت رکوردهای فعلی name_product_category
+//       final productRecord =
+//       await pb.collection('name_product_category').getOne(idproduct);
+//       List<dynamic> existingBuyProductCategory =
+//           productRecord.data['buy_product'] ?? [];
+//       existingBuyProductCategory.add(record.id);
+//
+//       // به‌روزرسانی رکورد order_buy_product با لیست به‌روز شده
+//       final body = <String, dynamic>{
+//         "buy_product": existingBuyProductOrder,
+//       };
+//       await pb.collection('order_buy_product').update(orderID, body: body);
+//
+//       // به‌روزرسانی رکورد name_product_category با لیست به‌روز شده
+//       // استخراج مقدار فعلی number از رکورد name_product_category
+//
+// // cancel 2
+// //       String currentNumberStr =
+// //           productRecord.data['number'].toString() ?? "0"; // تبدیل به رشته
+// //       int currentNumber = int.tryParse(currentNumberStr) ?? 0;
+// //       print('Current number in name_product_category: $currentNumber');
+//
+//       // تبدیل number ورودی به عدد و جمع با مقدار فعلی
+//       // int newNumber = int.tryParse(number) ?? 0;
+//       // int updatedNumber = currentNumber + newNumber;
+//       final bodyproduct = <String, dynamic>{
+//       //  "number": updatedNumber.toString(), // تبدیل عدد به رشته
+//         "buy_product": existingBuyProductCategory,
+//       };
+//       await pb
+//           .collection('name_product_category')
+//           .update(idproduct, body: bodyproduct);
+//
+// // cancel 1
+//       // final bodyproductbuy = <String, dynamic>{
+//       //   "inventory": currentNumberStr, // تبدیل عدد به رشته
+//       //   "Number_of_inventory": newNumber, // تبدیل عدد به رشته
+//       //   "number_now": updatedNumber.toString(), // تبدیل عدد به رشته
+//       //   // "number": updatedNumber.toString(), // تبدیل عدد به رشته
+//       //   // "buy_product": existingBuyProductCategory,
+//       // };
+//       // await pb
+//       //     .collection('buy_product')
+//       //     .update(record.id, body: bodyproductbuy);
+//       print('bachebala');
+//       print(orderID);
+//       print(idproduct);
+//       print(idupdate);
+//       print(record.id);
+//
+//       fetchGeneralCategories();
+//
+//       fetchNameProductCategory(idupdate);
+//       fetchBuyProductsById(idupdate);
+//       print('Product added successfully: ${record.id}');
+//     } catch (error) {
+//       print('Error adding product: $error');
+//     }
+//   }
+
+
+
+
+  Future<int> addProductToBuyProductByGaranty({
     required String title,
     required String supplierId,
     required String days,
@@ -280,6 +479,9 @@ class GeneralCategoryController extends GetxController {
     required List<String> garanty,
   }) async {
     try {
+      // فعال کردن لودینگ
+      isLoadingAddProductToBuy.value = true;
+
       // ساخت یک رکورد جدید در جدول buy_product
       final record = await pb.collection('buy_product').create(
         body: {
@@ -306,14 +508,14 @@ class GeneralCategoryController extends GetxController {
 
       // دریافت رکوردهای فعلی order_buy_product
       final orderRecord =
-          await pb.collection('order_buy_product').getOne(orderID);
+      await pb.collection('order_buy_product').getOne(orderID);
       List<dynamic> existingBuyProductOrder =
           orderRecord.data['buy_product'] ?? [];
       existingBuyProductOrder.add(record.id);
 
       // دریافت رکوردهای فعلی name_product_category
       final productRecord =
-          await pb.collection('name_product_category').getOne(idproduct);
+      await pb.collection('name_product_category').getOne(idproduct);
       List<dynamic> existingBuyProductCategory =
           productRecord.data['buy_product'] ?? [];
       existingBuyProductCategory.add(record.id);
@@ -325,130 +527,143 @@ class GeneralCategoryController extends GetxController {
       await pb.collection('order_buy_product').update(orderID, body: body);
 
       // به‌روزرسانی رکورد name_product_category با لیست به‌روز شده
-      // استخراج مقدار فعلی number از رکورد name_product_category
-      // String currentNumberStr =
-      //     productRecord.data['number'].toString() ?? "0"; // تبدیل به رشته
-      // int currentNumber = int.tryParse(currentNumberStr) ?? 0;
-      // print('Current number in name_product_category: $currentNumber');
-      //
-      // // تبدیل number ورودی به عدد و جمع با مقدار فعلی
-      // int newNumber = int.tryParse(number) ?? 0;
-      // int updatedNumber = currentNumber + newNumber;
       final bodyproduct = <String, dynamic>{
-       // "number": updatedNumber.toString(), // تبدیل عدد به رشته
         "buy_product": existingBuyProductCategory,
       };
-      await pb
-          .collection('name_product_category')
-          .update(idproduct, body: bodyproduct);
+      await pb.collection('name_product_category').update(idproduct, body: bodyproduct);
 
-      // cancel 1
-      // final bodyproductbuy = <String, dynamic>{
-      //   "inventory": currentNumberStr, // تبدیل عدد به رشته
-      //   "Number_of_inventory": newNumber, // تبدیل عدد به رشته
-      //   "number_now": updatedNumber.toString(), // تبدیل عدد به رشته
-      //   // "number": updatedNumber.toString(), // تبدیل عدد به رشته
-      //   // "buy_product": existingBuyProductCategory,
-      // };
-      // await pb
-      //     .collection('buy_product')
-      //     .update(record.id, body: bodyproductbuy);
-      print('bachebala');
-      print(orderID);
-      print(idproduct);
-      print(idupdate);
-      print(record.id);
-
+      // به‌روزرسانی View ها
       fetchGeneralCategories();
-
       fetchNameProductCategory(idupdate);
       fetchBuyProductsById(idupdate);
 
-
       print('Product added successfully: ${record.id}');
+
+      // غیرفعال کردن لودینگ
+      isLoadingAddProductToBuy.value = false;
+
+      return 200; // بازگشت کد موفقیت
     } catch (error) {
       print('Error adding product: $error');
+
+      // غیرفعال کردن لودینگ
+      isLoadingAddProductToBuy.value = false;
+      return 500; // بازگشت کد خطا
     }
   }
 
-  List<OrderBuyProduct> orderBuyProducts = [];
+  // Future<void> addProductToBuyProductByGaranty({
+  //   required String title,
+  //   required String supplierId,
+  //   required String days,
+  //   required String dateCreated,
+  //   required String dataClearing,
+  //   required String number,
+  //   required String dateAd,
+  //   required bool hurry,
+  //   required bool official,
+  //   required String purchasePrice,
+  //   required String orderID,
+  //   required String idproduct,
+  //   required String idupdate,
+  //   required String percent,
+  //   required String saleprice,
+  //   required bool valuable,
+  //   required List<String> garanty,
+  // }) async {
+  //   try {
+  //
+  //     // ساخت یک رکورد جدید در جدول buy_product
+  //     final record = await pb.collection('buy_product').create(
+  //       body: {
+  //         "title": title,
+  //         "name_product_category": idproduct,
+  //         "supplier": supplierId,
+  //         "days": days,
+  //         "datecreated": dateCreated,
+  //         "dataclearing": dataClearing,
+  //         "number": number,
+  //         "datead": dateAd,
+  //         "hurry": hurry,
+  //         "type_order": 'خرید',
+  //         "official": official,
+  //         "purchaseprice": purchasePrice,
+  //         "percent": percent,
+  //         "saleprice": saleprice,
+  //         "valuable": valuable,
+  //         "name": '${user!.name}',
+  //         "family": '${user!.family}',
+  //         'garranty': garanty,
+  //       },
+  //     );
+  //
+  //     // دریافت رکوردهای فعلی order_buy_product
+  //     final orderRecord =
+  //         await pb.collection('order_buy_product').getOne(orderID);
+  //     List<dynamic> existingBuyProductOrder =
+  //         orderRecord.data['buy_product'] ?? [];
+  //     existingBuyProductOrder.add(record.id);
+  //
+  //     // دریافت رکوردهای فعلی name_product_category
+  //     final productRecord =
+  //         await pb.collection('name_product_category').getOne(idproduct);
+  //     List<dynamic> existingBuyProductCategory =
+  //         productRecord.data['buy_product'] ?? [];
+  //     existingBuyProductCategory.add(record.id);
+  //
+  //     // به‌روزرسانی رکورد order_buy_product با لیست به‌روز شده
+  //     final body = <String, dynamic>{
+  //       "buy_product": existingBuyProductOrder,
+  //     };
+  //     await pb.collection('order_buy_product').update(orderID, body: body);
+  //
+  //     // به‌روزرسانی رکورد name_product_category با لیست به‌روز شده
+  //     // استخراج مقدار فعلی number از رکورد name_product_category
+  //     // String currentNumberStr =
+  //     //     productRecord.data['number'].toString() ?? "0"; // تبدیل به رشته
+  //     // int currentNumber = int.tryParse(currentNumberStr) ?? 0;
+  //     // print('Current number in name_product_category: $currentNumber');
+  //     //
+  //     // // تبدیل number ورودی به عدد و جمع با مقدار فعلی
+  //     // int newNumber = int.tryParse(number) ?? 0;
+  //     // int updatedNumber = currentNumber + newNumber;
+  //     final bodyproduct = <String, dynamic>{
+  //      // "number": updatedNumber.toString(), // تبدیل عدد به رشته
+  //       "buy_product": existingBuyProductCategory,
+  //     };
+  //     await pb
+  //         .collection('name_product_category')
+  //         .update(idproduct, body: bodyproduct);
+  //
+  //     // cancel 1
+  //     // final bodyproductbuy = <String, dynamic>{
+  //     //   "inventory": currentNumberStr, // تبدیل عدد به رشته
+  //     //   "Number_of_inventory": newNumber, // تبدیل عدد به رشته
+  //     //   "number_now": updatedNumber.toString(), // تبدیل عدد به رشته
+  //     //   // "number": updatedNumber.toString(), // تبدیل عدد به رشته
+  //     //   // "buy_product": existingBuyProductCategory,
+  //     // };
+  //     // await pb
+  //     //     .collection('buy_product')
+  //     //     .update(record.id, body: bodyproductbuy);
+  //     print('bachebala');
+  //     print(orderID);
+  //     print(idproduct);
+  //     print(idupdate);
+  //     print(record.id);
+  //
+  //     fetchGeneralCategories();
+  //
+  //     fetchNameProductCategory(idupdate);
+  //     fetchBuyProductsById(idupdate);
+  //
+  //
+  //     print('Product added successfully: ${record.id}');
+  //   } catch (error) {
+  //     print('Error adding product: $error');
+  //   }
+  // }
 
-  Future<List<OrderBuyProduct>> fetch_order_buy_product() async {
-    // چک کردن اینکه داده‌ها قبلاً بارگذاری شده‌اند یا نه
-    // if (orderBuyProducts.isNotEmpty) {
-    //   return orderBuyProducts;
-    // }
-    orderBuyProducts.clear();
-
-    print('///////////////////');
-    int page = 1;
-    try {
-      while (true) {
-        final resultList = await pb.collection('order_buy_product').getList(
-              page: page,
-              perPage: 50,
-              expand: 'supplier,buy_product,buy_product.sn_buy_product_login',
-            );
-
-        if (resultList.items.isEmpty) {
-          break;
-        }
-
-        List<OrderBuyProduct> fetchedOrderBuyProducts = [];
-
-        for (var record in resultList.items) {
-          var recordData = record.toJson() as Map<String, dynamic>;
-
-          // چاپ داده‌های خام
-          print('Record Data: $recordData');
-
-          List<BuyProduct> buyProductstoclass = [];
-          var buyProductsData = recordData['expand']?['buy_product'];
-
-          if (buyProductsData is List) {
-            buyProductstoclass = buyProductsData.map((productJson) {
-              List<login_buy_product_SN> snBuyProductLogin = [];
-              var snData = productJson['expand']?['sn_buy_product_login'];
-
-              if (snData is List) {
-                snBuyProductLogin = snData
-                    .map((snJson) => login_buy_product_SN.fromJson(snJson))
-                    .toList();
-              }
-
-              return BuyProduct.fromJson(
-                Map<String, dynamic>.from(productJson),
-                snBuyProductLogin,
-              );
-            }).toList();
-          }
-
-          var supplierData = recordData['expand']?['supplier'] ?? {};
-
-          OrderBuyProduct orderBuyProduct = OrderBuyProduct(
-            companyname: supplierData['companyname']?.toString() ?? '',
-            phonenumber: supplierData['phonenumber']?.toString() ?? '',
-            mobilenumber: supplierData['mobilenumber']?.toString() ?? '',
-            address: supplierData['address']?.toString() ?? '',
-            location: supplierData['location']?.toString() ?? '',
-            buy_product: buyProductstoclass,
-            id: recordData['id']?.toString() ?? '',
-            pricefactor: recordData['pricefactor']?.toString() ?? '',
-          );
-
-          fetchedOrderBuyProducts.add(orderBuyProduct);
-        }
-
-        orderBuyProducts.addAll(fetchedOrderBuyProducts);
-        page++;
-      }
-      update(['updatebuyproduct']);
-    } catch (error) {
-      print('Error fetching order buy products: $error');
-    }
-
-    return orderBuyProducts;
-  }
 
 
   var buyProducts = <BuyProduct>[];
@@ -524,25 +739,25 @@ class GeneralCategoryController extends GetxController {
   Future<void> deleteBuyId_BuyProdut(
       String id, String number, String orderId) async {
     try {
-      final productRecord =
-          await pb.collection('name_product_category').getOne(orderId);
-      String currentNumberStr =
-          productRecord.data['number'].toString() ?? "0"; // تبدیل به رشته
-      int currentNumber = int.tryParse(currentNumberStr) ?? 0;
-      print('Current number in name_product_category: $currentNumber');
-      // تبدیل number ورودی به عدد و جمع با مقدار فعلی
-      int newNumber = int.tryParse(number) ?? 0;
-      if (newNumber < int.parse(number)) {
-        Get.snackbar('ناموفق',
-            'تعداد کالا موجود انبار با تعداد کالای حدف شده مطابقت ندارد',
-            backgroundColor: Colors.orange);
-      }
-      int updatedNumber = currentNumber - newNumber;
-
-      final body = <String, dynamic>{
-        "number": updatedNumber,
-      };
-      await pb.collection('name_product_category').update(orderId, body: body);
+      // final productRecord =
+      //     await pb.collection('name_product_category').getOne(orderId);
+      // String currentNumberStr =
+      //     productRecord.data['number'].toString() ?? "0"; // تبدیل به رشته
+      // int currentNumber = int.tryParse(currentNumberStr) ?? 0;
+      // print('Current number in name_product_category: $currentNumber');
+      // // تبدیل number ورودی به عدد و جمع با مقدار فعلی
+      // int newNumber = int.tryParse(number) ?? 0;
+      // if (newNumber < int.parse(number)) {
+      //   Get.snackbar('ناموفق',
+      //       'تعداد کالا موجود انبار با تعداد کالای حدف شده مطابقت ندارد',
+      //       backgroundColor: Colors.orange);
+      // }
+      // int updatedNumber = currentNumber - newNumber;
+      //
+      // final body = <String, dynamic>{
+      //   "number": updatedNumber,
+      // };
+      // await pb.collection('name_product_category').update(orderId, body: body);
 
       await pb.collection('buy_product').delete(id);
       Get.snackbar(' موفق', 'سفارش شما با موفقیت حذف شد.',
@@ -1016,14 +1231,7 @@ class GeneralCategoryController extends GetxController {
     }
   }
 
-  @override
-  Future<void> onInit() async {
-    fetchGeneralCategories();
-   // fetch_order_buy_product();
-    fetchSelectedGarrantyItems();
-    user = await authController.getUser();
-    super.onInit();
-  }
+
 
   List<OrderBuyProduct> OrderByIdBuyProducts = [];
 
@@ -1073,6 +1281,7 @@ class GeneralCategoryController extends GetxController {
         buy_product: buyProducts,
         id: supplierData['id']?.toString() ?? '',
         pricefactor: supplierData['pricefactor']?.toString() ?? '',
+
       );
 
       // به‌روزرسانی لیست محصول

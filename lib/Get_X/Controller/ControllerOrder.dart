@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:get_storage/get_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:pocketbase/pocketbase.dart';
 import 'package:http/http.dart';
@@ -22,13 +22,17 @@ class OrderControllerPage extends GetxController {
 
   OrderControllerPage()
       : _pocketBaseManager =
-            PocketBaseManager(url: 'https://saater.liara.run', lang: 'en-US');
+  PocketBaseManager(url: 'http://192.168.10.126:9000', lang: 'en-US');
 
   PocketBase get _pb => _pocketBaseManager.client;
 
   // PocketBaseService _pb = PocketBaseService.instance;
   RxBool isLoading = false.obs;
+
+
   RxList<OrderTwo> orderstwo = <OrderTwo>[].obs;
+
+
   var currentFilter = ''; // برای فیلتر
   var currentSort = ''; // برای مرتب‌سازی
   var currentPrivate = ''; // برای نوع جستجو
@@ -44,6 +48,7 @@ class OrderControllerPage extends GetxController {
   String? selectedSupplierAddress;
   String? selectedSupplierLocation;
   List<Map<String, String>> suppliers = [];
+
 
   void FetchSupplier(String? companyName) {
     final supplier = suppliers
@@ -133,7 +138,7 @@ class OrderControllerPage extends GetxController {
     }
   }
 
-  Future<void> addProductToBuyProductByGaranty({
+  Future<int> addProductToBuyProductByGaranty({
     required String title,
     required String supplierId,
     required String days,
@@ -154,6 +159,7 @@ class OrderControllerPage extends GetxController {
     required List<String> garanty,
   }) async {
     try {
+      isLoadingAddProductToBuy.value = true; // شروع لودینگ
 //check koneh bebeneh
       final productRecordcheck =
           await _pb.collection('name_product_category').getOne(idproduct);
@@ -250,12 +256,18 @@ class OrderControllerPage extends GetxController {
       //   Get.snackbar('توضیحات ${statusText}  ', ' و محصول $statusText',
       //       backgroundColor: statusColor);
       // }
+
+      print('Product added successfully: ${record.id}');
+      isLoadingAddProductToBuy.value = false; // پایان لودینگ
+      return 200; // بازگشت کد 200 به معنای موفقیت
     } catch (error) {
       print('Error adding product: $error');
+      isLoadingAddProductToBuy.value = false; // پایان لودینگ
+      return 500; // بازگشت کد 500 به معنای خطای سرور
     }
   }
-
-  Future<void> addProductToBuyProduct({
+  var isLoadingAddProductToBuy = false.obs;
+  Future<int>  addProductToBuyProduct({
     required String title,
     required String supplierId,
     required String days,
@@ -275,6 +287,7 @@ class OrderControllerPage extends GetxController {
     required String titlecategory,
   }) async {
     try {
+      isLoadingAddProductToBuy.value = true; // شروع لودینگ
       //check koneh bebeneh
       final productRecordcheck =
           await _pb.collection('name_product_category').getOne(idproduct);
@@ -375,10 +388,18 @@ class OrderControllerPage extends GetxController {
       // }
 
       //  print('Product added successfully: ${record.id}');
+
+      print('Product added successfully: ${record.id}');
+      isLoadingAddProductToBuy.value = false; // پایان لودینگ
+      return 200; // بازگشت کد 200 به معنای موفقیت
     } catch (error) {
       print('Error adding product: $error');
+      isLoadingAddProductToBuy.value = false; // پایان لودینگ
+      return 500; // بازگشت کد 500 به معنای خطای سرور
     }
   }
+
+
 
   @override
   void onInit() {
@@ -406,6 +427,7 @@ class OrderControllerPage extends GetxController {
   void startAutoRefresh() {
     _timer = Timer.periodic(Duration(seconds: 6), (timer) {
       fetchAndUpdate();
+      fetchGeneralCategories();
     });
   }
 
@@ -472,6 +494,7 @@ class OrderControllerPage extends GetxController {
     await fetchAllOrdersRefresh();
   }
 
+
   Future<void> fetchAndUpdate() async {
     try {
       int page = 1;
@@ -491,6 +514,7 @@ class OrderControllerPage extends GetxController {
               sort: currentSort.isNotEmpty ? currentSort : '-created',
               expand:
                   'listproducta,listproductb,listproducta.sell_buy_product,listproducta.sell_buy_product.sn_buy_product_login',
+
             );
 
         if (ordersRecord.items.isEmpty) break;
@@ -608,6 +632,15 @@ class OrderControllerPage extends GetxController {
                                         id: snProductData['id'],
                                         sn: snProductData['sn'],
                                         title: snProductData['title'],
+                                        name_product_category: snProductData[
+                                        'name_product_category'],
+                                        inventory: snProductData[
+                                        'inventory'],
+                                        number_now:  snProductData[
+                                        'number_now'],
+                                        Number_of_inventory: snProductData[
+                                        'Number_of_inventory'],
+                                        date_sh: snProductData['date_sh'],
                                       );
                                     }).toList()
                                   : [],
@@ -664,8 +697,9 @@ class OrderControllerPage extends GetxController {
       //     print('listProductA is null for order: ${s.id}');
       //   }
       // }
-    } catch (error) {
+    } catch (error, stackTrace) {
       print('Error fetching orders: $error');
+      print('Stack trace: $stackTrace');
     } finally {
       isLoading.value = false;
     }
@@ -908,25 +942,25 @@ class OrderControllerPage extends GetxController {
       // print(number);
       // print(idbuyproduct);
       // print(idproductnameproductcategory);
-      final productRecord = await _pb
-          .collection('name_product_category')
-          .getOne(idproductnameproductcategory);
-      String currentNumberStr =
-          productRecord.data['number'].toString() ?? "0"; // تبدیل به رشته
-      int currentNumber = int.tryParse(currentNumberStr) ?? 0;
-      print('Current number in name_product_category: $currentNumber');
+      // final productRecord = await _pb
+      //     .collection('name_product_category')
+      //     .getOne(idproductnameproductcategory);
+      // String currentNumberStr =
+      //     productRecord.data['number'].toString() ?? "0"; // تبدیل به رشته
+      // int currentNumber = int.tryParse(currentNumberStr) ?? 0;
+      // print('Current number in name_product_category: $currentNumber');
       // تبدیل number ورودی به عدد و جمع با مقدار فعلی
-      int newNumber = int.tryParse(number) ?? 0;
-      if (currentNumber > int.parse(number) ||
-          currentNumber == int.parse(number)) {
-        int updatedNumber = currentNumber + newNumber;
-
-        final body = <String, dynamic>{
-          "number": updatedNumber,
-        };
-        await _pb
-            .collection('name_product_category')
-            .update(idproductnameproductcategory, body: body);
+      // int newNumber = int.tryParse(number) ?? 0;
+      // if (currentNumber > int.parse(number) ||
+      //     currentNumber == int.parse(number)) {
+      //   int updatedNumber = currentNumber + newNumber;
+      //
+      //   final body = <String, dynamic>{
+      //     "number": updatedNumber,
+      //   };
+      //   await _pb
+      //       .collection('name_product_category')
+      //       .update(idproductnameproductcategory, body: body);
 
         await _pb.collection('buy_product').delete(idbuyproduct);
         Get.snackbar(' موفق', 'سفارش شما با موفقیت حذف شد.',
@@ -935,11 +969,11 @@ class OrderControllerPage extends GetxController {
         fetchGeneralCategories();
         fetchNameProductCategory(idproductnameproductcategory);
         fetchBuyProductsById(idproductnameproductcategory);
-      } else {
-        Get.snackbar('ناموفق',
-            'تعداد کالا موجود انبار با تعداد کالای مورد حدف شده مطابقت ندارد',
-            backgroundColor: Colors.orange);
-      }
+     // } else {
+     //    Get.snackbar('ناموفق',
+     //        'تعداد کالا موجود انبار با تعداد کالای مورد حدف شده مطابقت ندارد',
+     //        backgroundColor: Colors.orange);
+   //   }
     } catch (e) {
       print('Error updating category: $e');
     }

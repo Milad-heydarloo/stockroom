@@ -1,0 +1,3 @@
+C:/Users/milademoon/StudioProjects/stockroom/stockroom/build/windows/_deps/nuget-subbuild/CMakeFiles/nuget-populate.dir
+C:/Users/milademoon/StudioProjects/stockroom/stockroom/build/windows/_deps/nuget-subbuild/CMakeFiles/ALL_BUILD.dir
+C:/Users/milademoon/StudioProjects/stockroom/stockroom/build/windows/_deps/nuget-subbuild/CMakeFiles/ZERO_CHECK.dir

@@ -8,7 +8,7 @@ class ControllerProduct extends GetxController {
 
   ControllerProduct()
       : _pocketBaseManager =
-            PocketBaseManager(url: 'https://saater.liara.run', lang: 'en-US');
+  PocketBaseManager(url: 'http://192.168.10.126:9000', lang: 'en-US');
 
   PocketBase get _pb => _pocketBaseManager.client;
 

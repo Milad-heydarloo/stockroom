@@ -2,51 +2,30 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
-import 'package:project/BUY/4/SupplierDetailsPage.dart';
 import 'package:project/BUY/ControllerBuy/GeneralCategoryController.dart';
 import 'package:project/Drawer/MyDrawer.dart';
-import 'package:project/Drawer/auth_controller.dart';
+
 import 'package:project/utiliti/double_extenstions.dart';
 
 import 'package:searchfield/searchfield.dart';
 
-// void main() {
-//   // Get.put(AuthController(),
-//   //     permanent: true); // Ensure AuthController is always in memory
-//
-//   Get.put(GeneralCategoryController()); // ثبت کنترلر
-//   Get.put(SupplierDetailsController()); // ثبت کنترلر
-//   runApp(
-//     GetMaterialApp(
-//
-//       home: OrderBuyProductPage(),
-//     ),
-//   );
-// }
+
 
 class OrderBuyProductPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final GeneralCategoryController controller =
         Get.find<GeneralCategoryController>();
-    //controller.fetch_order_buy_product();
+
     return Scaffold(
       appBar: AppBar(
         title: Text('ثبت سفارش خرید'),
-      //  automaticallyImplyLeading: false,
-        // leading: IconButton(
-        //   icon: Icon(Icons.arrow_back),
-        //   onPressed: () {
-        //     //  عملکرد بازگشت سفارشی
-        //     //   Get.to(() => SupplierDetailsPage(orderId));
-        //     Get.offAllNamed('/home');
-        //   },
-        // ),
+
       ),
       drawer: MyDrawer(),
       body: GetBuilder<GeneralCategoryController>(
         id: 'updatebuyproduct', // شناسه‌ای که در متد update استفاده می‌شود
-        initState: (state) async => await controller.fetch_order_buy_product(),
+       // initState: (state) async => await controller.fetch_order_buy_product(),
         builder: (controller) {
           if (controller.orderBuyProducts.isEmpty) {
             return Center(
@@ -170,8 +149,13 @@ class SerchSupplier extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final GeneralCategoryController controller = Get.find();
-
+    final GeneralCategoryController controller =      Get.find<GeneralCategoryController>();
+    controller. selectedSupplierCompanyName="";
+    controller. selectedSupplierPhoneNumber="";
+    controller. selectedSupplierMobileNumber="";
+    controller. selectedSupplierAddress="";
+    controller.selectedSupplierLocation="";
+    controller. selectedSupplierID="";
     return Scaffold(
       appBar: AppBar(
         title: Text('جستجوی فروشنده'),
@@ -286,6 +270,7 @@ class SerchSupplier extends StatelessWidget {
           ),
         ],
       ),
+
       floatingActionButton: GetBuilder<GeneralCategoryController>(
         id: '_suppliersfloatin',
         builder: (controller) {

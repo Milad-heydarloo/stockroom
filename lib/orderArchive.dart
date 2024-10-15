@@ -103,7 +103,7 @@ class _OrderListPageArchiveState extends State<OrderListPageArchive>
 
 
       GetBuilder<OrderArchiveControllerPage>(
-        id: 'orderssupdate',
+        id: 'orderssupdatearchive',
         builder: (controller) {
           if (orderController.orderstwo.isEmpty) {
             return Center(
@@ -230,11 +230,25 @@ class _OrderListPageArchiveState extends State<OrderListPageArchive>
                                         ),
                                         SizedBox(width: 8),
                                         Text(
-                                          'امتیاز سفارش: ',
+                                          'رتبه سفارش: ',
                                           style: TextStyle(fontSize: 18),
                                         ),
                                         Text(
                                           order.rating!,
+                                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+
+                                        Text(
+                                          'نوع سفارش: ',
+                                          style: TextStyle(fontSize: 18),
+                                        ),
+                                        Text(
+                                          order.type_order!,
                                           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                                         ),
                                       ],
@@ -980,69 +994,73 @@ class _OrderListPageArchiveState extends State<OrderListPageArchive>
                                                                     ),
                                                                   )),
                                                               children: [
-                                                                Column(
-                                                                  children: [
-                                                                    ...product
-                                                                        .sellBuyProduct!
-                                                                        .snBuyProductLogin!
-                                                                        .map(
-                                                                          (snProduct) =>
-                                                                          Card(
-                                                                            margin: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
-                                                                            child: Container(
-                                                                              decoration: BoxDecoration(
-// color: product.sellBuyProduct.okbuy
-// ? Colors.green[100]
-//     : Colors.yellow[200],
-// تغییر رنگ پس‌زمینه بر اساس productB.okbuy
-                                                                                border: Border.all(
-// color: product.sellBuyProduct.hurry
-// ? Colors.blue
-//     : Colors.grey,
-// تغییر رنگ بوردر بر اساس productB.hurry
-                                                                                  width: 4, // ضخامت بوردر
-                                                                                ),
-                                                                                borderRadius: BorderRadius.circular(8.0), // شکل گرد بوردر
-                                                                              ),
-                                                                              child: Padding(
-                                                                                padding: const EdgeInsets.all(8.0),
-                                                                                child: Column(
-                                                                                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                                                                                  children: [
-                                                                                    Row(
-                                                                                      children: [
-                                                                                        Card(
-                                                                                          child: Column(children: [
-                                                                                            IconButton(
-                                                                                              icon: const Icon(Icons.mode_edit),
-                                                                                              onPressed: () async {
-// نمایش پروگرس بار به مدت 1 ثانیه
-
-                                                                                                showDialog(
-                                                                                                  context: context,
-                                                                                                  barrierDismissible: false,
-                                                                                                  builder: (context) {
-                                                                                                    return Center(
-                                                                                                      child: CircularProgressIndicator(),
-                                                                                                    );
-                                                                                                  },
-                                                                                                );
-                                                                                              },
-                                                                                            ),
-                                                                                          ]),
-                                                                                        ),
-                                                                                        Text('${product.sellBuyProduct!.title!} '),
-                                                                                      ],
-                                                                                    ),
-                                                                                  ],
-                                                                                ),
+                                                                ...product.sellBuyProduct!
+                                                                    .snBuyProductLogin!
+                                                                    .map(
+                                                                      (snProduct) => Center(
+                                                                    child: Card(
+                                                                      margin:
+                                                                      const EdgeInsets
+                                                                          .symmetric(
+                                                                          vertical:
+                                                                          5),
+                                                                      child: Padding(
+                                                                        // اضافه کردن Padding
+                                                                        padding:
+                                                                        const EdgeInsets
+                                                                            .all(8.0),
+                                                                        // تنظیم فاصله دلخواه
+                                                                        child: Column(
+                                                                          verticalDirection:
+                                                                          VerticalDirection
+                                                                              .down,
+                                                                          mainAxisSize:
+                                                                          MainAxisSize
+                                                                              .max,
+                                                                          crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .stretch,
+                                                                          children: [
+                                                                            Text(
+                                                                                'سریال نامبر : ${snProduct.sn}',
+                                                                                style: TextStyle(
+                                                                                    fontSize:
+                                                                                    10)),
+                                                                            Text(
+                                                                              'نام کالا : ${snProduct.title}',
+                                                                              style: TextStyle(
+                                                                                  fontSize:
+                                                                                  10),
+                                                                            ),
+                                                                            Directionality(
+                                                                              textDirection:
+                                                                              TextDirection
+                                                                                  .rtl,
+                                                                              child: Text(
+                                                                                'موجودی:    ${snProduct.number_now} / ${snProduct.Number_of_inventory} / ${snProduct.inventory}',
+                                                                                style: TextStyle(
+                                                                                    fontSize:
+                                                                                    10),
                                                                               ),
                                                                             ),
-                                                                          ),
-                                                                    )
-                                                                        .toList(),
-                                                                  ],
-                                                                ),
+                                                                            Directionality(
+                                                                              textDirection:
+                                                                              TextDirection
+                                                                                  .rtl,
+                                                                              child: Text(
+                                                                                'تاریخ خروج:    ${snProduct.date_sh}',
+                                                                                style: TextStyle(
+                                                                                    fontSize:
+                                                                                    10),
+                                                                              ),
+                                                                            )
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                )
+                                                                    .toList(),
                                                               ],
                                                             ),
                                                         ],

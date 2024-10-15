@@ -1,0 +1,49 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "C:/Users/milademoon/StudioProjects/stockroom/stockroom/build/windows/_deps/nuget-subbuild/CMakeFiles/nuget-populate"
+		},
+		{
+			"file" : "C:/Users/milademoon/StudioProjects/stockroom/stockroom/build/windows/_deps/nuget-subbuild/CMakeFiles/1198ee88cdbc39f1d7b4ab030dc0a745/nuget-populate.rule"
+		},
+		{
+			"file" : "C:/Users/milademoon/StudioProjects/stockroom/stockroom/build/windows/_deps/nuget-subbuild/CMakeFiles/d9dd9bb4fb4a12e6e8cd6a4b5a20f799/nuget-populate-complete.rule"
+		},
+		{
+			"file" : "C:/Users/milademoon/StudioProjects/stockroom/stockroom/build/windows/_deps/nuget-subbuild/CMakeFiles/e35b100da62b701419d79914287b72e0/nuget-populate-build.rule"
+		},
+		{
+			"file" : "C:/Users/milademoon/StudioProjects/stockroom/stockroom/build/windows/_deps/nuget-subbuild/CMakeFiles/e35b100da62b701419d79914287b72e0/nuget-populate-configure.rule"
+		},
+		{
+			"file" : "C:/Users/milademoon/StudioProjects/stockroom/stockroom/build/windows/_deps/nuget-subbuild/CMakeFiles/e35b100da62b701419d79914287b72e0/nuget-populate-copyfile.rule"
+		},
+		{
+			"file" : "C:/Users/milademoon/StudioProjects/stockroom/stockroom/build/windows/_deps/nuget-subbuild/CMakeFiles/e35b100da62b701419d79914287b72e0/nuget-populate-download.rule"
+		},
+		{
+			"file" : "C:/Users/milademoon/StudioProjects/stockroom/stockroom/build/windows/_deps/nuget-subbuild/CMakeFiles/e35b100da62b701419d79914287b72e0/nuget-populate-install.rule"
+		},
+		{
+			"file" : "C:/Users/milademoon/StudioProjects/stockroom/stockroom/build/windows/_deps/nuget-subbuild/CMakeFiles/e35b100da62b701419d79914287b72e0/nuget-populate-mkdir.rule"
+		},
+		{
+			"file" : "C:/Users/milademoon/StudioProjects/stockroom/stockroom/build/windows/_deps/nuget-subbuild/CMakeFiles/e35b100da62b701419d79914287b72e0/nuget-populate-patch.rule"
+		},
+		{
+			"file" : "C:/Users/milademoon/StudioProjects/stockroom/stockroom/build/windows/_deps/nuget-subbuild/CMakeFiles/e35b100da62b701419d79914287b72e0/nuget-populate-test.rule"
+		},
+		{
+			"file" : "C:/Users/milademoon/StudioProjects/stockroom/stockroom/build/windows/_deps/nuget-subbuild/CMakeFiles/e35b100da62b701419d79914287b72e0/nuget-populate-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"nuget-populate"
+		],
+		"name" : "nuget-populate"
+	}
+}

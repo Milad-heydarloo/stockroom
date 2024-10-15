@@ -1,0 +1,28 @@
+^C:\USERS\MILADEMOON\STUDIOPROJECTS\STOCKROOM\STOCKROOM\BUILD\WINDOWS\CMAKEFILES\B11106FABEA96F10ED02E36DEA272C92\FLUTTER_WINDOWS.DLL.RULE
+setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E env FLUTTER_ROOT=C:\flutter PROJECT_DIR=C:\Users\milademoon\StudioProjects\stockroom\stockroom FLUTTER_ROOT=C:\flutter FLUTTER_EPHEMERAL_DIR=C:\Users\milademoon\StudioProjects\stockroom\stockroom\windows\flutter\ephemeral PROJECT_DIR=C:\Users\milademoon\StudioProjects\stockroom\stockroom FLUTTER_TARGET=lib\main.dart DART_OBFUSCATION=false TRACK_WIDGET_CREATION=true TREE_SHAKE_ICONS=true PACKAGE_CONFIG=C:\Users\milademoon\StudioProjects\stockroom\stockroom\.dart_tool\package_config.json C:/flutter/packages/flutter_tools/bin/tool_backend.bat windows-x64 Release
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^C:\USERS\MILADEMOON\STUDIOPROJECTS\STOCKROOM\STOCKROOM\BUILD\WINDOWS\CMAKEFILES\4A994A802EC18DE8B670E829EE59E0C7\FLUTTER_ASSEMBLE.RULE
+setlocal
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^C:\USERS\MILADEMOON\STUDIOPROJECTS\STOCKROOM\STOCKROOM\WINDOWS\FLUTTER\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Users/milademoon/StudioProjects/stockroom/stockroom/windows -BC:/Users/milademoon/StudioProjects/stockroom/stockroom/build/windows --check-stamp-file C:/Users/milademoon/StudioProjects/stockroom/stockroom/build/windows/flutter/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

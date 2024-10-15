@@ -22,7 +22,7 @@ class OrderArchiveControllerPage extends GetxController {
 
   OrderArchiveControllerPage()
       : _pocketBaseManager =
-  PocketBaseManager(url: 'https://saater.liara.run', lang: 'en-US');
+    PocketBaseManager(url: 'http://192.168.10.126:9000', lang: 'en-US');
 
   PocketBase get _pb => _pocketBaseManager.client;
 
@@ -274,6 +274,15 @@ class OrderArchiveControllerPage extends GetxController {
                       id: snProductData['id'],
                       sn: snProductData['sn'],
                       title: snProductData['title'],
+                      name_product_category: snProductData[
+                      'name_product_category'],
+                      inventory: snProductData[
+                      'inventory'],
+                      number_now:  snProductData[
+                      'number_now'],
+                      Number_of_inventory: snProductData[
+                      'Number_of_inventory'],
+                      date_sh: snProductData['date_sh'],
                     );
                   }).toList()
                       : [],
@@ -314,7 +323,7 @@ class OrderArchiveControllerPage extends GetxController {
       // جایگزینی لیست قدیمی با لیست جدید
       orderstwo.assignAll(fetchedOrders);
       print('hihi');
-      update(['orderssupdate']);
+      update(['orderssupdatearchive']);
       // for (var s in orderstwo) {
       //   // اطمینان از اینکه listProductA خالی نیست
       //   if (s.listProductA != null) {
@@ -331,6 +340,7 @@ class OrderArchiveControllerPage extends GetxController {
       //   }
       // }
     } catch (error) {
+      print('Error fetching orders: $error');
       print('Error fetching orders: $error');
     } finally {
       isLoading.value = false;

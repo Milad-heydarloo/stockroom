@@ -49,14 +49,14 @@ class SupplierDetailsPage extends StatelessWidget {
       supplierController.fetchOrderDetails(orderId);
     });
 
-    return SafeArea(
+    return Directionality(textDirection: TextDirection.rtl, child: SafeArea(
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
           title: Text('جزئیات فروشنده'),
         ),
         body: GetBuilder<SupplierDetailsController>(
-       //   id: '_suppliersfloatin',
+          //   id: '_suppliersfloatin',
           builder: (supplierController) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,7 +70,7 @@ class SupplierDetailsPage extends StatelessWidget {
                         children: [
                           const Text('نام شرکت: '),
                           Text(supplierController.generalController
-                                  .selectedSupplierCompanyName ??
+                              .selectedSupplierCompanyName ??
                               '---'),
                         ],
                       ),
@@ -78,7 +78,7 @@ class SupplierDetailsPage extends StatelessWidget {
                         children: [
                           const Text('شماره تلفن: '),
                           Text(supplierController.generalController
-                                  .selectedSupplierPhoneNumber ??
+                              .selectedSupplierPhoneNumber ??
                               '---'),
                         ],
                       ),
@@ -86,7 +86,7 @@ class SupplierDetailsPage extends StatelessWidget {
                         children: [
                           const Text('شماره موبایل: '),
                           Text(supplierController.generalController
-                                  .selectedSupplierMobileNumber ??
+                              .selectedSupplierMobileNumber ??
                               '---'),
                         ],
                       ),
@@ -94,7 +94,7 @@ class SupplierDetailsPage extends StatelessWidget {
                         children: [
                           const Text('آدرس: '),
                           Text(supplierController
-                                  .generalController.selectedSupplierAddress ??
+                              .generalController.selectedSupplierAddress ??
                               '---'),
                         ],
                       ),
@@ -102,7 +102,7 @@ class SupplierDetailsPage extends StatelessWidget {
                         children: [
                           const Text('موقعیت: '),
                           Text(supplierController
-                                  .generalController.selectedSupplierLocation ??
+                              .generalController.selectedSupplierLocation ??
                               '---'),
                         ],
                       ),
@@ -132,48 +132,70 @@ class SupplierDetailsPage extends StatelessWidget {
                 ),
                 Expanded(
                   child: FutureBuilder<void>(
-                    future: supplierController.generalController
-                        .fetchOrderById(orderId),
+                    future: supplierController.generalController.fetchOrderById(orderId),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return Center(child: CircularProgressIndicator());
                       } else if (snapshot.hasError) {
                         return Center(child: Text('Error: ${snapshot.error}'));
                       } else if (supplierController
-                              .generalController.OrderByIdBuyProducts.isEmpty ||
-                          supplierController.generalController
-                              .OrderByIdBuyProducts.first.buy_product.isEmpty) {
-                        return Center(
-                            child: Text('محصولات رو به فاکتور وارد کنید.'));
+                          .generalController.OrderByIdBuyProducts.isEmpty ||
+                          supplierController.generalController.OrderByIdBuyProducts.first.buy_product.isEmpty) {
+                        return Center(child: Text('محصولات رو به فاکتور وارد کنید.'));
                       }
 
                       final orderBuyProduct = supplierController
                           .generalController.OrderByIdBuyProducts.first;
 
-                      return ListView.builder(
-                        itemCount: orderBuyProduct.buy_product.length,
-                        itemBuilder: (context, index) {
-                          final buyProduct = orderBuyProduct.buy_product[index];
-                          return ExpansionTile(
-                            title: Column(
-                              children: [
-                                Text(buyProduct.title),
-                                Text(' قیمت ' + buyProduct.saleprice),
+                      return Directionality(
+                        textDirection: TextDirection.rtl, // جهت راست به چپ
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal, // اسکرول افقی برای جداول با عرض زیاد
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width, // گرفتن کل عرض صفحه
+                            child: DataTable(
+                              columnSpacing: 16.0, // فاصله بین ستون‌ها
+                              columns: const <DataColumn>[
+                                DataColumn(label: Text('عنوان محصول')),
+                                DataColumn(label: Text('تعداد')),
+                                DataColumn(label: Text('قیمت')),
+                                DataColumn(label: Text('گارانتی')),
+
                               ],
+                              rows: orderBuyProduct.buy_product.map<DataRow>((buyProduct) {
+                                return DataRow(
+                                  cells: [
+                                    DataCell(Text(buyProduct.title)),
+                                    DataCell( Text(buyProduct.number)
+                                      // Column(
+                                      //   crossAxisAlignment: CrossAxisAlignment.start,
+                                      //   children: buyProduct.snBuyProductLogin.map<Widget>((subItem) {
+                                      //     return Text("SN: ${subItem.sn}");
+                                      //   }).toList(),
+                                      // ),
+                                    ),
+                                    DataCell(Text(buyProduct.saleprice.convertToPrice())),
+                                    DataCell(
+                                      Row(
+                                        crossAxisAlignment: CrossAxisAlignment.start, // برای چپ‌چین کردن محتوا
+                                        children: buyProduct.garranty!.map<Widget>((garrantyItem) {
+                                          return Text(garrantyItem+',');
+                                        }).toList(),
+                                      ),
+                                    ),
+
+
+                                  ],
+                                );
+                              }).toList(),
                             ),
-                            children:
-                                buyProduct.snBuyProductLogin.map((subItem) {
-                              return ListTile(
-                                title: Text(subItem.title),
-                                subtitle: Text("SN: ${subItem.sn}"),
-                              );
-                            }).toList(),
-                          );
-                        },
+                          ),
+                        ),
                       );
                     },
                   ),
                 ),
+
               ],
             );
           },
@@ -182,58 +204,62 @@ class SupplierDetailsPage extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+
                 GetBuilder<SupplierDetailsController>(
-                //  id: 'fetchOrderById1',
+                  //     id: 'fetchOrderById2',
                   builder: (supplierController) {
                     bool isListEmpty = supplierController
-                            .generalController.OrderByIdBuyProducts.isEmpty ||
+                        .generalController.OrderByIdBuyProducts.isEmpty ||
                         supplierController.generalController
                             .OrderByIdBuyProducts.first.buy_product.isEmpty;
 
                     return FloatingActionButton(
-                      backgroundColor: isListEmpty ? Colors.blue : Colors.grey,
-                      onPressed: isListEmpty
-                          ? () {
-                              // عملکرد دکمه چپ زمانی که لیست خالی است
-                              controlerssa.generatefactororderdelete(
-                                  supplierController.orderId);
-                              print('Left Floating Action Button pressed');
-                            }
-                          : null, // غیرفعال کردن دکمه اگر لیست خالی نیست
-                      child: Icon(Icons.arrow_back_ios_outlined),
-                    );
-                  },
-                ),
-              SizedBox(width: 30,),
-                GetBuilder<SupplierDetailsController>(
-             //     id: 'fetchOrderById2',
-                  builder: (supplierController) {
-                    bool isListEmpty = supplierController
-                            .generalController.OrderByIdBuyProducts.isEmpty ||
-                        supplierController.generalController
-                            .OrderByIdBuyProducts.first.buy_product.isEmpty;
-
-                    return FloatingActionButton(
+                      heroTag: 'f2',
                       backgroundColor: isListEmpty ? Colors.grey : Colors.blue,
                       onPressed: isListEmpty
                           ? null
                           : () {
-                              // عملکرد دکمه راست
-                              controlerssa.generatefactororder(
-                                  supplierController.orderId,
-                                  supplierController.totalSalePrice);
-                              print('Right Floating Action Button pressed');
-                              print(
-                                  'Total Sale Price: ${supplierController.totalSalePrice}');
-                            },
+                        // عملکرد دکمه راست
+                        controlerssa.generatefactororder(
+                            supplierController.orderId,
+                            supplierController.totalSalePrice);
+                        print('Right Floating Action Button pressed');
+                        print(
+                            'Total Sale Price: ${supplierController.totalSalePrice}');
+                      },
                       child: Icon(Icons.check),
                     );
                   },
                 ),
+                SizedBox(width: 30,),
+                GetBuilder<SupplierDetailsController>(
+                  //  id: 'fetchOrderById1',
+                  builder: (supplierController) {
+                    bool isListEmpty = supplierController
+                        .generalController.OrderByIdBuyProducts.isEmpty ||
+                        supplierController.generalController
+                            .OrderByIdBuyProducts.first.buy_product.isEmpty;
+
+                    return FloatingActionButton(
+                      heroTag: 'f1',
+                      backgroundColor: isListEmpty ? Colors.blue : Colors.grey,
+                      onPressed: isListEmpty
+                          ? () {
+                        // عملکرد دکمه چپ زمانی که لیست خالی است
+                        controlerssa.generatefactororderdelete(
+                            supplierController.orderId);
+                        print('Left Floating Action Button pressed');
+                      }
+                          : null, // غیرفعال کردن دکمه اگر لیست خالی نیست
+                      child: Icon(Icons.arrow_forward_ios),
+                    );
+                  },
+                ),
+
               ],
             ),
             padding: EdgeInsets.only(right: 16, left: 16, bottom: 16)),
       ),
-    );
+    ));
   }
 }

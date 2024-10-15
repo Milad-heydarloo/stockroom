@@ -13,7 +13,7 @@ class ControllerGuaranty extends GetxController{
   final PocketBaseManager _pocketBaseManager;
 
   ControllerGuaranty()
-      : _pocketBaseManager = PocketBaseManager(url: 'https://saater.liara.run', lang: 'en-US');
+      : _pocketBaseManager = PocketBaseManager(url: 'http://192.168.10.126:9000', lang: 'en-US');
 
   PocketBase get _pb => _pocketBaseManager.client;
 
