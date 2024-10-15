@@ -1,0 +1,58 @@
+name: Build Flutter Windows
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up JDK
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'adopt'
+
+    - name: Install Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.13.0'
+
+    - name: Get dependencies
+      run: flutter pub get
+
+    - name: Clean build
+      run: flutter clean
+
+    - name: Clean CMake cache
+      run: |
+        if (Test-Path ".\build\windows\CMakeCache.txt") { Remove-Item ".\build\windows\CMakeCache.txt" }
+
+    - name: Build Windows
+      run: flutter build windows --release --no-codesign
+
+    - name: List build files
+      run: dir .\build\windows\runner\Release
+
+    - name: Create output directory
+      run: mkdir .\my-output-folder
+
+    - name: Move build files
+      run: move .\build\windows\runner\Release\* .\my-output-folder\
+
+    - name: List files in output directory
+      run: dir .\my-output-folder
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: .\my-output-folder
+        user_name: 'Milad-heydarloo'
+        user_email: 'phone.sync.heydarloo@gmail.com'
