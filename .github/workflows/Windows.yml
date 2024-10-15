@@ -35,7 +35,7 @@ jobs:
         if (Test-Path ".\build\windows\CMakeCache.txt") { Remove-Item ".\build\windows\CMakeCache.txt" }
 
     - name: Build Windows
-      run: flutter build windows --release --no-codesign
+      run: flutter build windows --release  # گزینه --no-codesign حذف شد
 
     - name: List build files
       run: dir .\build\windows\runner\Release
