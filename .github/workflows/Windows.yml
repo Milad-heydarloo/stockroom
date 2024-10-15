@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest  # تغییر به windows-latest
+    runs-on: windows-latest
 
     steps:
     - name: Checkout code
@@ -27,14 +27,17 @@ jobs:
     - name: Get dependencies
       run: flutter pub get
 
+    - name: Clean build
+      run: flutter clean
+
     - name: Clean CMake cache
       run: |
-        if exist .\build\windows\CMakeCache.txt del .\build\windows\CMakeCache.txt
+        if (Test-Path ".\build\windows\CMakeCache.txt") { Remove-Item ".\build\windows\CMakeCache.txt" }
 
     - name: Build Windows
-      run: flutter build windows --release
+      run: flutter build windows --release --no-codesign
 
-    - name: List build files  # برای بررسی فایل‌های بیلد شده
+    - name: List build files
       run: dir .\build\windows\runner\Release
 
     - name: Create output directory
@@ -43,7 +46,7 @@ jobs:
     - name: Move build files
       run: move .\build\windows\runner\Release\* .\my-output-folder\
 
-    - name: List files in output directory  # لیست فایل‌های دایرکتوری خروجی
+    - name: List files in output directory
       run: dir .\my-output-folder
 
     - name: Deploy to GitHub Pages
