@@ -672,17 +672,17 @@ class _OrderListPageState extends State<OrderListPage>
                                               'برای صدور فاکتور باید به سفارش محصول بی افزاید',
                                               backgroundColor: Colors.orange);
                                         } else {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  MyStatefulPage(
-                                                listProductA:
-                                                    order.listProductA!,
-                                                order: order,
-                                              ),
-                                            ),
-                                          );
+                                          // Navigator.push(
+                                          //   context,
+                                          //   MaterialPageRoute(
+                                          //     builder: (context) =>
+                                          //         MyStatefulPage(
+                                          //       listProductA:
+                                          //           order.listProductA!,
+                                          //       order: order,
+                                          //     ),
+                                          //   ),
+                                          // );
                                         }
                                       },
                                     ),
